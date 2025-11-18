@@ -95,3 +95,20 @@ Community_2023_2024 %>%
 
 
 # write_csv(Community_2023_2024, "data/processed_data/Community_2023_2024.csv")
+
+
+# EXPLORATORIES DATA -----------------------------------------------------------
+
+# TREE DATA --------------------------------------------------------------------
+# 31487_7
+# single tree data, on all forest EPs, 2020 - 2023
+# original data on species, diameter at breast height, cm (d), tree heigth, m (h), 
+# wood volume, m3 (v) and geographical location (caliper limit: dbh >= 7 cm).
+# tree -tree ID
+# species - Tree species (name shortened to 16 characters)
+
+
+tree_data <- read_csv("data/raw_data/BiodExpl/31487_7_data.csv") %>% 
+  filter(Exploratory == "SCH") 
+tree_data
+

@@ -11,14 +11,20 @@ library(tidyverse)
 
 # Import 2023 data and calculate species abundance per tree hole
 community2023 <- read_csv("data/raw_data/sampling_2023_2024/Species_and_trees_from_the_sampling_SEW2023.csv") %>% 
-  select(-Individual_ID, -ID_metadatadoc, -"Length in mm", 
+  select(Plot:Phaonia_subventa)
+
+str(community2023)
+  
+select(-Individual_ID, -ID_metadatadoc, -"Length in mm", 
          -"Weight in mg (unless stated differently)") %>% 
   summarise(Abundance = n_distinct(Sp_ID), 
             .by = c("Plot", "Tree_ID", "Treehole_number", "Type_of_tree", 
                     "Tree_hole_type", "Sampling_date", "Sp_ID")) %>% 
-  mutate(Outside = FALSE, .after = Treehole_number)  # All 2023 samples inside
+  mutate(Outside = ifelse(Tree_I==""
+    FALSE, .after = Treehole_number)  # All 2023 samples inside
 
 names(community2023)
+community2023 %>% pull(Tree_ID) %>% unique()
 
 # Check for duplicates (should be 0 rows)
 community2023 %>% 
@@ -53,6 +59,7 @@ Community_2023_2024 <- bind_rows(
   .id = "Year"
 ) %>% 
   relocate(Year, .after = Treehole_number) %>% 
+  filter(!is.na(Sp_ID)) %>%  # Remove rows with missing species ID as those were pupae unidentified
   # Standardize date format to YYYY-MM-DD
   mutate(Sampling_date = case_when(
     Sampling_date == "06/11/2023" ~ "2023-11-06",

@@ -119,3 +119,23 @@ tree_data <- read_csv("data/raw_data/BiodExpl/31487_7_data.csv") %>%
   filter(Exploratory == "SCH") 
 tree_data
 
+tree_data %>% 
+  filter(str_detect(tree, "SEW45_0038")) %>% 
+  print(n=Inf)
+
+
+
+
+merged_data <- Community_2023_2024 %>% 
+  left_join(tree_data, by = c("Tree_ID" = "tree")) 
+
+write_csv(merged_data, "data/processed_data/Community_2023_2024_with_tree_data.csv")
+
+
+merged_data %>% 
+  pull(species) %>% 
+  unique()
+
+  
+  
+

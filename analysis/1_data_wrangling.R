@@ -19,10 +19,6 @@ community2023 <- read_csv("data/raw_data/sampling_2023_2024/Species_and_trees_fr
 
 str(community2023)
   
-
-names(community2023)
-community2023 %>% pull(Tree_ID) %>% unique()
-
 # Check for duplicates (should be 0 rows)
 community2023 %>% 
   group_by(Plot, Tree_ID, Treehole_number, Type_of_tree, 
@@ -63,13 +59,12 @@ Community_2023_2024 <- bind_rows(
     Sampling_date == "07/11/2023" ~ "2023-11-07",
     Sampling_date == "13/06/2024" ~ "2024-06-13",
     Sampling_date %in% c("16/05/2024", "16/5/2024") ~ "2024-05-16",
-    Sampling_date == "16/6/2024" ~ "2024-06-16",
+    Sampling_date %in% c("16/06/2024", "16/6/2024") ~ "2024-06-16",
     Sampling_date == "17/05/2024" ~ "2024-05-17",
     Sampling_date %in% c("17/6/2024", "17/06/2024") ~ "2024-06-17",
     Sampling_date == "22/05/2024" ~ "2024-05-22",
     Sampling_date == "22/07/2024" ~ "2024-07-22",
-    Sampling_date == "27/05/2024" ~ "2024-05-27"
-  )) %>%
+    Sampling_date == "27/05/2024" ~ "2024-05-27")) %>%
   # Extract month name for seasonal analysis
   mutate(Month = case_when(
     Sampling_date == "2023-11-06" ~ "November",
@@ -81,12 +76,31 @@ Community_2023_2024 <- bind_rows(
     Sampling_date == "2024-06-17" ~ "June",
     Sampling_date == "2024-05-22" ~ "May",
     Sampling_date == "2024-07-22" ~ "July",
-    Sampling_date == "2024-05-27" ~ "May"
-  ), .after = Year) 
+    Sampling_date == "2024-05-27" ~ "May"), 
+    .after = Year) %>% 
+  mutate(Tree_hole_type_coarse = case_when(
+    Tree_hole_type %in% c("Branch", "Cut tree", "Trunk", "Root") ~ "rot",
+    Tree_hole_type %in% c("Division") ~ "pan",
+    .default = Tree_hole_type), .after = Tree_hole_type)%>% 
+  mutate(Tree_hole_opening = case_when(
+    Tree_hole_type %in% c("Trunk", "Root") ~ "side_opening",
+    Tree_hole_type %in% c("Division","Branch", "Cut tree") ~ "top_opening",
+    .default = Tree_hole_type), .after = Tree_hole_type_coarse) %>% 
+  relocate(Sampling_date, .after = Month)
 
 # EXPLORATORY CHECKS -----------------------------------------------------------
 
 names(Community_2023_2024)
+
+Community_2023_2024 %>% 
+  group_by(Sp_ID) %>%
+  count() 
+
+Community_2023_2024 %>% 
+  group_by(Tree_hole_type) %>%
+  count()
+
+
 Community_2023_2024 %>% print(n = Inf)
 
 # Check for missing species IDs
@@ -97,7 +111,7 @@ Community_2023_2024 %>%
   group_by(Year, Sampling_date) %>%
   count() 
 
-
+Community_2023_2024 %>% filter(is.na(Sampling_date))
 # write_csv(Community_2023_2024, "data/processed_data/Community_2023_2024.csv")
 
 
@@ -133,6 +147,11 @@ merged_data %>%
   pull(species) %>% 
   unique()
 
+
+merged_data %>% 
+  filter(!Outside==TRUE) %>% 
+  filter(is.na(species)) %>% 
+  print(n=Inf)
   
   
 

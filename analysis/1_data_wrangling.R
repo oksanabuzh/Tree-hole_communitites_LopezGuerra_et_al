@@ -11,17 +11,14 @@ library(tidyverse)
 
 # Import 2023 data and calculate species abundance per tree hole
 community2023 <- read_csv("data/raw_data/sampling_2023_2024/Species_and_trees_from_the_sampling_SEW2023.csv") %>% 
-  select(Plot:Phaonia_subventa)
+  pivot_longer(Clogmia_sp:Phaonia_subventa, 
+               names_to = "Sp_ID", 
+               values_to = "Abundance",
+               values_drop_na = TRUE)
+
 
 str(community2023)
   
-select(-Individual_ID, -ID_metadatadoc, -"Length in mm", 
-         -"Weight in mg (unless stated differently)") %>% 
-  summarise(Abundance = n_distinct(Sp_ID), 
-            .by = c("Plot", "Tree_ID", "Treehole_number", "Type_of_tree", 
-                    "Tree_hole_type", "Sampling_date", "Sp_ID")) %>% 
-  mutate(Outside = ifelse(Tree_I==""
-    FALSE, .after = Treehole_number)  # All 2023 samples inside
 
 names(community2023)
 community2023 %>% pull(Tree_ID) %>% unique()

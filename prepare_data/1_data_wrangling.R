@@ -316,33 +316,56 @@ merged_tree_data %>%
   print(n=Inf)
 
 
-# Stand structural attributes
-# 2014 - 2018
+# Stand structural attributes -------------------------------------------------
+# 2014 - 2018 # not grouped by year, as different plots are sampled in different years
 # 22766_4_data.csv
-Stand_str_data <- sad_csv("data/raw_data/BiodExpl/31873_7_data.csv") %>% 
-  # filter ID that consists "SCH"
-  filter(str_detect(ID, "SEW"))
-biodiv_data
-
+Stand_str_data <- read_csv("data/raw_data/BiodExpl/22766_4_data.csv") %>% 
+  filter(Exploratory=="SCH") 
 
 # check missing data if merged
 merged_tree_data %>% 
-  left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
+  left_join(Stand_str_data, by = c("Plot" = "EP")) %>% 
   filter(!Outside==TRUE) %>% 
-  filter(is.na(Tree_richness)) %>% 
+  filter(is.na(ssm_N )) %>% 
   print(n=Inf)
+
+
+# Climate Data -------------------------------------------------
+
+climate2024 <- read_csv("data/raw_data/BiodExpl/climate_data_May_June_July_2024.csv") %>% 
+  mutate(Year = "2024", .after = plotID) %>%
+  mutate(
+    Month = factor(month.name[as.integer(format(datetime, "%m"))],
+                   levels = month.name, ordered = TRUE), 
+    .after = Year) %>% 
+  summarize(across(where(is.numeric), 
+                   list(mean = mean, 
+                        sd=sd), na.rm = TRUE), 
+            .by=c("plotID", "Year", "Month"))
+
+
+climate2024
+
+names(climate2024)
+
+climate2023 <- read_csv("data/raw_data/BiodExpl/climate_data_November_2023.csv")  
+climate2023
+climate2023
 
 # MERGE ALL DATA ---------------------------------------------------------------
 
 merged_all_envir_data <- merged_tree_data %>% 
   left_join(SIM_data, by = c("Plot" = "EP")) %>% 
   left_join(ForMI_data, by = c("Plot" = "EP")) %>% 
+  left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
   left_join(Laser_data, by = c("Plot" = "plot.id")) %>% 
-  left_join(biodiv_data, by = c("Plot" = "EP")) 
+  left_join(Stand_str_data, by = c("Plot" = "EP")) 
 
   
 
-
+merged_all_envir_data %>% 
+  pull(Month) %>%
+  unique()
 
 write_csv(merged_all_envir_data, "data/processed_data/environmental_all.csv")
 

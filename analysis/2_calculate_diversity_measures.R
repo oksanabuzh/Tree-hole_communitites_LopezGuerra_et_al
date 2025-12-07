@@ -9,8 +9,14 @@ library(vegan)
 # Load and process data --------------------------------------------------------
 
 # Read community data from 2023 and 2024
+Community <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
+  mutate(Abundance=ifelse(is.na(Abundance), 1, Abundance))
+  
+names(Community)
+
+
 # Calculate diversity metrics for each unique tree hole
-Diversity_2023_2024 <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
+Diversity_2023_2024 <- Community %>% 
   summarise(
     # Total number of individuals across all species in each tree hole
     abundance = sum(Abundance, na.rm = TRUE),
@@ -32,12 +38,24 @@ Diversity_2023_2024 <- read_csv("data/processed_data/Community_2023_2024.csv") %
           "Outside" ,"Tree_hole_type", "Sampling_date")
   )
 
+
+??diversity
 # View all diversity results
 Diversity_2023_2024 %>% 
+  filter(Outside == "FALSE") %>%
+    print(n = Inf)
+
+Diversity_2023_2024 %>% 
+  filter(Outside == "FALSE") %>%
   print(n = Inf)
 
+view(Diversity_2023_2024)
 
-# write_csv(Diversity_2023_2024, "data/processed_data/Diversity_2023_2024.csv")
+Diversity_2023_2024 %>% 
+  select(Plot, Tree_ID, Treehole_number, Year, Month, 
+         Outside,
+         abundance, sp_richness, evenness, hill_shannon) %>% 
+  # write_csv("data/processed_data/Diversity_2023_2024.csv")
 
 # Exploratory data checks ------------------------------------------------------
 
@@ -45,9 +63,8 @@ Diversity_2023_2024 %>%
 # Grouped by year, plot, tree ID, tree type, location, and sampling date
 # Shows which trees have the most tree holes 
 Diversity_2023_2024 %>% 
-  group_by(Year, Plot, Tree_ID, Type_of_tree, 
-           Outside, Sampling_date) %>% 
-  count(Treehole_number) %>%  
+  group_by(Year, Plot, Tree_ID, Outside, Sampling_date, Treehole_number) %>% 
+  count() %>%  
   arrange(desc(n))            
 
 # Count tree holes per plot
@@ -58,6 +75,24 @@ Diversity_2023_2024 %>%
   ) %>% 
   count(Treehole_number) %>%  
   arrange(desc(n))             
+
+Diversity_2023_2024 %>% 
+  select(Year, Month, Plot, Treehole_number, abundance, sp_richness) %>% 
+  arrange(abundance) %>% 
+  print(n = Inf)
+
+
+Diversity_2023_2024 %>% 
+  ggplot(aes(y=abundance, x=Month)) +
+  geom_boxplot() +
+  geom_jitter(aes(color=factor(Year)),
+              width=0.2, height=0, alpha=0.5) 
+
+Diversity_2023_2024 %>% 
+  ggplot(aes(y=sp_richness, x=Month)) +
+  geom_boxplot() +
+  geom_jitter(aes(color=factor(Year)),
+              width=0.2, height=0, alpha=0.5) 
 
 
 # Summary statistics for diversity metrics ------------------------------------
@@ -75,3 +110,4 @@ Diversity_2023_2024 %>%
   geom_boxplot() +
   #  facet_wrap(~Year) +
   theme_bw()
+

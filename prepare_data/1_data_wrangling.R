@@ -194,47 +194,6 @@ merged_tree_data %>%
 # write_csv(merged_data, "data/processed_data/Community_2023_2024_with_tree_data.csv")
 
 
-
-  
-# Plot Biodiversity Potential -------------------------------------------------
-# Index of Biodiversity Potential developed by Larrieu and Gonin (2008)
-# 31873_7_data
-
-biodiv_data <- read_csv("data/raw_data/BiodExpl/31873_7_data.csv") %>% 
-  # filter ID that consists "SCH"
-  filter(str_detect(ID, "SEW"))
-biodiv_data
-
-
-# check missing data if merged
-merged_tree_data %>% 
-  left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
-  filter(!Outside==TRUE) %>% 
-  filter(is.na(Tree_richness)) %>% 
-  print(n=Inf)
-
-# Laser scan data -------------------------------------------------
-# ENL: The effective number of layers quantifies vertical stand structure 
-# SSCI: The index quantifies stand structural complexity 
-# Canopy Openness: The index quantifies canopy openness as percentage of sky pixels of a simulated hemisperical image for an opening angle of 60°. 
-# 32085_6_data.csv
-
-Laser_data <- read_csv("data/raw_data/BiodExpl/32085_6_data.csv") %>% 
-  filter(exploratory=="SCH" & season=="summer23") %>% 
-  # correct plot_id numbers: when plots have 4 characters (SEW1), insert 0 before the last character
-  mutate(plot.id = if_else(str_length(plot.id) == 4, 
-                           # insert "0" before the 4th character
-                           str_replace(plot.id, "^(.{3})(.)$", "\\10\\2"),
-                           plot.id))
-
-
-# check missing data if merged
-merged_tree_data %>% 
-  left_join(Laser_data, by = c("Plot" = "plot.id")) %>% 
-  filter(!Outside==TRUE) %>% 
-  filter(is.na(enl) | is.na(ssci) | is.na(canopy.openness)) %>% 
-  print(n=Inf)
-
 # Silvicultural Management Intensity (SIM) ------------------------------
 # Dynamics on all forest EPs, 2008 - 2020
 # SMId (ratio) - Density component of silvicultural management intensity - relative deviance between actual basal area and basal area carrying capacity
@@ -316,6 +275,63 @@ merged_tree_data %>%
   filter(is.na(Formi_2018) | is.na(Inonat_mean_2012_2018) ) %>% 
   print(n=Inf)
 
+
+# Plot Biodiversity Potential -------------------------------------------------
+# Index of Biodiversity Potential developed by Larrieu and Gonin (2008)
+# 31873_7_data
+
+biodiv_data <- read_csv("data/raw_data/BiodExpl/31873_7_data.csv") %>% 
+  # filter ID that consists "SCH"
+  filter(str_detect(ID, "SEW"))
+biodiv_data
+
+
+# check missing data if merged
+merged_tree_data %>% 
+  left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
+  filter(!Outside==TRUE) %>% 
+  filter(is.na(Tree_richness)) %>% 
+  print(n=Inf)
+
+# Laser scan data -------------------------------------------------
+# ENL: The effective number of layers quantifies vertical stand structure 
+# SSCI: The index quantifies stand structural complexity 
+# Canopy Openness: The index quantifies canopy openness as percentage of sky pixels of a simulated hemisperical image for an opening angle of 60°. 
+# 32085_6_data.csv
+
+Laser_data <- read_csv("data/raw_data/BiodExpl/32085_6_data.csv") %>% 
+  filter(exploratory=="SCH" & season=="summer23") %>% 
+  # correct plot_id numbers: when plots have 4 characters (SEW1), insert 0 before the last character
+  mutate(plot.id = if_else(str_length(plot.id) == 4, 
+                           # insert "0" before the 4th character
+                           str_replace(plot.id, "^(.{3})(.)$", "\\10\\2"),
+                           plot.id))
+
+
+# check missing data if merged
+merged_tree_data %>% 
+  left_join(Laser_data, by = c("Plot" = "plot.id")) %>% 
+  filter(!Outside==TRUE) %>% 
+  filter(is.na(enl) | is.na(ssci) | is.na(canopy.openness)) %>% 
+  print(n=Inf)
+
+
+# Stand structural attributes
+# 2014 - 2018
+# 22766_4_data.csv
+Stand_str_data <- sad_csv("data/raw_data/BiodExpl/31873_7_data.csv") %>% 
+  # filter ID that consists "SCH"
+  filter(str_detect(ID, "SEW"))
+biodiv_data
+
+
+# check missing data if merged
+merged_tree_data %>% 
+  left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
+  filter(!Outside==TRUE) %>% 
+  filter(is.na(Tree_richness)) %>% 
+  print(n=Inf)
+
 # MERGE ALL DATA ---------------------------------------------------------------
 
 merged_all_envir_data <- merged_tree_data %>% 
@@ -323,6 +339,7 @@ merged_all_envir_data <- merged_tree_data %>%
   left_join(ForMI_data, by = c("Plot" = "EP")) %>% 
   left_join(Laser_data, by = c("Plot" = "plot.id")) %>% 
   left_join(biodiv_data, by = c("Plot" = "EP")) 
+
   
 
 

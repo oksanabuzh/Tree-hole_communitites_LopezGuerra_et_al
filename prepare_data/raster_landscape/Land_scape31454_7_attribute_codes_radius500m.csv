@@ -1,0 +1,39 @@
+class_0,Name_0,class_1,Name_1,class_2,English_Name
+1,Settlements,11,Housing areas,,
+1,Settlements,12,Industry areas,,
+1,Settlements,13,Mixed Settlement,,
+2,Transportation Areas,21,Transportation Areas,211,Transportation Areas
+2,Transportation Areas,22,Transportation Areas,212,road side greenery
+3,Agricultural Land,31,Crop land,311,Crop land
+3,Agricultural Land,31,Crop land,312,Flower stripes
+3,Agricultural Land,32,Orchard in Crop land,,
+3,Agricultural Land,33,Hop Cultures,,
+3,Agricultural Land,34,Grassland,341,medium used grasslands
+3,Agricultural Land,34,Grassland,342,intensive used grasslands
+3,Agricultural Land,35,Orchards on Medadow Cultures,,
+3,Agricultural Land,36,Garden + Graveyards,,
+3,Agricultural Land,37,Nursery,,
+3,Agricultural Land,38,Vineyard,,
+3,Agricultural Land,39,Orchard,,
+4,Forest Land,41,Coniferous Forest,,
+4,Forest Land,42,Broad leaf Forest,,
+4,Forest Land,43,Mixed Forest,,
+5,Woords / TOF,51,Deciduous trees & tree groups,,
+5,Woords / TOF,52,Coniferous trees & tree groups,,
+5,Woords / TOF,53,Hedges <5m height,,
+6,Heath,61,Heath,,
+7,Mire,71,Mire,,
+7,Mire,72,"Swa,p",,
+8,Bare land,81,Rocks,,
+8,Bare land,82,Gravel,,
+8,Bare land,83,Bolders,,
+8,Bare land,84,Sand,,
+8,Bare land,85,Other bare land,,
+8,Bare land,86,Succession Areas,,
+8,Bare land,87,Mining areas,,
+9,Water,91,Rivers,,
+9,Water,92,Non-Permanent Water,,
+9,Water,93,Lake,,
+9,Water,94,Pont,,
+9,Water,95,Reservoir,,
+9,Water,96,Excavator Lake,,

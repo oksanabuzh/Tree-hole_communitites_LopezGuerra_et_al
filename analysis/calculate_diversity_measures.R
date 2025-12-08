@@ -26,36 +26,24 @@ Diversity_2023_2024 <- Community %>%
     
     # Evenness using inverse Simpson index
     # Higher values = more even distribution of individuals across species
-    evenness = vegan::diversity(Abundance, index = "invsimpson"),
+    Hill_Simpson = vegan::diversity(Abundance, index = "invsimpson"),
     
     # Hill number based on Shannon diversity (effective number of species)
     # Exponential of Shannon index = number of equally common species
-    hill_shannon = exp(vegan::diversity(Abundance, index = "shannon")),
+    Hill_Shannon = exp(vegan::diversity(Abundance, index = "shannon")),
     
     # Group by all identifying variables for each tree hole
-    .by=c("Plot", "Tree_ID", "Treehole_number", "Year", "Month", 
-          "Type_of_tree", 
-          "Outside" ,"Tree_hole_type", "Sampling_date")
-  )
+    .by=c("Plot", "Tree_ID", "Treehole_number", "Tree_hole_type", 
+          "Tree_hole_type_coarse", "Tree_hole_opening",
+          "Year", "Month", "Outside", "Sampling_date"))
+Plot, Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
+Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside
 
-
-??diversity
 # View all diversity results
 Diversity_2023_2024 %>% 
-  filter(Outside == "FALSE") %>%
-    print(n = Inf)
-
-Diversity_2023_2024 %>% 
-  filter(Outside == "FALSE") %>%
   print(n = Inf)
 
-view(Diversity_2023_2024)
-
-Diversity_2023_2024 %>% 
-  select(Plot, Tree_ID, Treehole_number, Year, Month, 
-         Outside,
-         abundance, sp_richness, evenness, hill_shannon) %>% 
-  # write_csv("data/processed_data/Diversity_2023_2024.csv")
+write_csv(Diversity_2023_2024, "data/processed_data/Diversity_2023_2024.csv")
 
 # Exploratory data checks ------------------------------------------------------
 

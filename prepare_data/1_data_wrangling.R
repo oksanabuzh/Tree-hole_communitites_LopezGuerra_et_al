@@ -134,7 +134,11 @@ names(Community_2023_2024)
 
 ## Community data
 Community_2023_2024 %>% 
-  select(Plot, Tree_ID, Treehole_number, Year, Month, Sp_ID, Abundance) %>% 
+  #select(Plot, Tree_ID, Treehole_number, Tree_hole_type, Tree_hole_opening,
+         
+  select(Plot, Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
+Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside,
+Year, Month, Sp_ID, Abundance) %>% 
   write_csv("data/processed_data/Community_2023_2024.csv")
 
 ## Environmental data
@@ -333,33 +337,151 @@ merged_tree_data %>%
 # Climate Data -------------------------------------------------
 
 climate2024 <- read_csv("data/raw_data/BiodExpl/climate_data_May_June_July_2024.csv") %>% 
-  mutate(Year = "2024", .after = plotID) %>%
+  select(plotID, datetime,
+    PAR_200, precipitation_radolan, precipitation_radolan_acc,
+         rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex,
+         # binary variables
+         "Ta_200_extremely hot days", Ta_200_extremely_cold_days,
+         Ta_200_heating_degree_days) %>% 
+  rename(
+    Ta_200_extremely_hot_days = "Ta_200_extremely hot days") %>%
+  mutate(Year = 2024, .after = plotID) %>%
   mutate(
     Month = factor(month.name[as.integer(format(datetime, "%m"))],
                    levels = month.name, ordered = TRUE), 
     .after = Year) %>% 
-  summarize(across(where(is.numeric), 
-                   list(mean = mean, 
-                        sd=sd), na.rm = TRUE), 
-            .by=c("plotID", "Year", "Month"))
-
-
+  summarise(
+    across(
+      c(PAR_200, precipitation_radolan, precipitation_radolan_acc,
+        rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex),
+      ~ mean(.x, na.rm = TRUE), .names = "{.col}_mean"),
+    across(
+      c(Ta_200_extremely_hot_days, Ta_200_extremely_cold_days,
+        Ta_200_heating_degree_days),
+      ~ sum(.x, na.rm = TRUE), .names = "{.col}_sum"),
+    across(
+      c(precipitation_radolan, rH_200, Ta_200),
+      ~ {
+        m <- mean(.x, na.rm = TRUE)
+        s <- sd(.x,   na.rm = TRUE)
+        if (is.na(m) || m == 0) NA_real_ else s / m
+      },
+      .names = "{.col}_CV"
+    ),
+      .by = c("plotID", "Year", "Month")
+  )
+    
+    
 climate2024
-
 names(climate2024)
 
-climate2023 <- read_csv("data/raw_data/BiodExpl/climate_data_November_2023.csv")  
+climate2024 %>% 
+  filter(is.na(Ta_200_extremely_hot_days_sum))
+
+climate2023 <- read_csv("data/raw_data/BiodExpl/climate_data_November_2023.csv") %>% 
+select(plotID, datetime,
+       PAR_200, precipitation_radolan, precipitation_radolan_acc,
+       rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex,
+       # binary variables
+       "Ta_200_extremely hot days", Ta_200_extremely_cold_days,
+       Ta_200_heating_degree_days) %>% 
+  rename(
+    Ta_200_extremely_hot_days = "Ta_200_extremely hot days") %>%
+  mutate(Year = 2023, .after = plotID) %>%
+  mutate(
+    Month = factor(month.name[as.integer(format(datetime, "%m"))],
+                   levels = month.name, ordered = TRUE), 
+    .after = Year) %>% 
+  summarise(
+    across(
+      c(PAR_200, precipitation_radolan, precipitation_radolan_acc,
+        rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex),
+      ~ mean(.x, na.rm = TRUE), .names = "{.col}_mean"),
+    across(
+      c(Ta_200_extremely_hot_days, Ta_200_extremely_cold_days,
+        Ta_200_heating_degree_days),
+      ~ sum(.x, na.rm = TRUE), .names = "{.col}_sum"),
+    across(
+      c(precipitation_radolan, rH_200, Ta_200),
+      ~ {
+        m <- mean(.x, na.rm = TRUE)
+        s <- sd(.x,   na.rm = TRUE)
+        if (is.na(m) || m == 0) NA_real_ else s / m
+      },
+      .names = "{.col}_CV"
+    ),
+    .by = c("plotID", "Year", "Month")
+  )
+
 climate2023
-climate2023
+
+climate2023 %>% 
+  filter(is.na(Ta_200_extremely_hot_days_sum))
+
+
+# Merge climate data for 2023 and 2024
+climate_data <- bind_rows(climate2023, climate2024)
+climate_data
+
+
+# check missing data if merged
+merged_tree_data %>% 
+  left_join(climate_data, by = c("Plot" = "plotID", "Year", "Month")) %>% 
+  filter(!Outside==TRUE) %>% 
+  filter(is.na(Ta_200_extremely_hot_days_sum )) %>% 
+  print(n=Inf)
+
+
+
+# Landscape Data -------------------------------------------------
+
+files <- list.files("prepare_data/raster_landscape/plot_data", 
+                    pattern = "^SEW.*\\.csv$", full.names = TRUE)
+
+combined <- files %>%
+  set_names(basename(.)) %>%                     # name the list elements by filename
+  map_dfr(~ readr::read_csv(.x, show_col_types = FALSE), .id = "file")
+
+# optional: add a plotID extracted from filename (e.g., SEW06 -> SEW06)
+combined <- combined %>%
+  mutate(plot = tools::file_path_sans_ext(file))
+
+all(combined$plotID == combined$plot)
+
+landscape_data <- combined %>%
+  select(-file, -plot, -fid, -id) %>% 
+  relocate(plotID, .before = class_0) %>% 
+  summarise(
+    area_km2 = sum(area_km2),
+    .by = c("plotID", "class_0", "class_1"))
+
+landscape_heterogeneity <- landscape_data %>%
+summarise(
+  landscape_count = n_distinct(class_1),
+  landscape_Shannon = vegan::diversity(area_km2, index = "shannon"),
+  landscape_even = vegan::diversity(area_km2, index = "invsimpson"),
+  .by = plotID
+)
+
+
+# check missing data if merged
+merged_tree_data %>% 
+  left_join(landscape_heterogeneity, by = c("Plot" = "plotID")) %>% 
+  filter(!Outside==TRUE) %>% 
+  filter(is.na(landscape_count)) %>% 
+  print(n=Inf)
+
 
 # MERGE ALL DATA ---------------------------------------------------------------
 
 merged_all_envir_data <- merged_tree_data %>% 
   left_join(SIM_data, by = c("Plot" = "EP")) %>% 
   left_join(ForMI_data, by = c("Plot" = "EP")) %>% 
+  left_join(landscape_heterogeneity, by = c("Plot" = "plotID")) %>% 
   left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
   left_join(Laser_data, by = c("Plot" = "plot.id")) %>% 
-  left_join(Stand_str_data, by = c("Plot" = "EP")) 
+  left_join(Stand_str_data, by = c("Plot" = "EP")) %>% 
+  left_join(climate_data, by = c("Plot" = "plotID", "Year", "Month")) 
 
   
 

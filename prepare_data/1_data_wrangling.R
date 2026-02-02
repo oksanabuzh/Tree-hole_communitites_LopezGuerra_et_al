@@ -128,20 +128,19 @@ Community_2023_2024 %>% filter(is.na(Sampling_date))
 
 
 
-# Write data -----------------------------------------------------------------------
+## Write data -----------------------------------------------------------------------
 
 names(Community_2023_2024)
 
-## Community data
+### Community data ------
 Community_2023_2024 %>% 
   #select(Plot, Tree_ID, Treehole_number, Tree_hole_type, Tree_hole_opening,
-         
   select(Plot, Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
-Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside,
-Year, Month, Sp_ID, Abundance) %>% 
+         Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside,
+         Year, Month, Sp_ID, Abundance) %>% 
   write_csv("data/processed_data/Community_2023_2024.csv")
 
-## Environmental data
+### Environmental data  --------------------------
 Community_2023_2024 %>% 
   select(-Sp_ID, -Abundance, -Type_of_tree) %>% 
   distinct() %>%
@@ -160,7 +159,7 @@ Community_2023_2024 %>%
 Environment_2023_2024 <- read_csv("data/processed_data/Environment_2023_2024.csv")
 
 
-# TREE DATA --------------------------------------------------------------------
+# Tree data --------------------------------------------------------------------
 # 31487_7
 # single tree data, on all forest EPs, 2020 - 2023 (year is not a group, as different trees measured in different years)
 # original data on species, diameter at breast height, cm (d), tree heigth, m (h), 
@@ -223,6 +222,17 @@ SIM_2018_2020 <- SIM_all %>%
                    list(mean_2018_2020 = mean, sd_2018_2020=sd), na.rm = TRUE),
             .by=c("EP"))
 
+# Why sd in some cases are ==0? check if there are measurements for all year?
+SIM_all %>% 
+  mutate(year = substr(year, 7, 10)) %>%
+  filter(year %in% c("2018", "2019", "2020")) %>%
+  filter(EP=="SEW09")
+# OR
+SIM_all %>% 
+  mutate(year = substr(year, 7, 10)) %>%
+  filter(year %in% c("2018", "2019", "2020")) %>%
+  filter(EP=="SEW01")
+# The land use stays the same over 3 years that is why sd =0
 
 # merge both SIM datasets
 SIM_data <- SIM_2008_2020 %>% 
@@ -433,61 +443,182 @@ merged_tree_data %>%
 
 
 
-# Landscape Data -------------------------------------------------
-
-files <- list.files("prepare_data/raster_landscape/plot_data", 
-                    pattern = "^SEW.*\\.csv$", full.names = TRUE)
-
-combined <- files %>%
-  set_names(basename(.)) %>%                     # name the list elements by filename
-  map_dfr(~ readr::read_csv(.x, show_col_types = FALSE), .id = "file")
-
-# optional: add a plotID extracted from filename (e.g., SEW06 -> SEW06)
-combined <- combined %>%
-  mutate(plot = tools::file_path_sans_ext(file))
-
-all(combined$plotID == combined$plot)
-
-landscape_data <- combined %>%
-  select(-file, -plot, -fid, -id) %>% 
-  relocate(plotID, .before = class_0) %>% 
-  summarise(
-    area_km2 = sum(area_km2),
-    .by = c("plotID", "class_0", "class_1"))
-
-landscape_heterogeneity <- landscape_data %>%
-summarise(
-  landscape_count = n_distinct(class_1),
-  landscape_Shannon = vegan::diversity(area_km2, index = "shannon"),
-  landscape_even = vegan::diversity(area_km2, index = "invsimpson"),
-  .by = plotID
-)
-
-
-# check missing data if merged
-merged_tree_data %>% 
-  left_join(landscape_heterogeneity, by = c("Plot" = "plotID")) %>% 
-  filter(!Outside==TRUE) %>% 
-  filter(is.na(landscape_count)) %>% 
-  print(n=Inf)
-
-
-# MERGE ALL DATA ---------------------------------------------------------------
+# MERGE ALL ENVIRONMENTAL DATA ---------------------------------------------------------------
 
 merged_all_envir_data <- merged_tree_data %>% 
   left_join(SIM_data, by = c("Plot" = "EP")) %>% 
   left_join(ForMI_data, by = c("Plot" = "EP")) %>% 
-  left_join(landscape_heterogeneity, by = c("Plot" = "plotID")) %>% 
   left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
   left_join(Laser_data, by = c("Plot" = "plot.id")) %>% 
   left_join(Stand_str_data, by = c("Plot" = "EP")) %>% 
   left_join(climate_data, by = c("Plot" = "plotID", "Year", "Month")) 
 
-  
+
 
 merged_all_envir_data %>% 
   pull(Month) %>%
   unique()
 
-write_csv(merged_all_envir_data, "data/processed_data/environmental_all.csv")
+write_csv(merged_all_envir_data, "data/processed_data/Environment_ALL.csv")
+
+
+# LANDSCAPE DATA -------------------------------------------------
+# class level of land type is the resolution of land cover classification
+# class_0: coarse level (e.g., forest, agriculture, urban)
+# class_1: intermediate level (e.g., deciduous forest, cropland, residential area)
+# class_2: fine level (e.g., beech forest, wheat field, high-density residential area)
+# area_km2: area covered by each land cover class within the buffer
+# buffer sizes: 250m and 500m around each plot
+
+files_250m <- list.files("data/Raster_measurements/raster_measurement_250m", 
+                    pattern = "^SEW.*\\.csv$", full.names = TRUE) %>%
+  set_names(basename(.)) %>%  # name the list elements by filename
+  map_dfr(~ readr::read_csv(.x, show_col_types = FALSE), .id = "file") %>% 
+  # add buffer size
+  mutate(buffer_size_m = 250) %>%
+  # add a plotID extracted from filename 
+  mutate(plot = tools::file_path_sans_ext(file)) %>% 
+  select(-file, -plot, -fid, -id) %>% 
+  mutate(class_2=ifelse(is.na(class_2), class_1, class_2)) %>% 
+  # sum area for each land cover classes within each plotID 
+  summarise(
+    class2_area = sum(area_km2),
+    .by = c("plotID", "buffer_size_m", "class_0", "class_1", "class_2")) %>% 
+  mutate(class1_area = sum(class2_area), 
+         .by = c("plotID", "class_1"), .before=class2_area) %>%
+  mutate(class0_area = sum(class2_area), 
+         .by = c("plotID", "class_0"), .before=class1_area) %>% 
+  # calculate total plot area
+  mutate(plot_area_km2 = sum(class2_area), .by = c("plotID"), .after=buffer_size_m) %>% 
+  rename(class0_LandType=class_0,
+         class1_LandType=class_1,
+         class2_LandType=class_2) %>%
+  pivot_longer(-c(plotID, buffer_size_m, plot_area_km2),
+               names_to = c("LandType_level", ".value"),
+               names_sep="_") %>% 
+  rename(LandType_area_km2=area,
+         LandType_code=LandType)%>% 
+  # at resolution class_0 there are repetitions of land types within same plotID
+  summarise(LandType_area_km2 = mean(LandType_area_km2),
+            .by = c("plotID", "buffer_size_m", "plot_area_km2", "LandType_level", "LandType_code")
+  )
+files_250m
+
+
+
+files_500m <- list.files("data/Raster_measurements/raster_measurement_500m", 
+                         pattern = "^SEW.*\\.csv$", full.names = TRUE)%>%
+  set_names(basename(.)) %>%  # name the list elements by filename
+  map_dfr(~ readr::read_csv(.x, show_col_types = FALSE), .id = "file") %>% 
+  # add buffer size
+  mutate(buffer_size_m = 500)%>%
+  # add a plotID extracted from filename 
+  mutate(plot = tools::file_path_sans_ext(file)) %>% 
+  select(-file, -plot, -fid, -id) %>% 
+  mutate(class_2=ifelse(is.na(class_2), class_1, class_2)) %>% 
+  # sum area for each land cover classes within each plotID 
+  summarise(
+    class2_area = sum(area_km2),
+    .by = c("plotID", "buffer_size_m", "class_0", "class_1", "class_2")) %>% 
+  mutate(class1_area = sum(class2_area), 
+         .by = c("plotID", "class_1"), .before=class2_area) %>%
+  mutate(class0_area = sum(class2_area), 
+         .by = c("plotID", "class_0"), .before=class1_area) %>% 
+  # calculate total plot area
+  mutate(plot_area_km2 = sum(class2_area), .by = c("plotID"), .after=buffer_size_m) %>% 
+  rename(class0_LandType=class_0,
+         class1_LandType=class_1,
+         class2_LandType=class_2) %>%
+  pivot_longer(-c(plotID, buffer_size_m, plot_area_km2),
+               names_to = c("LandType_level", ".value"),
+               names_sep="_") %>% 
+  rename(LandType_area_km2=area,
+         LandType_code=LandType) %>% 
+  # at resolution class_0 there are repetitions of land types within same plotID
+  summarise(LandType_area_km2 = mean(LandType_area_km2),
+            .by = c("plotID", "buffer_size_m", "plot_area_km2", "LandType_level", "LandType_code")
+            )
+
+files_500m
+
+# Import Land type ID mapping
+Land_type_ID <- read_csv("data/Raster_measurements/Land_type_ID.csv")
+
+# Combine 250m and 500m landscape data
+landscape_data <- files_250m %>%
+  bind_rows(files_500m) %>%
+  mutate(LandType_percent=LandType_area_km2/plot_area_km2*100) %>% 
+   mutate(LandType_level = case_when(
+    LandType_level == "class0" ~ "class_0",
+    LandType_level == "class1" ~ "class_1",
+    LandType_level == "class2" ~ "class_2")) %>% 
+  left_join(Land_type_ID, by = c("LandType_code")) %>% 
+  relocate(LandType_name, .after=LandType_code)
+
+
+# check if percent adds up to 100 for each resolution of land-use type
+landscape_data %>% 
+  group_by(plotID, buffer_size_m, LandType_level) %>% 
+  summarise(total_percent = sum(LandType_percent)) %>% 
+  print(n=Inf)
+
+
+write_csv(landscape_data, "data/Raster_measurements/Landscape_Type_composition_ALL_OB.csv")
+
+# check unique land types
+landscape_data %>% 
+  filter(LandType_level=="class_0") %>% 
+  pull(LandType_name) %>% 
+  unique()
+
+
+landscape_data %>% 
+  filter(LandType_level=="class_1") %>%
+  pull(LandType_name) %>% 
+  unique()
+
+
+# Main Land types - proportions per plot
+land_types_proportions <-  landscape_data %>% 
+  filter(LandType_level=="class_0") %>%
+  # in LandType_name keep only first word
+  mutate(LandType_name = word(LandType_name, 1)) %>% 
+  select(plotID, buffer_size_m, LandType_name, LandType_percent) %>%
+  pivot_wider(names_from = LandType_name, 
+              values_from = LandType_percent,
+              values_fill = 0
+              ) %>%
+  mutate(Forest_percent = Forest,
+         Agricultural_percent=Agricultural+Bare,
+         Water_bodies_percent=Mire+Water, 
+         Urban_percent=Transportation + Settlements, 
+         LandType_level="class_0",  
+         .keep ="unused") 
+
+
+# Calculate landscape heterogeneity metrics
+landscape_heterogeneity <- landscape_data %>%
+summarise(
+  LandType_richness = n_distinct(LandType_name),
+  LandType_Shannon = vegan::diversity(LandType_percent, index = "shannon"),
+  LandType_even = vegan::diversity(LandType_percent, index = "invsimpson"),
+  .by = c(plotID, buffer_size_m, LandType_level)) %>% 
+  left_join(land_types_proportions, 
+            by = c("plotID", "buffer_size_m", "LandType_level"))
+  
+
+
+# check missing data if merged
+merged_tree_data %>% 
+  left_join(landscape_heterogeneity %>% 
+              filter(LandType_level=="class_0" & buffer_size_m==500),
+            by = c("Plot" = "plotID")) %>% 
+  filter(!Outside==TRUE) %>% 
+  filter(is.na(LandType_richness)) %>% 
+  print(n=Inf)
+
+
+
+write_csv(landscape_heterogeneity, "data/processed_data/Landscape_heterogeneity.csv")
+
 

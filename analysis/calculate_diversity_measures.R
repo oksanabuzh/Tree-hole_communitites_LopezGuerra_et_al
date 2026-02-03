@@ -36,66 +36,11 @@ Diversity_2023_2024 <- Community %>%
     .by=c("Plot", "Tree_ID", "Treehole_number", "Tree_hole_type", 
           "Tree_hole_type_coarse", "Tree_hole_opening",
           "Year", "Month", "Outside", "Sampling_date"))
-Plot, Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
-Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside
+
 
 # View all diversity results
 Diversity_2023_2024 %>% 
   print(n = Inf)
 
 write_csv(Diversity_2023_2024, "data/processed_data/Diversity_2023_2024.csv")
-
-# Exploratory data checks ------------------------------------------------------
-
-# Count number of tree holes per tree
-# Grouped by year, plot, tree ID, tree type, location, and sampling date
-# Shows which trees have the most tree holes 
-Diversity_2023_2024 %>% 
-  group_by(Year, Plot, Tree_ID, Outside, Sampling_date, Treehole_number) %>% 
-  count() %>%  
-  arrange(desc(n))            
-
-# Count tree holes per plot
-# Grouped only by year and plot
-# Shows distribution of tree holes across plots 
-Diversity_2023_2024 %>% 
-  group_by(Year, Plot  
-  ) %>% 
-  count(Treehole_number) %>%  
-  arrange(desc(n))             
-
-Diversity_2023_2024 %>% 
-  select(Year, Month, Plot, Treehole_number, abundance, sp_richness) %>% 
-  arrange(abundance) %>% 
-  print(n = Inf)
-
-
-Diversity_2023_2024 %>% 
-  ggplot(aes(y=abundance, x=Month)) +
-  geom_boxplot() +
-  geom_jitter(aes(color=factor(Year)),
-              width=0.2, height=0, alpha=0.5) 
-
-Diversity_2023_2024 %>% 
-  ggplot(aes(y=sp_richness, x=Month)) +
-  geom_boxplot() +
-  geom_jitter(aes(color=factor(Year)),
-              width=0.2, height=0, alpha=0.5) 
-
-
-# Summary statistics for diversity metrics ------------------------------------
-Diversity_2023_2024 %>% 
-  names()
-
-Diversity_2023_2024 %>% 
-  ggplot(aes(x=Tree_hole_type, y = abundance, fill=Month)) +
-  geom_boxplot() +
-  #  facet_wrap(~Year) +
-  theme_bw()
-
-Diversity_2023_2024 %>% 
-  ggplot(aes(x=Tree_hole_type, y = sp_richness, fill=Month)) +
-  geom_boxplot() +
-  #  facet_wrap(~Year) +
-  theme_bw()
 

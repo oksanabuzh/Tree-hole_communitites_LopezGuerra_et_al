@@ -9,13 +9,17 @@ environm <- read_csv("data/processed_data/Environment_ALL.csv") %>%
   mutate(Tree_hole_type=factor(Tree_hole_type, 
                                levels=c("Division", "Branch", "Trunk", 
                                         "Cut tree", "Root",  NA)))
+str(environm)
 
 Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
   mutate(Tree_hole_type_coarse=factor(Tree_hole_type_coarse, levels=c("pan", "rot"))) %>% 
   mutate(Tree_hole_type=factor(Tree_hole_type, 
                                levels=c("Division", "Branch", "Trunk", 
-                                        "Cut tree", "Root",  NA)))
+                                        "Cut tree", "Root",  NA))) 
+
+str(Diversity_2023_2024)
+
 
 # Tree and treehole data ---------
 environm %>% 
@@ -33,8 +37,6 @@ tree_repetitions <- Diversity_2023_2024 %>%
 environm %>%
   filter(Tree_ID %in% tree_repetitions$Tree_ID) %>% 
   select(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, Tree_hole_type, Tree_hole_opening)
-# ! -------------------
-# SEW44_0084_1 and SEW44_0084_2 seems to be same tree hole or have mistake in Tree_hole_type
 
 
 # holes that have repetitions across years and months
@@ -49,9 +51,8 @@ environm %>%
   filter(Treehole_number %in% 
            (hole_repetitions %>% filter(n>1) %>% pull(Treehole_number))) %>% 
   select(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, Tree_hole_type, Tree_hole_opening)
-# ! -------------------
-# SEW07_0029_1 seems to be same tree hole or have mistake in Tree_hole_type
-# see below:
+
+
 # hole types:
 hole_repet_2 <-environm %>% 
   group_by(Tree_ID, Year, Sampling_date, Treehole_number) %>%
@@ -103,16 +104,18 @@ environm %>%
   # add to plot n= count of tree species
   geom_text(
     data = treehole_counts_month,
-    aes(x = 25, y = Month, label = paste0("n = ", n)),
+    aes(x = 24, y = Month, label = paste0("n = ", n)),
     hjust = 0, size = 3) +
   xlim(0, 28)
 
 
 # Plot counts ---------------------
 plot_counts <- environm %>%
-  group_by(Plot, Month) %>%
+  group_by(Plot) %>%
   count(Plot, .drop = T) %>% 
   arrange(desc(n))
+
+plot_counts
 
 environm %>% 
   filter(Plot %in% 
@@ -237,4 +240,13 @@ Diversity_2023_2024 %>%
   labs(y= "Species richnss", x="Tree-hole type", color="Tree-hole type") +
   scale_color_manual(values=hole_type_color) +
   theme_bw()
+
+
+# check if there are any tree holes with 1 abundance and 1 species richness
+Diversity_2023_2024 %>% 
+  filter(abundance == 1 & sp_richness == 1) %>% 
+  select(Plot, Tree_ID, Treehole_number, Year, Month, Tree_hole_type, Tree_hole_type_coarse) %>% 
+  print(n = Inf)
+
+
 

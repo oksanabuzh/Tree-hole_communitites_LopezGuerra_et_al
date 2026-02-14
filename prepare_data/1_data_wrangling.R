@@ -267,6 +267,7 @@ merged_tree_data %>%
   filter(is.na(SMIr_sd_2008_2020)) %>% 
   print(n=Inf)
 
+names(SIM_data)
 
 #  Forest Management Intensity Index (ForMI) ------------------------------
 # Dynamics of all forest EPs between 2008 and 2018
@@ -304,6 +305,7 @@ ForMI_2018 <- ForMI_all %>%
 ForMI_data <- ForMI_2018 %>% 
   left_join(ForMI_2012_2018, by = "EP")
 
+names(ForMI_data)
 # check for missing data if merged
 merged_tree_data %>% 
   left_join(ForMI_data, by = c("Plot" = "EP")) %>% 
@@ -329,6 +331,7 @@ merged_tree_data %>%
   filter(is.na(Tree_richness)) %>% 
   print(n=Inf)
 
+names(biodiv_data)
 # Laser scan data -------------------------------------------------
 # ENL: The effective number of layers quantifies vertical stand structure 
 # SSCI: The index quantifies stand structural complexity 

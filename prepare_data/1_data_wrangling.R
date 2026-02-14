@@ -64,7 +64,10 @@ Community_2023_2024 <- bind_rows(
     Sampling_date %in% c("17/6/2024", "17/06/2024") ~ "2024-06-17",
     Sampling_date == "22/05/2024" ~ "2024-05-22",
     Sampling_date == "22/07/2024" ~ "2024-07-22",
-    Sampling_date == "27/05/2024" ~ "2024-05-27")) %>%
+    Sampling_date == "27/05/2024" ~ "2024-05-27",
+    Sampling_date == "21/5/2024" ~ "2024-05-21",
+    Sampling_date == "23/07/2024" ~ "2024-07-23",
+    Sampling_date == "19/06/2024" ~ "2024-06-19")) %>% 
 # Extract month name for seasonal analysis
   mutate(Month = case_when(
     Sampling_date == "2023-11-06" ~ "November",
@@ -76,7 +79,10 @@ Community_2023_2024 <- bind_rows(
     Sampling_date == "2024-06-17" ~ "June",
     Sampling_date == "2024-05-22" ~ "May",
     Sampling_date == "2024-07-22" ~ "July",
-    Sampling_date == "2024-05-27" ~ "May"), 
+    Sampling_date == "2024-05-27" ~ "May",
+    Sampling_date == "2024-05-21" ~ "May",
+    Sampling_date == "2024-06-19" ~ "June",
+    Sampling_date == "2024-07-23" ~ "July"), 
     .after = Year) %>% 
   mutate(Tree_hole_type_coarse = case_when(
     Tree_hole_type %in% c("Branch", "Cut tree", "Trunk", "Root") ~ "rot",
@@ -107,6 +113,7 @@ Community_2023_2024 %>%
   group_by(Sp_ID) %>%
   count() 
 
+
 Community_2023_2024 %>% 
   group_by(Tree_hole_type) %>%
   count()
@@ -121,6 +128,11 @@ Community_2023_2024 %>% filter(is.na(Sp_ID))
 Community_2023_2024 %>% 
   group_by(Year, Sampling_date) %>%
   count() 
+
+Community_2023_2024 %>% 
+  select(Plot, Tree_ID, Treehole_number, Year, Sampling_date) %>%
+  filter(is.na(Sampling_date))
+
 
 Community_2023_2024 %>% filter(is.na(Sampling_date))
 
@@ -177,12 +189,17 @@ tree_data <- read_csv("data/raw_data/BiodExpl/31487_7_data.csv") %>%
 tree_data
 
 
+tree_data %>% 
+  filter(EP=="SEW45")
+
 # MERGE COMMUNITY AND TREE DATA 
 merged_tree_data <- Environment_2023_2024 %>% 
   left_join(tree_data, by = c("Tree_ID" = "tree")) %>% 
   mutate(tree_species = ifelse(is.na(species), "Fagus_sylvatica", species),
         .after=Tree_ID, 
-        .keep = "unused") # removes species (used in mutate)
+        .keep = "all") # removes species (used in mutate)
+
+names(merged_tree_data)
 
 # Check for missing species in merged data
 merged_tree_data %>% 
@@ -191,9 +208,14 @@ merged_tree_data %>%
 
 merged_tree_data %>% 
   filter(!Outside==TRUE) %>% 
-  filter(is.na(tree_species)) %>% 
+  filter(is.na(species)) %>% 
   print(n=Inf)
-  
+
+# two Tree_IDs are not having coordinates in our data
+# Plot  Tree_ID  tree_species    Treehole_number  Year Month Sampling_date Tree_hole_type Tree_hole_type_coarse
+#   1 SEW07 SEW07_T3 Fagus_sylvatica SEW07_T3_1       2024 June  2024-06-17    Trunk          rot                  
+#   2 SEW07 SEW07_T5 Fagus_sylvatica SEW07_T5_1       2024 June  
+
 # write_csv(merged_data, "data/processed_data/Community_2023_2024_with_tree_data.csv")
 
 
@@ -502,6 +524,7 @@ files_250m <- list.files("data/Raster_measurements/raster_measurement_250m",
   summarise(LandType_area_km2 = mean(LandType_area_km2),
             .by = c("plotID", "buffer_size_m", "plot_area_km2", "LandType_level", "LandType_code")
   )
+
 files_250m
 
 

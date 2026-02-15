@@ -6,6 +6,11 @@
 # Packages ---------------------------------------------------------------------
 
 library(tidyverse)
+library(conflicted)
+# Prefer dplyr's select whenever there is a conflict
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+
 
 # 2023 DATA --------------------------------------------------------------------
 
@@ -218,6 +223,32 @@ merged_tree_data %>%
 
 # write_csv(merged_data, "data/processed_data/Community_2023_2024_with_tree_data.csv")
 
+# Tree diversity ------
+
+Tree_composition <- tree_data %>% 
+  group_by(EP, species, year) %>% 
+  count() %>% 
+  ungroup() %>% 
+  summarise(Abundance=mean(n),
+            .by=c("EP", "species")) %>% 
+  pivot_wider(names_from=species, values_from=Abundance, values_fill=0)
+
+
+Tree_diversity <- tree_data %>% 
+ group_by(EP, species, year) %>% 
+  count() %>% 
+  ungroup() %>% 
+  summarise(Abundance=mean(n),
+            .by=c("EP", "species")) %>%
+  summarise(
+    # Total number of individuals across all species in each plot
+    Tree_abundance = sum(Abundance, na.rm = TRUE),
+    
+    # Number of unique species (species richness) in each tree hole
+    Tree_sp_richness = n_distinct(species),
+    Tree_Shannon = vegan::diversity(Abundance, index = "shannon"),
+    .by=c("EP"))  %>% 
+  left_join(Tree_composition, by = c("EP"))
 
 # Silvicultural Management Intensity (SIM) ------------------------------
 # Dynamics on all forest EPs, 2008 - 2020
@@ -323,6 +354,9 @@ biodiv_data <- read_csv("data/raw_data/BiodExpl/31873_7_data.csv") %>%
   filter(str_detect(ID, "SEW"))
 biodiv_data
 
+biodiv_data %>% 
+  select(Wet_macrohabitats) %>% 
+  print(n=Inf)
 
 # check missing data if merged
 merged_tree_data %>% 
@@ -471,6 +505,7 @@ merged_tree_data %>%
 # MERGE ALL ENVIRONMENTAL DATA ---------------------------------------------------------------
 
 merged_all_envir_data <- merged_tree_data %>% 
+  left_join(Tree_diversity, by = c("Plot" = "EP")) %>% 
   left_join(SIM_data, by = c("Plot" = "EP")) %>% 
   left_join(ForMI_data, by = c("Plot" = "EP")) %>% 
   left_join(biodiv_data, by = c("Plot" = "EP")) %>% 
@@ -483,6 +518,9 @@ merged_all_envir_data <- merged_tree_data %>%
 merged_all_envir_data %>% 
   pull(Month) %>%
   unique()
+
+merged_all_envir_data %>% 
+  filter(is.na(Tree_abundance))
 
 write_csv(merged_all_envir_data, "data/processed_data/Environment_ALL.csv")
 

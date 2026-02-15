@@ -173,3 +173,71 @@ Diversity_2023_2024 %>%
   geom_smooth(method="glm", method.args = list(family = "poisson")) + 
   # labs(x="Formi_2018", y="Abundance") +
   theme_bw()
+
+
+
+
+
+# Plot biodiversity potential -------------------------------------------------------------
+
+names(Diversity_2023_2024)
+
+
+response <- "sp_richness"
+preds <- c("Tree_richness", "Vertical_structure",
+           "Standing_deadwood", "Lying_deadwood",
+           "Very_large_trees", "Habitat_trees",
+           "Openness", "Temporal_continuity_of_the_woody_state",
+           "Wet_macrohabitats", "Rocky_macrohabitats", "IBPscore")
+
+plots <- map(preds, function(var) {
+  datp <- Diversity_2023_2024 %>% 
+    select(all_of(c(response, var))) %>%
+    na.omit()
+  ggplot(datp, aes_string(x = var, y = response)) +
+    geom_jitter(width=0.01, height=0.01, pch=21, 
+                color="brown", fill="#FFA55B") +
+    geom_smooth(
+      method = "glm",
+      formula = y ~ x,
+      method.args = list(family = quasipoisson),
+      color = "#086096",fill  = "#86BBD8",
+      se = TRUE
+    ) +
+    theme_minimal() +
+    labs(title = var, x = var, y = response)
+})
+
+ncol <- 3
+nrow <- ceiling(length(plots) / ncol)
+ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
+
+
+m1 <- glm(sp_richness ~ #factor(Openness), 
+          log1p(Tree_richness) + log1p(Vertical_structure), 
+           # IBPscore, 
+            family = poisson,
+          data=Diversity_2023_2024)
+check_overdispersion(m1)
+summary(m1)
+Anova(m1)
+
+
+Diversity_2023_2024 %>% 
+  ggplot(aes(x=log1p(Tree_richness), y=sp_richness)) +
+  geom_jitter(width=0.05, height=0.05, size=2,
+              pch=21, color="brown", fill="#FFA55B") +
+  geom_smooth(method="glm", method.args = list(family = "poisson"),
+                            color = "#086096",fill  = "#86BBD8") + 
+  labs(x="Tree richness", y="Species richness") +
+  theme_bw()
+
+
+Diversity_2023_2024 %>% 
+  ggplot(aes(x=log1p(Vertical_structure), y=sp_richness)) +
+  geom_jitter(width=0.03, height=0.05, size=2,
+              pch=21, color="brown", fill="#FFA55B") +
+  geom_smooth(method="glm", method.args = list(family = "poisson"),
+              color = "#086096",fill  = "#86BBD8") + 
+  labs(x="Vertical structure", y="Species richness") +
+  theme_bw()

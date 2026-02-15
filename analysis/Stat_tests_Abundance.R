@@ -4,6 +4,12 @@ library(tidyverse)
 library(car)
 library(performance)
 
+library(dplyr)
+library(ggplot2)
+library(purrr)
+library(ggpubr)
+
+
 # data -------------------------------------------------------
 environm <- read_csv("data/processed_data/Environment_ALL.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
@@ -126,12 +132,7 @@ Diversity_2023_2024 %>%
 
 names(Diversity_2023_2024)
 
-library(dplyr)
-library(ggplot2)
-library(purrr)
-library(ggpubr)
 
-df <- Diversity_2023_2024
 response <- "abundance"
 preds <- c("Tree_richness", "Vertical_structure",
            "Standing_deadwood", "Lying_deadwood",
@@ -140,9 +141,12 @@ preds <- c("Tree_richness", "Vertical_structure",
            "Wet_macrohabitats", "Rocky_macrohabitats", "IBPscore")
 
 plots <- map(preds, function(var) {
-  datp <- df %>% select(all_of(c(response, var))) %>% na.omit()
+  datp <- Diversity_2023_2024 %>% 
+    select(all_of(c(response, var))) %>%
+    na.omit()
   ggplot(datp, aes_string(x = var, y = response)) +
-    geom_jitter(width=0.01, height=0.01) +
+    geom_jitter(width=0.01, height=0.01, pch=21, 
+                color="brown", fill="#FFA55B") +
     geom_smooth(
       method = "glm",
       formula = y ~ x,
@@ -157,3 +161,12 @@ plots <- map(preds, function(var) {
 ncol <- 3
 nrow <- ceiling(length(plots) / ncol)
 ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
+
+
+m1 <- glm(abundance ~ #factor(Openness) + 
+           # Tree_richness + 
+            IBPscore, family = quasipoisson,
+          data=Diversity_2023_2024)
+check_overdispersion(m1)
+summary(m1)
+Anova(m1)

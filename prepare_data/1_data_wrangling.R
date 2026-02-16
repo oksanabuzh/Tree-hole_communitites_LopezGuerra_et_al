@@ -231,7 +231,17 @@ Tree_composition <- tree_data %>%
   ungroup() %>% 
   summarise(Abundance=mean(n),
             .by=c("EP", "species")) %>% 
-  pivot_wider(names_from=species, values_from=Abundance, values_fill=0)
+  pivot_wider(names_from=species, values_from=Abundance, values_fill=0) %>% 
+  ungroup() %>%
+#  mutate(Total_trees = rowSums(across(-EP)), .after = "EP") %>%
+#  mutate(Pinus_sylvestris_perc=Pinus_sylvestris* 100/Total_trees,
+#         .after="Pinus_sylvestris") %>%
+  # calculate % for each tree species
+  mutate(across(-EP, ~ .x * 100/ rowSums(across(-EP)), .names = "perc_{.col}"),
+         .keep="unused")
+
+?mutate
+names(Tree_composition)
 
 
 Tree_diversity <- tree_data %>% 
@@ -264,7 +274,8 @@ SIM_all <- read_csv("data/raw_data/BiodExpl/31217_9_data.csv") %>%
 SIM_2008_2020 <- SIM_all %>% 
  # mutate(year = substr(year, 7, 10)) %>%
   summarise(across(where(is.numeric), 
-                   list(mean_2008_2020 = mean, sd_2008_2020=sd), na.rm = TRUE),
+                   list(mean_2008_2020 = mean, 
+                        sd_2008_2020=sd), na.rm = TRUE),
             .by=c("EP"))
     
 # 2018_2020
@@ -273,6 +284,13 @@ SIM_2018_2020 <- SIM_all %>%
   filter(year %in% c("2018", "2019", "2020")) %>%
   summarise(across(where(is.numeric), 
                    list(mean_2018_2020 = mean, sd_2018_2020=sd), na.rm = TRUE),
+            .by=c("EP"))
+
+SIM2020 <- SIM_all %>% 
+  mutate(year = substr(year, 7, 10)) %>%
+  filter(year %in% c("2020")) %>%
+  summarise(across(where(is.numeric), 
+                   list("2020" = mean), na.rm = TRUE),
             .by=c("EP"))
 
 # Why sd in some cases are ==0? check if there are measurements for all year?
@@ -289,7 +307,9 @@ SIM_all %>%
 
 # merge both SIM datasets
 SIM_data <- SIM_2008_2020 %>% 
-  left_join(SIM_2018_2020, by = "EP")
+  left_join(SIM_2018_2020, by = "EP") %>% 
+  left_join(SIM2020, by = "EP")
+  
 
 # check for missing data if merged
 merged_tree_data %>% 
@@ -394,6 +414,8 @@ merged_tree_data %>%
 # 22766_4_data.csv
 Stand_str_data <- read_csv("data/raw_data/BiodExpl/22766_4_data.csv") %>% 
   filter(Exploratory=="SCH") 
+
+names(Stand_str_data)
 
 # check missing data if merged
 merged_tree_data %>% 
@@ -500,11 +522,33 @@ merged_tree_data %>%
   filter(is.na(Ta_200_extremely_hot_days_sum )) %>% 
   print(n=Inf)
 
+# Tree hole mapping data-----------------------------------------------
+
+Tree_mapping <- read_csv("data/raw_data/BiodExpl/BExIS_20966_v2_data.csv") %>% 
+  filter(Exploratory == "SEW") %>% 
+  # add 0 in plot numbers after "SEW" with 1 digit characters (e.g., SEW1 -> SEW01)
+  mutate(Plot = if_else(str_length(Plot) == 4, 
+                           str_replace(Plot, "^(.{3})(.)$", "\\10\\2"),
+                           Plot)) %>% 
+  rename(Total_hole_number_mapping = Total)
+
+
+Tree_mapping
+
+# check for missing data if merged
+merged_tree_data %>% 
+  left_join(Tree_mapping, by = c("Plot")) %>% 
+#  filter(!Outside==TRUE) %>% 
+  filter(is.na(Total_hole_number_mapping)) %>% 
+  print(n=Inf)
+
+
 
 
 # MERGE ALL ENVIRONMENTAL DATA ---------------------------------------------------------------
 
 merged_all_envir_data <- merged_tree_data %>% 
+  left_join(Tree_mapping, by = c("Plot")) %>% 
   left_join(Tree_diversity, by = c("Plot" = "EP")) %>% 
   left_join(SIM_data, by = c("Plot" = "EP")) %>% 
   left_join(ForMI_data, by = c("Plot" = "EP")) %>% 
@@ -520,7 +564,13 @@ merged_all_envir_data %>%
   unique()
 
 merged_all_envir_data %>% 
-  filter(is.na(Tree_abundance))
+  filter(is.na(Total_hole_number_mapping))
+
+
+merged_all_envir_data %>% 
+  select(Plot, Total_hole_number_mapping) %>%
+  print(n=Inf)
+
 
 write_csv(merged_all_envir_data, "data/processed_data/Environment_ALL.csv")
 

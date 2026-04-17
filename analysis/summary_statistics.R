@@ -2,6 +2,11 @@
 
 library(tidyverse)
 
+# Prefer dplyr's select whenever there is a conflict
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+
+
 # data -------------------------------------------------------
 environm <- read_csv("data/processed_data/Environment_ALL.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
@@ -218,7 +223,8 @@ Diversity_2023_2024 %>%
   geom_jitter(width=0.2, height=0.05, alpha=0.7, size=2) +
   labs(y= "Species richnss", x="Tree-hole type", color="Tree-hole type") +
   scale_color_manual(values=hole_type_color) +
-  theme_bw()
+  theme_bw() +
+  theme(legend.position = "top")
 
 
 #  Tree_hole_type_coarse

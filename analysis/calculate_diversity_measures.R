@@ -9,20 +9,17 @@ library(vegan)
 # Load and process data --------------------------------------------------------
 
 # Read community data from 2023 and 2024
-Community <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
-  mutate(Abundance=ifelse(is.na(Abundance), 1, Abundance))
+Community <- read_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv") 
   
-names(Community)
 
-
-# Calculate diversity metrics for each unique tree hole
+# Calculate diversity and biomass metrics for each unique tree hole
 Diversity_2023_2024 <- Community %>% 
   summarise(
     # Total number of individuals across all species in each tree hole
     abundance = sum(Abundance, na.rm = TRUE),
-    
+    biomass_dry_mg = sum(Body_mass_dry_mg, na.rm = TRUE), 
     # Number of unique species (species richness) in each tree hole
-    sp_richness = n_distinct(Sp_ID),
+    sp_richness = n_distinct(Sp_ID_DNAcorrected),
     
     # Evenness using inverse Simpson index
     # Higher values = more even distribution of individuals across species
@@ -43,4 +40,22 @@ Diversity_2023_2024 %>%
   print(n = Inf)
 
 write_csv(Diversity_2023_2024, "data/processed_data/Diversity_2023_2024.csv")
+
+
+names(Diversity_2023_2024)
+
+corl1 <- round(cor(Diversity_2023_2024 %>% 
+                     dplyr::select(abundance, biomass_dry_mg,"sp_richness",
+                                   "Hill_Simpson","Hill_Shannon"),
+                   method = c("pearson"), use = "pairwise.complete.obs"), 2)
+
+corl1
+
+ggcorrplot::ggcorrplot(corl1,
+                       hc.order = F, type = "lower",
+                       lab = TRUE, lab_size = 4,
+                       colors = c("red", "white", "blue"))
+
+
+
 

@@ -4,6 +4,10 @@ library(tidyverse)
 library(car)
 library(performance)
 
+# Prefer dplyr's select whenever there is a conflict
+conflict_prefer("select", "dplyr")
+conflict_prefer("filter", "dplyr")
+
 # data -------------------------------------------------------
 environm <- read_csv("data/processed_data/Environment_ALL.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
@@ -234,8 +238,8 @@ ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
 m1 <- glm(sp_richness ~ 
             #Openness + 
          #   log1p(Tree_sp_richness) ,
-           log1p(Tree_abundance) , 
-          # log1p(Vertical_structure), 
+           #  log1p(Tree_abundance) , 
+           log1p(Vertical_structure), 
            # IBPscore, 
             family = poisson,
           data=Diversity_2023_2024)
@@ -376,6 +380,8 @@ Diversity_2023_2024 %>%
   scale_x_continuous(labels = function(x) paste0(x, "%"))
 
 
+orig_breaks <- pretty(Diversity_2023_2024$perc_Pinus_sylvestris, n = 6)      # breaks on original scale
+
 Diversity_2023_2024 %>% 
   ggplot(aes(x = log1p(perc_Pinus_sylvestris), y = sp_richness)) +
   geom_jitter(width = 0.03, height = 0.05, size = 2,
@@ -476,6 +482,8 @@ Diversity_2023_2024%>%
 # Stand structural attributes -------------------------------------------------
 ## Exploration plots --------------
 response <- "sp_richness"
+preds0 <- c("ssm_N","ssm_Vol","ssm_CPA","sp_N_1D", "sp_BA_1D", "sp_N_2D", "sp_BA_2D", "spat_Pielou")
+
 preds1 <- c("ssm_N","ssm_SDI","ssm_BA","ssm_Vol","ssm_CPA","ssm_con_BA","ssm_con_CPA",
             "ssm_Pa_CPA","ssm_Ps_CPA","ssm_Qs_CPA","ssm_Fs_CPA","sp_0D","sp_N_1D",
             "sp_N_2D","sp_BA_1D","sp_BA_2D","d_qm","d_m","d_SD","d_CV","d_50")
@@ -486,6 +494,9 @@ preds2 <- c("d_max", "d_gini","dc_0D","dc_1D","dc_1D_BA","dc_sp_1D","hc_0D","hc_
 preds3 <- c("r20_Morisita","spat_clarkevans","spat_Pielou","spat_spM","spat_TD",
             "spat_SCI_d","spat_Th","spat_SCI_h")
 
+df0 <- Diversity_2023_2024 %>%
+  mutate(across(all_of(preds0), ~ if (is.factor(.x)) as.numeric(as.character(.x)) else .x)) %>%
+  mutate(across(all_of(preds0), ~ log1p(.x), .names = "{.col}"))
 
 df1 <- Diversity_2023_2024 %>%
   mutate(across(all_of(preds1), ~ if (is.factor(.x)) as.numeric(as.character(.x)) else .x)) %>%
@@ -500,8 +511,8 @@ df3 <- Diversity_2023_2024 %>%
   mutate(across(all_of(preds3), ~ log1p(.x), .names = "{.col}"))
 
 # 2) make plots using the transformed predictors
-plots <- map(preds3, function(var) {
-  datp <- df3 %>% select(all_of(c(response, var))) %>% na.omit()
+plots <- map(preds0, function(var) {
+  datp <- df0 %>% select(all_of(c(response, var))) %>% na.omit()
   
   ggplot(datp, aes_string(x = var, y = response)) +
     geom_jitter(width = 0.01, height = 0.01, pch = 21,
@@ -521,3 +532,137 @@ plots <- map(preds3, function(var) {
 ncol <- 3
 nrow <- ceiling(length(plots) / ncol)
 ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
+
+
+
+# Climat -------------------------------------------------
+## Exploration plots --------------
+
+response <- "sp_richness"
+
+preds0 <- c("precipitation_radolan_rain_days_mean","precipitation_radolan_acc_mean", "rH_200_DMR_mean",
+            "Ta_10_mean","Ta_10_max_mean")
+
+preds1 <- c("precipitation_radolan_mean","precipitation_radolan_acc_mean", "Ta_200_mean","Ta_200_heat_index_mean",
+            "Ta_200_humidex_mean")
+
+preds2 <- c("Ta_200_extremely_hot_days_sum", "Ta_200_extremely_cold_days_sum","Ta_200_heating_degree_days_sum")
+
+df0 <- Diversity_2023_2024 %>%
+  mutate(across(all_of(preds0), ~ if (is.factor(.x)) as.numeric(as.character(.x)) else .x)) %>%
+  mutate(across(all_of(preds0), ~ log1p(.x), .names = "{.col}"))
+
+df1 <- Diversity_2023_2024 %>%
+  mutate(across(all_of(preds1), ~ if (is.factor(.x)) as.numeric(as.character(.x)) else .x)) %>%
+  mutate(across(all_of(preds1), ~ log1p(.x), .names = "{.col}"))
+
+df2 <- Diversity_2023_2024 %>%
+  mutate(across(all_of(preds2), ~ if (is.factor(.x)) as.numeric(as.character(.x)) else .x)) %>%
+  mutate(across(all_of(preds2), ~ log1p(.x), .names = "{.col}"))
+
+# 2) make plots using the transformed predictors
+plots <- map(preds0, function(var) {
+  datp <- df0 %>% select(all_of(c(response, var))) %>% na.omit()
+  
+  ggplot(datp, aes_string(x = var, y = response)) +
+    geom_jitter(width = 0.01, height = 0.01, pch = 21,
+                color = "brown", fill = "#FFA55B") +
+    geom_smooth(
+      method = "glm",
+      formula = y ~ x,
+      method.args = list(family = poisson),   # or quasipoisson if overdispersed
+      color = "#086096", fill = "#86BBD8",
+      se = TRUE
+    ) +
+    theme_minimal() +
+    labs(title = var, x = paste0(var, " (log1p)"), y = response)
+})
+
+# arrange & display
+ncol <- 3
+nrow <- ceiling(length(plots) / ncol)
+ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
+
+
+# Landscape heterogeneity --------------------------------
+
+landscape_heterogeneity <- read_csv("data/processed_data/Landscape_heterogeneity.csv") %>% 
+  rename(Plot=plotID)
+
+
+# Landscape  -------------------------------------------------
+## Exploration plots --------------
+
+df1 <- Diversity_2023_2024 %>%
+  left_join(landscape_heterogeneity %>% 
+              filter(LandType_level=="class_0" & buffer_size_m==250),
+            by = "Plot") 
+
+df2 <- Diversity_2023_2024 %>%
+  left_join(landscape_heterogeneity %>% 
+              filter(LandType_level=="class_0" & buffer_size_m==500),
+            by = "Plot") 
+
+
+response <- "sp_richness"
+
+preds1 <- c("LandType_richness", "LandType_Shannon", "LandType_even",
+            "Forest_percent", "Agricultural_percent", 
+            "Water_bodies_percent", "Urban_percent"
+)
+
+
+# 2) make plots using the transformed predictors
+plots <- map(preds1, function(var) {
+  datp <- df2 %>% select(all_of(c(response, var))) %>% na.omit()
+  
+  ggplot(datp, aes_string(x = var, y = response)) +
+    geom_jitter(width = 0.01, height = 0.01, pch = 21,
+                color = "brown", fill = "#FFA55B") +
+    geom_smooth(
+      method = "glm",
+      formula = y ~ x,
+      method.args = list(family = poisson),   # or quasipoisson if overdispersed
+      color = "#086096", fill = "#86BBD8",
+      se = TRUE
+    ) +
+    theme_minimal() +
+    labs(title = var, x = paste0(var, " (log1p)"), y = response)
+})
+
+# arrange & display
+ncol <- 3
+nrow <- ceiling(length(plots) / ncol)
+ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
+
+
+# plots
+
+df1 <- Diversity_2023_2024 %>%
+  left_join(landscape_heterogeneity %>% 
+              filter(LandType_level=="class_0" & buffer_size_m==500),
+            by = "Plot") 
+
+
+
+
+df1 %>% 
+  ggplot(aes(x = Forest_percent, y = sp_richness)) +
+  geom_jitter(width = 0.5, height = 0.3, size = 2,
+              pch = 21, color = "brown", fill = "#FFA55B") +
+  geom_smooth(method = "glm", method.args = list(family = "poisson"),
+              color = "#086096", fill = "#86BBD8",
+              formula = y ~ log(x)) +
+  labs(x = "Forest cover, %", y = "Species richnes") +
+  theme_bw()
+
+
+df1 %>% 
+  ggplot(aes(x = Urban_percent, y = sp_richness)) +
+  geom_jitter(width = 0.1, height = 0.0, size = 2,
+              pch = 21, color = "brown", fill = "#FFA55B") +
+  geom_smooth(method = "glm", method.args = list(family = "poisson"),
+              color = "#086096", fill = "#86BBD8",
+              formula = y ~ (x)) +
+  labs(x = "Urban area, %", y = "Species richnes") +
+  theme_bw()

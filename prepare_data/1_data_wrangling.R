@@ -23,7 +23,8 @@ community2023 <- read_csv("data/raw_data/sampling_2023_2024/Species_and_trees_fr
 
 
 str(community2023)
-  
+
+
 # Check for duplicates (should be 0 rows)
 community2023 %>% 
   group_by(Plot, Tree_ID, Treehole_number, Type_of_tree, 
@@ -37,9 +38,12 @@ community2023 %>%
 community2024 <- read_csv("data/raw_data/sampling_2023_2024/Sampling_2024_indiviudlas.csv") %>% 
   select(-Nickname_2014, -Nickname_2015, -"ID for the sampling", 
          -"Label", -"Notes", -"Pictures") %>% 
+  mutate(Abundance = ifelse(is.na(Abundance), 1, Abundance)) %>%
   summarise(Abundance = sum(Abundance), 
             .by = c("Plot", "Tree_ID", "Treehole_number", "Type_of_tree", 
                     "Outside", "Tree_hole_type", "Sampling_date", "Sp_ID")) 
+community2024 %>% 
+  filter(is.na(Abundance)) 
 
 # Check for duplicates (should be 0 rows)
 community2024 %>% 
@@ -149,7 +153,6 @@ Community_2023_2024 %>% filter(is.na(Sampling_date))
 
 names(Community_2023_2024)
 
-### Community data ------
 Community_2023_2024 %>% 
   #select(Plot, Tree_ID, Treehole_number, Tree_hole_type, Tree_hole_opening,
   select(Plot, Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
@@ -157,18 +160,261 @@ Community_2023_2024 %>%
          Year, Month, Sp_ID, Abundance) %>% 
   write_csv("data/processed_data/Community_2023_2024.csv")
 
-### Environmental data  --------------------------
-Community_2023_2024 %>% 
-  select(-Sp_ID, -Abundance, -Type_of_tree) %>% 
+
+
+# Correct species given the DNA data:
+# in new data ....DNA corrected:
+# new columns:
+# Sp_ID_DNAcorrected: corrected species ID based on DNA data
+# species - full species name
+# Tree_ID_Bexis - Tree ID in  database submitted to Bexis to match with our Tree_ID
+# Treehole_ID_Bexis - Treehole ID in database submitted to Bexis to match with our Treehole_number
+#
+# DNA data:
+DNA_dat <- read_csv("data/raw_data/Community_2023_2024_Sp_ID_DNAcorrected.csv") %>% 
+  select(-Abundance) %>% 
+  mutate(Sampling_date=lubridate::dmy(Sampling_date)) %>% 
+  mutate(Sp_ID_DNAcorrected=ifelse(Sp_ID_DNAcorrected=="Syprh2", "Syprh", Sp_ID_DNAcorrected), 
+         Species=ifelse(Species=="Syrphidae sp.2", "Syprhidae sp.", Species)) %>% 
+  mutate(Species=ifelse(Sp_ID_DNAcorrected=="Ceratopogonidae", "Ceratopogonidae sp.", Species)) %>% 
+  mutate(Species=ifelse(Species=="Poecilobothrus nobilitatus20", "Poecilobothrus nobilitatus", Species)) 
+
+
+
+
+# TRAITS DATA --------------------------------------------------------------------
+
+# traits for all species (not used in this study)
+# traits <- read_csv("data/raw_data/traits/summary_traits.csv")%>% 
+#  rename(Sp_ID=Species_ID) %>% 
+#  rename(Full_name = `Full name`) %>% 
+#  mutate(Sp_ID = case_when(
+#    Sp_ID == "Anopholes_plumbeus" ~"Anopheles_plumbeus",
+#    .default = Sp_ID)) 
+
+# taxonomy includes taxonomic information for Sp_ID (but not for the DNA corrected)
+# taxonomy <- traits %>% 
+#  group_by( Order, Family , Full_name,  Sp_ID) %>%
+#  count() %>%  ungroup() %>% 
+#  drop_na(Sp_ID) %>%
+#  select(-n) %>% 
+#  mutate(Genus=word(Full_name, 1), .before=Full_name) 
+
+# Traits for this study
+traits_2023_2024 <- read_csv("data/raw_data/traits/Traits_Community_2023_2024.csv") %>% 
+  dplyr::select(-body_size, -Notes) %>%
+  mutate(predator=ifelse(is.na(predator), 0, predator),
+         decomposer=ifelse(is.na(decomposer), 0, decomposer)) %>% 
+  rename(Order_DNA_corrected = "Order",
+         Sp_ID_DNAcorrected="Sp_ID_correctedDNA") %>% 
+  mutate(Family_DNA_corrected = ifelse(Family_DNA_corrected=="Tupulidae", "Tipulidae", Family_DNA_corrected)) # mistake in family Tipulidae
+
+
+traits_2023_2024 %>% 
+  group_by(Sp_ID_DNAcorrected) %>% 
+  count() %>% 
+  print(n=Inf)
+
+traits_2023_2024 %>% 
+  group_by(Sp_ID_DNAcorrected, Genus_DNA_corrected, Family_DNA_corrected, Order_DNA_corrected,
+           predator, decomposer, Treehole_specialist) %>% 
+  count() %>% 
+  print(n=Inf)
+
+traits_2023_2024 %>% 
+  group_by(Sp_ID, Sp_ID_DNAcorrected) %>% 
+  count() %>%
+  print(n=Inf)
+
+DNA_ID_unique <- DNA_dat %>% 
+  group_by(Sp_ID, Sp_ID_DNAcorrected, Species) %>%
+  count() %>% 
+  print(n=Inf)
+
+## Check if Sp_ID match in community data and in trait data----------------------------
+Missing_species_in_traits <- DNA_ID_unique %>% 
+  left_join(traits_2023_2024 %>% 
+              group_by(Sp_ID, Sp_ID_DNAcorrected, predator) %>%  count() %>% select(-n), 
+            by = c("Sp_ID")) 
+
+
+Missing_species_in_traits %>% 
+  print(n=Inf)
+
+## !!!Silvia <-- missing Fagi and M_obscura ------------------------------------------------
+
+write_csv(Missing_species_in_traits %>% 
+            select(Sp_ID, Sp_ID_DNAcorrected.x) %>% 
+            rename(Sp_ID_DNAcorrected="Sp_ID_DNAcorrected.x"),
+          "data/Missing_Sp_ID_in_traits_17.04.2026.csv")
+
+## Join with body size measurements ----------------------------------------------
+
+# check if there are repetitions in Sp_ID 
+traits_2023_2024 %>% 
+  count(Sp_ID) %>% 
+  arrange(desc(n)) %>% 
+  print(n=Inf)
+
+# All body size data (own measurements) 
+body_size_all <- read_csv("data/raw_data/traits/body_measurements_merged_final.csv") %>%
+  rename(Sp_ID=Species_ID) %>% 
+  rename(dry_weight_mg = "dry_weight _mg") %>% 
+  dplyr::select(Sp_ID, wet_weight_mg, length_mm, dry_weight_mg)
+
+# Summarised body size data by Sp_ID
+BodySize_mean_Sp_ID <- body_size_all %>% 
+  summarise(Sp_ID_wet_weight = mean(wet_weight_mg, na.rm = TRUE), 
+            Sp_ID_length = mean(length_mm, na.rm = TRUE),
+            Sp_ID_dry_weight = mean(dry_weight_mg, na.rm = TRUE),
+            .by = c("Sp_ID")) %>% 
+  left_join(traits_2023_2024 %>% 
+              dplyr::select(Sp_ID, Sp_ID_DNAcorrected), by = c("Sp_ID")) %>% 
+  relocate(Sp_ID_DNAcorrected, .after = Sp_ID) %>% 
+  print(n=Inf)
+   
+# Summarised body size data by Sp_ID corrected with DNA data (for some species we have more than one Sp_ID but only one Sp_ID_DNAcorrected, so we will average the body size for those species)
+BodySize_mean_SpID_DNA_Corr <-  body_size_all %>% 
+  left_join(traits_2023_2024, by = c("Sp_ID"))%>% 
+  relocate(Sp_ID_DNAcorrected, .after = Sp_ID) %>%
+  summarise(wet_weight_mg = mean(wet_weight_mg, na.rm = TRUE), 
+            length_mm = mean(length_mm, na.rm = TRUE),
+            dry_weight_mg = mean(dry_weight_mg, na.rm = TRUE),
+            .by = c("Sp_ID_DNAcorrected"))  
+
+traits_2023_2024 %>% 
+  print(n=Inf)
+
+# Summarised body size data by Family_DNA_corrected
+BodySize_mean_Family_DNA_corrected <- body_size_all %>% 
+  left_join(traits_2023_2024 %>% 
+              select(Sp_ID, Family_DNA_corrected), 
+            by = "Sp_ID") %>% 
+  relocate(Family_DNA_corrected, .after = Sp_ID) %>% 
+  summarise(
+    Family_DNA_wet_weight_mg = mean(wet_weight_mg, na.rm = TRUE),
+    Family_DNA_length_mm = mean(length_mm, na.rm = TRUE),
+    Family_DNA_dry_weight_mg = mean(dry_weight_mg, na.rm = TRUE),
+    .by = "Family_DNA_corrected")
+
+
+# Merge summerised body size data with traits data, first by Sp_ID_DNAcorrected and then by Family_DNA_corrected, and fill NA with family mean if Sp_ID mean is not available, and then fill remaining NA with literature data for missing families (Tipulidae and Tabanidae)
+traits_final <- traits_2023_2024 %>% 
+  mutate(Genus_DNA_corrected = ifelse(is.na(Genus_DNA_corrected), Family_DNA_corrected, Genus_DNA_corrected)) %>%
+  left_join(BodySize_mean_SpID_DNA_Corr, by = c("Sp_ID_DNAcorrected")) %>% 
+  relocate(c(Sp_ID_DNAcorrected, Sp_ID, wet_weight_mg, length_mm, dry_weight_mg),  
+           .before = Order_DNA_corrected) %>% 
+ left_join(BodySize_mean_Family_DNA_corrected, by = c("Family_DNA_corrected")) %>% 
+  mutate(wet_weight_mg = ifelse(is.na(wet_weight_mg), Family_DNA_wet_weight_mg, wet_weight_mg),
+         length_mm = ifelse(is.na(length_mm), Family_DNA_length_mm, length_mm),
+         dry_weight_mg = ifelse(is.na(dry_weight_mg), Family_DNA_dry_weight_mg, dry_weight_mg)) %>% 
+  # Fill NA with the literature data:
+  mutate(dry_weight_mg = ifelse(Family_DNA_corrected=="Tipulidae", 1.41, dry_weight_mg), # https://doi.org/10.3390/ijerph19063240
+         length_mm = ifelse(Family_DNA_corrected=="Tipulidae", 10, length_mm)) %>%           # https://doi.org/10.3390/ijerph19063240
+  mutate(dry_weight_mg = ifelse(Family_DNA_corrected=="Tabanidae", 0.0001*(10^4.2208), dry_weight_mg), # DM <- a * L^b with a=0.0001, b=4.2208, L=10mm from Poepperl, R., 1998. Biomass determination of aquatic invertebrates in the Northern German lowland using the relationship between body length and dry mass. Faunistisch-Ökologische Mitteilungen, 7, pp.379-386. https://www.zobodat.at/pdf/Faun-Oekol-Mitt_7_0379-0386.pdf
+         length_mm = ifelse(Family_DNA_corrected=="Tabanidae", 10, length_mm)) %>% 
+# !!! Silvia: there is mismatch in Genus_DNA_corrected with the Sp_ID_DNA  ------------------------------------------------------------------------------
+  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Dasyhelea" & Sp_ID_DNAcorrected=="Ceratopogonidae", "Ceratopogonidae", Genus_DNA_corrected)) 
+
+traits_final%>% 
+  print(n=Inf)
+
+
+write_csv(traits_final, "data/processed_data/Traits_2023_2024_final.csv")
+
+
+
+
+
+# COMMUNITY DATA ---------------------------------------------------------------
+
+
+DNA_dat %>% 
+  group_by(Sp_ID, Sp_ID_DNAcorrected, Species) %>%
+  count() %>% 
+  print(n=Inf)
+
+traits_final %>% 
+  filter(Sp_ID_DNAcorrected %in% c("Syprh", "Ceratopogonidae"))
+
+
+traits_final_DNA_grouped <- traits_final %>%
+  summarise(predator = mean(predator, na.rm = TRUE),
+            decomposer = mean(decomposer, na.rm = TRUE),
+            Treehole_specialist = unique(Treehole_specialist),
+            .by = c("Sp_ID_DNAcorrected", "Family_DNA_corrected", "Genus_DNA_corrected")) %>% 
+  # !!! Silvia: before Silvia corrects traits I add  D_flaviformis manually
+  add_row(Sp_ID_DNAcorrected = "D_flaviformis", 
+          Family_DNA_corrected = "Ceratopogonidae", 
+          Genus_DNA_corrected = "Dasyhelea",
+          predator = 1,
+          decomposer = 1,
+          Treehole_specialist = TRUE)
+
+
+# Before !!! Silvia corrects the Sp_Id in trait data ------
+Syprh_dry_weight <- traits_final %>% 
+  filter(Sp_ID_DNAcorrected =="Syprh") %>% 
+  pull(dry_weight_mg)
+
+Cerat_dry_weight <- traits_final %>% 
+  filter(Sp_ID_DNAcorrected =="Ceratopogonidae") %>% 
+  pull(dry_weight_mg) %>% 
+  mean()
+
+Community_final <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
+  left_join(DNA_dat, by = c("Plot", "Tree_ID", "Treehole_number", "Year", "Month", 
+                            "Sampling_date", "Tree_hole_type", "Tree_hole_type_coarse",
+                            "Tree_hole_opening", "Outside", "Sp_ID")) %>% 
+  left_join(traits_final %>% 
+              select(Sp_ID, dry_weight_mg), by = c("Sp_ID")) %>%
+  # !!! Silvia:  Replace NAs until Silvia will correct the data ------------------------------------------------
+  mutate(dry_weight_mg=ifelse(is.na(dry_weight_mg) & Sp_ID_DNAcorrected =="Syprh", Syprh_dry_weight, dry_weight_mg)) %>%
+  mutate(dry_weight_mg=ifelse(is.na(dry_weight_mg) & Sp_ID_DNAcorrected =="D_flaviformis", Cerat_dry_weight, dry_weight_mg)) %>%
+  # ------------------------------------------------------------------------------------------------------------#
+  group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
+           Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside, 
+           Sp_ID_DNAcorrected, Species) %>% 
+  summarise(Abundance = sum(Abundance), .groups = "drop",
+            Body_mass_dry_mg=mean(dry_weight_mg, na.rm = TRUE)) %>% 
+  left_join(traits_final_DNA_grouped, 
+             by = c("Sp_ID_DNAcorrected")) 
+
+# check NAs
+Community_final %>% 
+  filter(is.na(Body_mass_dry_mg)) 
+
+Community_final %>% 
+  filter(is.na(predator))
+
+# check if there are repeated species 
+Community_final %>% 
+  group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
+           Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside, Sp_ID_DNAcorrected) %>%
+  count() %>% ungroup() %>% 
+  filter(n > 1) %>% 
+  dplyr::select(Plot, Sp_ID_DNAcorrected, n)
+
+
+Community_final %>% 
+  write_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv")
+
+### ENVIRONMENTAL DATA  --------------------------
+Community_final %>% 
+  select(-Sp_ID_DNAcorrected, -Species, -Abundance) %>% 
   distinct() %>%
   write_csv("data/processed_data/Environment_2023_2024.csv")
 
 # Check unique tree holes in environmental data
-Community_2023_2024 %>% 
-  select(-Sp_ID, -Abundance, -Type_of_tree) %>% 
+Community_final %>% 
+  select(-Sp_ID_DNAcorrected, -Species, -Abundance) %>% 
   group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
            Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside) %>%
   count()
+
+
+
+# End-----
 
 # EXPLORATORIES DATA -----------------------------------------------------------
 
@@ -202,7 +448,7 @@ merged_tree_data <- Environment_2023_2024 %>%
   left_join(tree_data, by = c("Tree_ID" = "tree")) %>% 
   mutate(tree_species = ifelse(is.na(species), "Fagus_sylvatica", species),
         .after=Tree_ID, 
-        .keep = "all") # removes species (used in mutate)
+        .keep = "all") 
 
 names(merged_tree_data)
 
@@ -214,7 +460,8 @@ merged_tree_data %>%
 merged_tree_data %>% 
   filter(!Outside==TRUE) %>% 
   filter(is.na(species)) %>% 
-  print(n=Inf)
+  print(n=Inf) %>% 
+  dplyr::select(Plot, Tree_ID, tree_species, species)
 
 # two Tree_IDs are not having coordinates in our data
 # Plot  Tree_ID  tree_species    Treehole_number  Year Month Sampling_date Tree_hole_type Tree_hole_type_coarse
@@ -240,7 +487,7 @@ Tree_composition <- tree_data %>%
   mutate(across(-EP, ~ .x * 100/ rowSums(across(-EP)), .names = "perc_{.col}"),
          .keep="unused")
 
-?mutate
+
 names(Tree_composition)
 
 
@@ -428,9 +675,11 @@ merged_tree_data %>%
 # Climate Data -------------------------------------------------
 
 climate2024 <- read_csv("data/raw_data/BiodExpl/climate_data_May_June_July_2024.csv") %>% 
-  select(plotID, datetime,
-    PAR_200, precipitation_radolan, precipitation_radolan_acc,
-         rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex,
+  select(plotID, datetime ,
+         precipitation_radolan_rain_days,
+         precipitation_radolan, precipitation_radolan_acc,
+         Ta_10, Ta_10_max, rH_200_DMR,
+         Ta_200, Ta_200_heat_index, Ta_200_humidex,
          # binary variables
          "Ta_200_extremely hot days", Ta_200_extremely_cold_days,
          Ta_200_heating_degree_days) %>% 
@@ -443,22 +692,15 @@ climate2024 <- read_csv("data/raw_data/BiodExpl/climate_data_May_June_July_2024.
     .after = Year) %>% 
   summarise(
     across(
-      c(PAR_200, precipitation_radolan, precipitation_radolan_acc,
-        rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex),
+      c(precipitation_radolan_rain_days, precipitation_radolan, precipitation_radolan_acc,
+        Ta_10, Ta_10_max, rH_200_DMR,
+        Ta_200, Ta_200_heat_index, Ta_200_humidex),
       ~ mean(.x, na.rm = TRUE), .names = "{.col}_mean"),
     across(
       c(Ta_200_extremely_hot_days, Ta_200_extremely_cold_days,
         Ta_200_heating_degree_days),
       ~ sum(.x, na.rm = TRUE), .names = "{.col}_sum"),
-    across(
-      c(precipitation_radolan, rH_200, Ta_200),
-      ~ {
-        m <- mean(.x, na.rm = TRUE)
-        s <- sd(.x,   na.rm = TRUE)
-        if (is.na(m) || m == 0) NA_real_ else s / m
-      },
-      .names = "{.col}_CV"
-    ),
+
       .by = c("plotID", "Year", "Month")
   )
     
@@ -467,15 +709,17 @@ climate2024
 names(climate2024)
 
 climate2024 %>% 
-  filter(is.na(Ta_200_extremely_hot_days_sum))
+  filter(is.na(precipitation_radolan_rain_days_mean))
 
 climate2023 <- read_csv("data/raw_data/BiodExpl/climate_data_November_2023.csv") %>% 
-select(plotID, datetime,
-       PAR_200, precipitation_radolan, precipitation_radolan_acc,
-       rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex,
-       # binary variables
-       "Ta_200_extremely hot days", Ta_200_extremely_cold_days,
-       Ta_200_heating_degree_days) %>% 
+  select(plotID, datetime ,
+         precipitation_radolan_rain_days,
+         precipitation_radolan, precipitation_radolan_acc,
+         Ta_10, Ta_10_max, rH_200_DMR,
+         Ta_200, Ta_200_heat_index, Ta_200_humidex,
+         # binary variables
+         "Ta_200_extremely hot days", Ta_200_extremely_cold_days,
+         Ta_200_heating_degree_days) %>% 
   rename(
     Ta_200_extremely_hot_days = "Ta_200_extremely hot days") %>%
   mutate(Year = 2023, .after = plotID) %>%
@@ -485,41 +729,39 @@ select(plotID, datetime,
     .after = Year) %>% 
   summarise(
     across(
-      c(PAR_200, precipitation_radolan, precipitation_radolan_acc,
-        rH_200, Ta_200, Ta_200_heat_index, Ta_200_humidex),
+      c(precipitation_radolan_rain_days,
+        precipitation_radolan, precipitation_radolan_acc,
+        Ta_10, Ta_10_max, rH_200_DMR,
+        Ta_200, Ta_200_heat_index, Ta_200_humidex),
       ~ mean(.x, na.rm = TRUE), .names = "{.col}_mean"),
     across(
       c(Ta_200_extremely_hot_days, Ta_200_extremely_cold_days,
         Ta_200_heating_degree_days),
       ~ sum(.x, na.rm = TRUE), .names = "{.col}_sum"),
-    across(
-      c(precipitation_radolan, rH_200, Ta_200),
-      ~ {
-        m <- mean(.x, na.rm = TRUE)
-        s <- sd(.x,   na.rm = TRUE)
-        if (is.na(m) || m == 0) NA_real_ else s / m
-      },
-      .names = "{.col}_CV"
-    ),
+    
     .by = c("plotID", "Year", "Month")
   )
 
-climate2023
 
 climate2023 %>% 
-  filter(is.na(Ta_200_extremely_hot_days_sum))
+  arrange(plotID, Year, Month)
+
+climate2023 %>% 
+  filter(is.na(precipitation_radolan_rain_days_mean))
 
 
 # Merge climate data for 2023 and 2024
 climate_data <- bind_rows(climate2023, climate2024)
-climate_data
+climate_data%>% 
+  filter(is.na(Ta_10_mean))
 
 
 # check missing data if merged
 merged_tree_data %>% 
-  left_join(climate_data, by = c("Plot" = "plotID", "Year", "Month")) %>% 
+  left_join(climate_data, by = c("Plot" = "plotID" , "Year", "Month")) %>% 
   filter(!Outside==TRUE) %>% 
-  filter(is.na(Ta_200_extremely_hot_days_sum )) %>% 
+  select(Plot, Year, Month, Ta_200_mean) %>%
+  filter(is.na(Ta_200_mean)) %>% 
   print(n=Inf)
 
 # Tree hole mapping data-----------------------------------------------

@@ -931,7 +931,14 @@ landscape_data %>%
 
 
 # Main Land types - proportions per plot
-land_types_proportions <-  landscape_data %>% 
+# for all resolution classes of land-use type
+land_types_proportions_all <- landscape_data %>% 
+  mutate(LandType_name = word(LandType_name, 1)) 
+
+write_csv(land_types_proportions_all, "data/processed_data/Landscape_types_all.csv")
+
+# for class_0:
+land_types_proportions_class_0 <-  landscape_data %>% 
   filter(LandType_level=="class_0") %>%
   # in LandType_name keep only first word
   mutate(LandType_name = word(LandType_name, 1)) %>% 
@@ -939,14 +946,13 @@ land_types_proportions <-  landscape_data %>%
   pivot_wider(names_from = LandType_name, 
               values_from = LandType_percent,
               values_fill = 0
-              ) %>%
+  ) %>%
   mutate(Forest_percent = Forest,
          Agricultural_percent=Agricultural+Bare,
          Water_bodies_percent=Mire+Water, 
          Urban_percent=Transportation + Settlements, 
          LandType_level="class_0",  
          .keep ="unused") 
-
 
 # Calculate landscape heterogeneity metrics
 landscape_heterogeneity <- landscape_data %>%
@@ -955,8 +961,10 @@ summarise(
   LandType_Shannon = vegan::diversity(LandType_percent, index = "shannon"),
   LandType_even = vegan::diversity(LandType_percent, index = "invsimpson"),
   .by = c(plotID, buffer_size_m, LandType_level)) %>% 
-  left_join(land_types_proportions, 
-            by = c("plotID", "buffer_size_m", "LandType_level"))
+  pivot_wider(names_from = LandType_level, 
+              values_from = c(LandType_richness, LandType_Shannon, LandType_even)) %>%
+  left_join(land_types_proportions_class_0, 
+            by = c("plotID", "buffer_size_m"))
   
 
 
@@ -965,12 +973,10 @@ merged_tree_data %>%
   left_join(landscape_heterogeneity %>% 
               filter(LandType_level=="class_0" & buffer_size_m==500),
             by = c("Plot" = "plotID")) %>% 
-  filter(!Outside==TRUE) %>% 
-  filter(is.na(LandType_richness)) %>% 
+#  filter(!Outside==TRUE) %>% 
+  filter(is.na(LandType_richness_class_0)) %>% 
   print(n=Inf)
 
 
 
 write_csv(landscape_heterogeneity, "data/processed_data/Landscape_heterogeneity.csv")
-
-

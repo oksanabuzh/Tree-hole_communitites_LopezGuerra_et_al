@@ -24,6 +24,12 @@ environm <- read_csv("data/processed_data/Environment_ALL.csv") %>%
                                         "Cut tree", "Root",  NA)))
 str(environm)
 
+
+
+landscape_heterogeneity <- read_csv("data/processed_data/Landscape_heterogeneity.csv")
+
+
+
 Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
   mutate(Tree_hole_type_coarse=factor(Tree_hole_type_coarse, levels=c("pan", "rot"))) %>% 
@@ -69,19 +75,52 @@ Diversity_2023_2024_log <- Diversity_2023_2024 %>%
 # Selected predictors: -----------------------------------------------------
 
 ## abundance: ------
-# Openness + 
-# perc_Carpinus_betulus 
+# Tree_abundance_log
+# Openness + Vertical_structure + 
+# LandType_richness_class_2 (500 m) +
+# Forest_percent +Agricultural_percent + Urban_percent +
+# precipitation_radolan_mean +
+# perc_Carpinus_betulus + 
 
 # biomass_dry_mg:
-# Vertical_structure + Openness + ?Very_large_trees + 
-# Tree_sp_richness_log + Tree_abundance_log +
+# # Tree_abundance_log + Tree_sp_richness_log +
+# ssci # "Stand structural complexity" +
+# Vertical_structure +  
+# precipitation_radolan_mean
 # perc_Carpinus_betulus 
-# ssci # "Stand structural complexity"
+
+# LandType_richness_class_2 (500 m) +
+# Forest_percent, Agricultural_percent, Urban_percent
+
 
 # sp_richness:
-# Standing_deadwood + 
-# "Inonat_2018_log", "Iharv_2018", "Idwcut_2018", "Formi_2018"           
-# "Inonat_mean_2012_2018_log", "Iharv_mean_2012_2018", "Idwcut_mean_2012_2018", "Formi_mean_2012_2018"
+# Openness  + Vertical_structure + Standing_deadwood + 
+# Inonat_mean_2012_2018_log + Iharv_mean_2012_2018 + Idwcut_mean_2012_2018 + Formi_mean_2012_2018 +
+# OR "Inonat_2018_log", "Iharv_2018", "Idwcut_2018", "Formi_2018"           
+# Agricultural_percent
+
+
+# All selected predictors: ----------
+
+# Land Use>
+## Inonat_mean_2012_2018_log + Iharv_mean_2012_2018 + Idwcut_mean_2012_2018 + 
+## Formi_mean_2012_2018 +
+
+# Landscape: 
+## LandType_richness_class_2 (500 m) + Forest_percent + Agricultural_percent + Urban_percent
+
+# Tree community:
+## Tree_abundance_log + Tree_sp_richness_log
+
+# Structural complexity
+##ssci # "Stand structural complexity"
+
+# Plot biodiversity potential 
+### Openness  + Vertical_structure + Standing_deadwood +
+
+# Climate:
+## precipitation_radolan_mean
+
 
 
 
@@ -107,10 +146,10 @@ names(Diversity_2023_2024)
 
 
 ## Plot biodiversity potential -------------------------------------------------------------
-c( "Vertical_structure",
-   "Standing_deadwood", "Lying_deadwood",
-   "Very_large_trees", "Habitat_trees",
-   "Openness",  "IBPscore")
+preds1 <- c("Vertical_structure", 
+            "Standing_deadwood", "Lying_deadwood", 
+            "Very_large_trees", "Habitat_trees",
+            "Openness",  "IBPscore")
 
 # Structural complexity: ---------------------------------------------
 # enl  - "Vertical stand structure"
@@ -118,7 +157,7 @@ c( "Vertical_structure",
 # canopy.openness -"Canopy openness"
 # "enl", "ssci", "canopy.openness"
 
-c("Vert_stand_struct", "Stand_struct_complex" "canopy.openness")
+preds1 <- c("Vert_stand_struct", "Stand_struct_complex", "canopy.openness")
 
 ## Tree composition -----
 preds1 <- c("perc_Betula_pendula","perc_Fagus_sylvatica","perc_Pinus_sylvestris",
@@ -154,11 +193,44 @@ preds3 <- c("r20_Morisita","spat_clarkevans","spat_Pielou","spat_spM","spat_TD",
             "spat_SCI_d","spat_Th","spat_SCI_h")
 
 
-# Define predictors:
+# Climate -------------------------------------------------
 
-preds <- c("Vert_stand_struct", "Stand_struct_complex", "canopy.openness")
+preds0 <- c("precipitation_radolan_rain_days_mean","precipitation_radolan_acc_mean", "rH_200_DMR_mean",
+            "Ta_10_mean","Ta_10_max_mean")
+
+preds1 <- c("precipitation_radolan_mean","precipitation_radolan_acc_mean", "Ta_200_mean","Ta_200_heat_index_mean",
+            "Ta_200_humidex_mean")
+
+preds2 <- c(#"Ta_200_extremely_hot_days_sum", 
+  "Ta_200_extremely_cold_days_sum","Ta_200_heating_degree_days_sum")
 
 
+# Landscape heterogeneity (biotops) ------------------------------------------
+
+df1 <- Diversity_2023_2024_log %>%
+  left_join(landscape_heterogeneity %>% 
+              filter(buffer_size_m==250),
+            by = c("Plot" = "plotID"))
+
+df2 <- Diversity_2023_2024_log %>%
+  left_join(landscape_heterogeneity %>% 
+              filter(buffer_size_m==500),
+            by = c("Plot" = "plotID"))
+
+
+names(df1)
+preds1 <- c("Forest_percent", "Agricultural_percent", 
+             "Water_bodies_percent", "Urban_percent")
+
+preds2 <- c("LandType_richness_class_0", "LandType_Shannon_class_0", "LandType_even_class_0",
+           "LandType_richness_class_0", "LandType_Shannon_class_0", "LandType_even_class_0",
+           "LandType_richness_class_2", "LandType_Shannon_class_2", "LandType_even_class_2")
+
+# Define predictors: ----------------------------------------------------
+
+
+preds <- c("Forest_percent", "Agricultural_percent", 
+           "Water_bodies_percent", "Urban_percent")
 
 
 # abundance  ---------------------------------
@@ -183,7 +255,7 @@ plots <- map(preds, function(var) {
     labs( x = var, y = response)
 })
 
-ncol <- 3
+ncol <- 4
 nrow <- ceiling(length(plots) / ncol)
 ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
 
@@ -219,7 +291,7 @@ response3 <- c("sp_richness")
 
 plots <- map(preds, function(var) {
   datp <- Diversity_2023_2024_log %>% 
-    filter(sp_richness<9) %>% # outlier in forest management plots
+    #filter(sp_richness<9) %>% # outlier in forest management plots
     select(all_of(c(response3, var))) %>%
     na.omit()
   ggplot(datp, aes_string(x = var, y = response3)) +

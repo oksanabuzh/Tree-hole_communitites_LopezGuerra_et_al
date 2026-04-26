@@ -1,4 +1,4 @@
-#   
+#   Analysis of the drivers of tree-hole insect abundance in 2023-2024f 
 
 library(tidyverse)
 library(car)
@@ -14,6 +14,7 @@ library(conflicted)
 # Prefer dplyr's select whenever there is a conflict
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
+
 # data -------------------------------------------------------
 environm <- read_csv("data/processed_data/Environment_ALL.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
@@ -30,7 +31,7 @@ Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %
                                levels=c("Division", "Branch", "Trunk", 
                                         "Cut tree", "Root",  NA))) %>% 
   select(Plot, Tree_ID, Treehole_number, Year, Month,
-         abundance,	sp_richness,	Hill_Simpson,	Hill_Shannon) %>% 
+         abundance,	sp_richness,	biomass_dry_mg) %>% 
   left_join(environm,
             by=c("Plot", "Tree_ID", "Treehole_number", "Year", "Month")) %>% 
   #% per ha of open areas (clearings, edges and other areas with a well-developed herb layer composed of flowering plants): 0 = 0%, 2 = < 1% or > 5%, 5 = 1 to 5%
@@ -49,6 +50,20 @@ Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %
   )
 
 str(Diversity_2023_2024)
+
+
+
+# selected -----------------------------------------------------------
+
+m1 <- glm(abundance ~ #SMI_mean_2018_2020 + 
+            # DBH, 
+            tree_heigth, 
+          family = quasipoisson,
+          data=Diversity_2023_2024)
+
+check_overdispersion(m1)
+summary(m1)
+Anova(m1)
 
 # Tree properties------------------------------------------------------
 
@@ -177,7 +192,6 @@ Diversity_2023_2024 %>%
 
 names(Diversity_2023_2024)
 
-
 response <- "abundance"
 preds <- c( "Vertical_structure",
            "Standing_deadwood", "Lying_deadwood",
@@ -217,10 +231,10 @@ ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
 
 m1 <- glm(abundance ~ #
             #    log1p(Tree_sp_richness) ,
-          log1p(Tree_abundance) ,
-       #  Openness ,
+          log1p(Tree_abundance) +
+         Openness +
         #  log1p(IBPscore), 
-       #  Vertical_structure,
+        Vertical_structure,
           family = poisson,
           data=Diversity_2023_2024)
 check_overdispersion(m1)
@@ -615,12 +629,12 @@ ggarrange(plotlist = plots, ncol = ncol, nrow = nrow)
 df1 <- Diversity_2023_2024 %>%
   left_join(landscape_heterogeneity %>% 
               filter(LandType_level=="class_2" & buffer_size_m==250),
-            by = "Plot") 
+            by = c("Plot" = "plotID"))
 
 df2 <- Diversity_2023_2024 %>%
   left_join(landscape_heterogeneity %>% 
               filter(LandType_level=="class_2" & buffer_size_m==500),
-            by = "Plot") 
+            by = c("Plot" = "plotID"))
 
 
 response <- "abundance"

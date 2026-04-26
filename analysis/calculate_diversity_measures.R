@@ -9,7 +9,15 @@ library(vegan)
 # Load and process data --------------------------------------------------------
 
 # Read community data from 2023 and 2024
-Community <- read_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv") 
+Community <- read_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv") %>% 
+  # merge with body-mass data:
+  left_join(read_csv("data/processed_data/Traits_2023_2024_final_DNA_corrected.csv") %>% 
+              select(Sp_ID_DNAcorrected, dry_weight_mg), 
+            by = c("Sp_ID_DNAcorrected"))
+
+# check for any missing body mass values
+Community %>% 
+  filter(is.na(dry_weight_mg))
   
 
 # Calculate diversity and biomass metrics for each unique tree hole
@@ -17,7 +25,7 @@ Diversity_2023_2024 <- Community %>%
   summarise(
     # Total number of individuals across all species in each tree hole
     abundance = sum(Abundance, na.rm = TRUE),
-    biomass_dry_mg = sum(Body_mass_dry_mg, na.rm = TRUE), 
+    biomass_dry_mg = sum(dry_weight_mg, na.rm = TRUE), 
     # Number of unique species (species richness) in each tree hole
     sp_richness = n_distinct(Sp_ID_DNAcorrected),
     

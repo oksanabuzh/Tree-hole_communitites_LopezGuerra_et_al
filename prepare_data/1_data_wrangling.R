@@ -112,7 +112,11 @@ Community_2023_2024 <- bind_rows(
                            Reason_missing=="Idenfitication/GPS_problem" ~ Tree_ID_Bexis,
                            Reason_missing=="Division" ~ Tree_ID_Bexis, # tree a in tree division is always larger than tree b
                            .default=Tree_ID)) %>% 
-  select(-Reason_missing, -Tree_ID_Bexis, -Tree_ID_Bexis_devision_2)
+  select(-Reason_missing, -Tree_ID_Bexis, -Tree_ID_Bexis_devision_2) %>% 
+  mutate(Sp_ID=ifelse(Sp_ID=="Syprh", "Syrph", Sp_ID)) # mistake  
+  
+Community_2023_2024 %>% 
+  filter(str_detect(Sp_ID, "Syrph")) 
 
 # EXPLORATORY CHECKS -----------------------------------------------------------
 
@@ -148,8 +152,7 @@ Community_2023_2024 %>% filter(is.na(Sampling_date))
 
 
 
-
-## Write data -----------------------------------------------------------------------
+# COMMUNITY DATA (DNA corrected) ---------------------------------------------------------------
 
 names(Community_2023_2024)
 
@@ -174,12 +177,36 @@ Community_2023_2024 %>%
 DNA_dat <- read_csv("data/raw_data/Community_2023_2024_Sp_ID_DNAcorrected.csv") %>% 
   select(-Abundance) %>% 
   mutate(Sampling_date=lubridate::dmy(Sampling_date)) %>% 
-  mutate(Sp_ID_DNAcorrected=ifelse(Sp_ID_DNAcorrected=="Syprh2", "Syprh", Sp_ID_DNAcorrected), 
-         Species=ifelse(Species=="Syrphidae sp.2", "Syprhidae sp.", Species)) %>% 
+#  mutate(# Sp_ID_DNAcorrected=ifelse(Sp_ID_DNAcorrected=="Syrph2", "Syrph", Sp_ID_DNAcorrected), 
+#         Species=ifelse(Species=="Syrphidae sp.2", "Syrphidae sp.", Species)) %>% 
   mutate(Species=ifelse(Sp_ID_DNAcorrected=="Ceratopogonidae", "Ceratopogonidae sp.", Species)) %>% 
   mutate(Species=ifelse(Species=="Poecilobothrus nobilitatus20", "Poecilobothrus nobilitatus", Species)) 
 
+DNA_dat %>% 
+  filter(Species=="Syrphidae sp.")
 
+DNA_dat %>% 
+  filter(str_detect(Sp_ID_DNAcorrected, "Syrph")) 
+# Syrph and Syrph2 (Sp_ID=="Fagi") were identifyed as morphologically different species. No DNA analysis was performed on them.
+# Syrph has body size directly identified 
+
+
+# Merge with community data:
+
+Community_final <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
+  left_join(DNA_dat, by = c("Plot", "Tree_ID", "Treehole_number", "Year", "Month", 
+                            "Sampling_date", "Tree_hole_type", "Tree_hole_type_coarse",
+                            "Tree_hole_opening", "Outside", "Sp_ID")) %>% 
+  #  left_join(traits_final %>% 
+  #              select(Sp_ID, dry_weight_mg), by = c("Sp_ID")) %>% 
+  group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
+           Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside, 
+           Sp_ID_DNAcorrected, Species) %>% 
+  summarise(Abundance = sum(Abundance), .groups = "drop")  
+
+## Write data -----------------------------------------------------------------------
+Community_final %>% 
+  write_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv")
 
 
 # TRAITS DATA --------------------------------------------------------------------
@@ -202,12 +229,14 @@ DNA_dat <- read_csv("data/raw_data/Community_2023_2024_Sp_ID_DNAcorrected.csv") 
 
 # Traits for this study
 traits_2023_2024 <- read_csv("data/raw_data/traits/Traits_Community_2023_2024.csv") %>% 
-  dplyr::select(-body_size, -Notes) %>%
   mutate(predator=ifelse(is.na(predator), 0, predator),
          decomposer=ifelse(is.na(decomposer), 0, decomposer)) %>% 
   rename(Order_DNA_corrected = "Order",
          Sp_ID_DNAcorrected="Sp_ID_correctedDNA") %>% 
-  mutate(Family_DNA_corrected = ifelse(Family_DNA_corrected=="Tupulidae", "Tipulidae", Family_DNA_corrected)) # mistake in family Tipulidae
+  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Dasyhelea" & Sp_ID_DNAcorrected=="Ceratopogonidae", 
+                                    "Ceratopogonidae", Genus_DNA_corrected)) %>% 
+  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Syrphidae sp.2", "Syrphidae", Genus_DNA_corrected)) 
+  
 
 
 traits_2023_2024 %>% 
@@ -232,21 +261,13 @@ DNA_ID_unique <- DNA_dat %>%
   print(n=Inf)
 
 ## Check if Sp_ID match in community data and in trait data----------------------------
-Missing_species_in_traits <- DNA_ID_unique %>% 
+DNA_ID_unique %>% 
   left_join(traits_2023_2024 %>% 
               group_by(Sp_ID, Sp_ID_DNAcorrected, predator) %>%  count() %>% select(-n), 
-            by = c("Sp_ID")) 
-
-
-Missing_species_in_traits %>% 
+            by = c("Sp_ID")) %>% 
   print(n=Inf)
 
-## !!!Silvia <-- missing Fagi and M_obscura ------------------------------------------------
 
-write_csv(Missing_species_in_traits %>% 
-            select(Sp_ID, Sp_ID_DNAcorrected.x) %>% 
-            rename(Sp_ID_DNAcorrected="Sp_ID_DNAcorrected.x"),
-          "data/Missing_Sp_ID_in_traits_17.04.2026.csv")
 
 ## Join with body size measurements ----------------------------------------------
 
@@ -267,6 +288,8 @@ BodySize_mean_Sp_ID <- body_size_all %>%
   summarise(Sp_ID_wet_weight = mean(wet_weight_mg, na.rm = TRUE), 
             Sp_ID_length = mean(length_mm, na.rm = TRUE),
             Sp_ID_dry_weight = mean(dry_weight_mg, na.rm = TRUE),
+             Sp_ID_Indiv_n = n(),
+             Body_size_level = "Sp_ID",
             .by = c("Sp_ID")) %>% 
   left_join(traits_2023_2024 %>% 
               dplyr::select(Sp_ID, Sp_ID_DNAcorrected), by = c("Sp_ID")) %>% 
@@ -280,9 +303,11 @@ BodySize_mean_SpID_DNA_Corr <-  body_size_all %>%
   summarise(wet_weight_mg = mean(wet_weight_mg, na.rm = TRUE), 
             length_mm = mean(length_mm, na.rm = TRUE),
             dry_weight_mg = mean(dry_weight_mg, na.rm = TRUE),
+            Indiv_n = n(),
+            Body_size_level = "SpID_DNA_Corr",
             .by = c("Sp_ID_DNAcorrected"))  
 
-traits_2023_2024 %>% 
+BodySize_mean_SpID_DNA_Corr %>% 
   print(n=Inf)
 
 # Summarised body size data by Family_DNA_corrected
@@ -295,6 +320,7 @@ BodySize_mean_Family_DNA_corrected <- body_size_all %>%
     Family_DNA_wet_weight_mg = mean(wet_weight_mg, na.rm = TRUE),
     Family_DNA_length_mm = mean(length_mm, na.rm = TRUE),
     Family_DNA_dry_weight_mg = mean(dry_weight_mg, na.rm = TRUE),
+    Family_DNA_Indiv_n = n(),
     .by = "Family_DNA_corrected")
 
 
@@ -302,102 +328,72 @@ BodySize_mean_Family_DNA_corrected <- body_size_all %>%
 traits_final <- traits_2023_2024 %>% 
   mutate(Genus_DNA_corrected = ifelse(is.na(Genus_DNA_corrected), Family_DNA_corrected, Genus_DNA_corrected)) %>%
   left_join(BodySize_mean_SpID_DNA_Corr, by = c("Sp_ID_DNAcorrected")) %>% 
-  relocate(c(Sp_ID_DNAcorrected, Sp_ID, wet_weight_mg, length_mm, dry_weight_mg),  
+  relocate(c(Sp_ID_DNAcorrected, Sp_ID, wet_weight_mg, length_mm, dry_weight_mg, Indiv_n, Body_size_level),  
            .before = Order_DNA_corrected) %>% 
  left_join(BodySize_mean_Family_DNA_corrected, by = c("Family_DNA_corrected")) %>% 
-  mutate(wet_weight_mg = ifelse(is.na(wet_weight_mg), Family_DNA_wet_weight_mg, wet_weight_mg),
+  mutate(Body_size_level = ifelse(is.na(dry_weight_mg), "Family_DNA_corr", Body_size_level),
+         Indiv_n = ifelse(is.na(dry_weight_mg), Family_DNA_Indiv_n, Indiv_n),
+         wet_weight_mg = ifelse(is.na(wet_weight_mg), Family_DNA_wet_weight_mg, wet_weight_mg),
          length_mm = ifelse(is.na(length_mm), Family_DNA_length_mm, length_mm),
          dry_weight_mg = ifelse(is.na(dry_weight_mg), Family_DNA_dry_weight_mg, dry_weight_mg)) %>% 
   # Fill NA with the literature data:
-  mutate(dry_weight_mg = ifelse(Family_DNA_corrected=="Tipulidae", 1.41, dry_weight_mg), # https://doi.org/10.3390/ijerph19063240
-         length_mm = ifelse(Family_DNA_corrected=="Tipulidae", 10, length_mm)) %>%           # https://doi.org/10.3390/ijerph19063240
+  mutate(dry_weight_mg = ifelse(Family_DNA_corrected=="Tipulidae", 1.41, dry_weight_mg), # Table 3 in https://doi.org/10.3390/ijerph19063240 (Estimate based on the literature allometric relationship)
+         length_mm = ifelse(Family_DNA_corrected=="Tipulidae", 10, length_mm), # Table 3 in https://doi.org/10.3390/ijerph19063240 (Estimate based on the literature allometric relationship)
+         Indiv_n = ifelse(Family_DNA_corrected=="Tipulidae", 53, Indiv_n), # Table 2  in https://doi.org/10.3390/ijerph19063240
+         Body_size_level = ifelse(Family_DNA_corrected=="Tipulidae", "Literature", Body_size_level)) %>%          
   mutate(dry_weight_mg = ifelse(Family_DNA_corrected=="Tabanidae", 0.0001*(10^4.2208), dry_weight_mg), # DM <- a * L^b with a=0.0001, b=4.2208, L=10mm from Poepperl, R., 1998. Biomass determination of aquatic invertebrates in the Northern German lowland using the relationship between body length and dry mass. Faunistisch-Ökologische Mitteilungen, 7, pp.379-386. https://www.zobodat.at/pdf/Faun-Oekol-Mitt_7_0379-0386.pdf
-         length_mm = ifelse(Family_DNA_corrected=="Tabanidae", 10, length_mm)) %>% 
-# !!! Silvia: there is mismatch in Genus_DNA_corrected with the Sp_ID_DNA  ------------------------------------------------------------------------------
-  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Dasyhelea" & Sp_ID_DNAcorrected=="Ceratopogonidae", "Ceratopogonidae", Genus_DNA_corrected)) 
+         length_mm = ifelse(Family_DNA_corrected=="Tabanidae", 10, length_mm), # range 5.0-15.0 mm (Tab. 1 in https://www.zobodat.at/pdf/Faun-Oekol-Mitt_7_0379-0386.pdf)
+         Indiv_n = ifelse(Family_DNA_corrected=="Tabanidae", 19, Indiv_n), # n=19 individuals (Tab. 1 in https://www.zobodat.at/pdf/Faun-Oekol-Mitt_7_0379-0386.pdf)
+         Body_size_level = ifelse(Family_DNA_corrected=="Tabanidae", "Literature", Body_size_level)) %>% 
+  select(-Family_DNA_wet_weight_mg, -Family_DNA_length_mm, -Family_DNA_dry_weight_mg, -Family_DNA_Indiv_n) %>% 
+  rename(Indiv_number_for_body_size_estimation=Indiv_n,
+         Level_of_aggregation_for_body_size_estimation=Body_size_level) %>% 
+  left_join(DNA_dat %>% 
+              select(Sp_ID_DNAcorrected, Species) %>%
+              summarise(Species = unique(Species), .by = c("Sp_ID_DNAcorrected")),
+            by = "Sp_ID_DNAcorrected") %>% 
+  relocate(Species, .after = Sp_ID_DNAcorrected) 
 
 traits_final%>% 
   print(n=Inf)
 
 
+
 write_csv(traits_final, "data/processed_data/Traits_2023_2024_final.csv")
 
-
-
-
-
-# COMMUNITY DATA ---------------------------------------------------------------
-
-
-DNA_dat %>% 
-  group_by(Sp_ID, Sp_ID_DNAcorrected, Species) %>%
-  count() %>% 
+traits_final %>% 
+  group_by(Sp_ID_DNAcorrected) %>% 
+  count() %>% ungroup() %>% 
+  arrange(desc(n)) %>%
   print(n=Inf)
 
+# are traits repetitive for the same Sp_ID_DNAcorrected? 
 traits_final %>% 
-  filter(Sp_ID_DNAcorrected %in% c("Syprh", "Ceratopogonidae"))
-
-
-traits_final_DNA_grouped <- traits_final %>%
-  summarise(predator = mean(predator, na.rm = TRUE),
-            decomposer = mean(decomposer, na.rm = TRUE),
-            Treehole_specialist = unique(Treehole_specialist),
-            .by = c("Sp_ID_DNAcorrected", "Family_DNA_corrected", "Genus_DNA_corrected")) %>% 
-  # !!! Silvia: before Silvia corrects traits I add  D_flaviformis manually
-  add_row(Sp_ID_DNAcorrected = "D_flaviformis", 
-          Family_DNA_corrected = "Ceratopogonidae", 
-          Genus_DNA_corrected = "Dasyhelea",
-          predator = 1,
-          decomposer = 1,
-          Treehole_specialist = TRUE)
-
-
-# Before !!! Silvia corrects the Sp_Id in trait data ------
-Syprh_dry_weight <- traits_final %>% 
-  filter(Sp_ID_DNAcorrected =="Syprh") %>% 
-  pull(dry_weight_mg)
-
-Cerat_dry_weight <- traits_final %>% 
-  filter(Sp_ID_DNAcorrected =="Ceratopogonidae") %>% 
-  pull(dry_weight_mg) %>% 
-  mean()
-
-Community_final <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
-  left_join(DNA_dat, by = c("Plot", "Tree_ID", "Treehole_number", "Year", "Month", 
-                            "Sampling_date", "Tree_hole_type", "Tree_hole_type_coarse",
-                            "Tree_hole_opening", "Outside", "Sp_ID")) %>% 
-  left_join(traits_final %>% 
-              select(Sp_ID, dry_weight_mg), by = c("Sp_ID")) %>%
-  # !!! Silvia:  Replace NAs until Silvia will correct the data ------------------------------------------------
-  mutate(dry_weight_mg=ifelse(is.na(dry_weight_mg) & Sp_ID_DNAcorrected =="Syprh", Syprh_dry_weight, dry_weight_mg)) %>%
-  mutate(dry_weight_mg=ifelse(is.na(dry_weight_mg) & Sp_ID_DNAcorrected =="D_flaviformis", Cerat_dry_weight, dry_weight_mg)) %>%
-  # ------------------------------------------------------------------------------------------------------------#
-  group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
-           Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside, 
-           Sp_ID_DNAcorrected, Species) %>% 
-  summarise(Abundance = sum(Abundance), .groups = "drop",
-            Body_mass_dry_mg=mean(dry_weight_mg, na.rm = TRUE)) %>% 
-  left_join(traits_final_DNA_grouped, 
-             by = c("Sp_ID_DNAcorrected")) 
-
-# check NAs
-Community_final %>% 
-  filter(is.na(Body_mass_dry_mg)) 
-
-Community_final %>% 
-  filter(is.na(predator))
-
-# check if there are repeated species 
-Community_final %>% 
-  group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
-           Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside, Sp_ID_DNAcorrected) %>%
+  group_by(Sp_ID_DNAcorrected, wet_weight_mg,	length_mm,	dry_weight_mg) %>% 
   count() %>% ungroup() %>% 
-  filter(n > 1) %>% 
-  dplyr::select(Plot, Sp_ID_DNAcorrected, n)
+  arrange(desc(n)) %>%
+  print(n=Inf)
+# Yes, same as above
 
 
-Community_final %>% 
-  write_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv")
+# grouped traits by Sp_ID_DNAcorrected
+traits_final_DNA_grouped <- traits_final %>%
+  summarise(length_mm = unique(length_mm),
+            dry_weight_mg = unique(dry_weight_mg),
+            Indiv_number_for_body_size_estimation = unique(Indiv_number_for_body_size_estimation),
+            Level_of_aggregation_for_body_size_estimation = unique(Level_of_aggregation_for_body_size_estimation),
+            predator = unique(predator),
+            decomposer = unique(decomposer),
+            Treehole_specialist = unique(Treehole_specialist),
+            .by = c("Sp_ID_DNAcorrected", "Species", 
+                    "Family_DNA_corrected", "Genus_DNA_corrected"))
+
+
+traits_final_DNA_grouped %>%
+#  mutate(length_mm=round(length_mm, 2),
+#         dry_weight_mg=round(dry_weight_mg, 3)) %>%
+  write_csv("data/processed_data/Traits_2023_2024_final_DNA_corrected.csv")
+
 
 ### ENVIRONMENTAL DATA  --------------------------
 Community_final %>% 

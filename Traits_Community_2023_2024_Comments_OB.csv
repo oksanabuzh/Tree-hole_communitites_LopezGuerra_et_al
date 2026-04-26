@@ -1,0 +1,30 @@
+Order,Sp_ID,Sp_ID_correctedDNA,Family_DNA_corrected,Genus_DNA_corrected,predator,decomposer,Treehole_specialist
+Diptera,Aedes_geniculatus,Aedes_geniculatus,Culicidae,Aedes,,1,T
+Diptera,Anopheles_plumbeus,Anopheles_plumbeus,Culicidae,Anopheles,,1,T
+Diptera,Dashylea_sp,Ceratopogonidae,Ceratopogonidae,Dasyhelea,1,1,T
+Diptera,Cera6,Ceratopogonidae,Ceratopogonidae,NA,1,1,T
+Diptera,Cera_5,Ceratopogonidae,Ceratopogonidae,NA,1,1,T
+Diptera,Tipu,Ctenophora,Tipulidae,Ctenophora,,1,T
+Diptera,Culex_hort,Culex_hort,Culicidae,Culex,,1,F
+Diptera,Culex_torr,Culex_torr,Culicidae,Culex,,1,F
+Diptera,M_obscura,D_flaviformis,Ceratopogonidae,Dasyhelea flavifrons,1,1,T
+Diptera,Stratio_sp,E_tarsalis,Stratiomyidae,Eupachygaster,1,,F
+Diptera,Tipulidae_sp5,H_pertusa,Muscidae,Helina,1,,F
+Diptera,Faniidae,Lepiseodina,Psychodidae,Lepiseodina,,1,F
+Diptera,Met_cavicola,Met_cavicola,Chironomidae,Metriocnemus ,1,1,T
+Diptera,Myia_flor,Myia_flor,Syrphidae,Myanthropa,1,,T
+Diptera,Stratio_sp3,O_annulata,Stratiomyidae,Odontomyia,1,,T
+Diptera,Chironomous_sp,Orthocladiinae,Chironomidae,NA,1,1,F
+Diptera,Chiro_sp3,Orthocladiinae,Chironomidae,NA,1,1,F
+Diptera,Chiro_sp6,Orthocladiinae,Chironomidae,NA,1,1,F
+Diptera,Doli_sp20,P_nobilatus,Dolichopodidae,Poecilobothrus,1,,F
+Diptera,Doli_sp,P_nobilatus,Dolichopodidae,Poecilobothrus,1,,F
+Coleoptera,P_serricornis,P_serricornis,Scirtidae,Prionocyphon,,1,T
+Diptera,Phaonia_subventa,Phaonia_sp,Muscidae,Phaonia,1,,F
+Diptera,New_Phaonia,Phaonia_sp,Muscidae,Phaonia,1,,F
+Diptera,Clogmia_sp,Psychodidae_sp,Psychodidae,NA,,1,F
+Diptera,Psy6,Psychodidae_sp,Psychodidae,NA,,1,F
+Diptera,Silvicola_sp,Silvicola_sp,Anisopodidae,Silvicola,1,1,F
+Diptera,Fagi,Syrph2,Syrphidae,Syrphidae sp.2,,1,F
+Diptera,Syrph,Syrph,Syrphidae,NA,,1,F
+Diptera,Taba,Taba,Tabanidae,NA,1,,F

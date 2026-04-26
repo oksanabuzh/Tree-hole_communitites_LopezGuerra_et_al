@@ -195,7 +195,15 @@ Diversity_2023_2024 %>%
   geom_boxplot(outliers = F, notch = F) +
   geom_jitter(width=0.2, height=0, alpha=0.7, 
               color="#086096") +
-  labs(y= "Abundance", color="Year") +
+  labs(y= "Abundance") +
+  theme_bw()
+
+Diversity_2023_2024 %>% 
+  ggplot(aes(y=biomass_dry_mg, x=Month)) +
+  geom_boxplot(outliers = F, notch = F) +
+  geom_jitter(width=0.2, height=0, alpha=0.7, 
+              color="#086096") +
+  labs(y= "Biomass") +
   theme_bw()
 
 Diversity_2023_2024 %>% 
@@ -203,8 +211,9 @@ Diversity_2023_2024 %>%
   geom_boxplot(outliers = F, notch = F) +
   geom_jitter(width=0.2, height=0, alpha=0.7, 
               color="#086096") +
-  labs(y= "Species richnss", color="Year") +
-  theme_bw()
+  labs(y= "Species richnss") +
+  theme_bw()+
+  scale_y_continuous(breaks = seq(0, 10, by = 2))
 
 
 Diversity_2023_2024 %>% 
@@ -218,13 +227,23 @@ Diversity_2023_2024 %>%
 
 Diversity_2023_2024 %>% 
   filter(!is.na(Tree_hole_type)) %>%
+  ggplot(aes(x=Tree_hole_type, y = biomass_dry_mg, color=Tree_hole_type_coarse)) +
+  geom_boxplot(outliers = F) +
+  geom_jitter(width=0.2, height=0.05, alpha=0.7, size=2) +
+  labs(y= "Biomass", x="Tree-hole type", color="Tree-hole type") +
+  scale_color_manual(values=hole_type_color) +
+  theme_bw() 
+
+
+Diversity_2023_2024 %>% 
+  filter(!is.na(Tree_hole_type)) %>%
   ggplot(aes(x=Tree_hole_type, y = sp_richness, color=Tree_hole_type_coarse)) +
   geom_boxplot(outliers = F) +
   geom_jitter(width=0.2, height=0.05, alpha=0.7, size=2) +
   labs(y= "Species richnss", x="Tree-hole type", color="Tree-hole type") +
   scale_color_manual(values=hole_type_color) +
   theme_bw() +
-  theme(legend.position = "top")
+  scale_y_continuous(breaks = seq(0, 10, by = 2))
 
 
 #  Tree_hole_type_coarse
@@ -240,12 +259,22 @@ Diversity_2023_2024 %>%
 
 Diversity_2023_2024 %>% 
   filter(!is.na(Tree_hole_type_coarse)) %>%
+  ggplot(aes(x=Tree_hole_type_coarse, y = biomass_dry_mg, color=Tree_hole_type_coarse)) +
+  geom_boxplot(outliers = F) +
+  geom_jitter(width=0.2, height=0.05, alpha=0.7, size=1) +
+  labs(y= "Biomass", x="Tree-hole type", color="Tree-hole type") +
+  scale_color_manual(values=hole_type_color) +
+  theme_bw()
+
+Diversity_2023_2024 %>% 
+  filter(!is.na(Tree_hole_type_coarse)) %>%
   ggplot(aes(x=Tree_hole_type_coarse, y = sp_richness,  color=Tree_hole_type_coarse)) +
   geom_boxplot(outliers = F) +
   geom_jitter(width=0.2, height=0.05, alpha=0.7, size=1) +
   labs(y= "Species richnss", x="Tree-hole type", color="Tree-hole type") +
   scale_color_manual(values=hole_type_color) +
-  theme_bw()
+  theme_bw()+
+  scale_y_continuous(breaks = seq(0, 10, by = 2))
 
 
 # check if there are any tree holes with 1 abundance and 1 species richness

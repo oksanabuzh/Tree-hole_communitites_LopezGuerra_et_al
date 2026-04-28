@@ -57,7 +57,12 @@ Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %
   left_join(landscape_heterogeneity %>% 
               filter(buffer_size_m==500),
             by = c("Plot" = "plotID")) %>% 
+#  mutate(Inonat_mean_2012_2018 =Inonat_2018,
+#    Iharv_mean_2012_2018 = Iharv_2018,
+#      Idwcut_mean_2012_2018 = Idwcut_2018,
+ #     Formi_mean_2012_2018 = Formi_2018) %>%
   mutate(Inonat_mean_tr =Inonat_mean_2012_2018^0.5) 
+  
 
 
 str(Diversity_2023_2024)
@@ -89,24 +94,24 @@ check_collinearity(m1)
 
 
 # Species richness ------------------------------------
+
 Diversity_2023_2024 %>% 
   pull(Inonat_mean_2012_2018)
 
 m1 <- glm(sp_richness ~  
                # Inonat_mean_tr +
-                Iharv_mean_2012_2018 + 
-                Idwcut_mean_2012_2018 + 
+               Iharv_mean_2012_2018 + 
+               Idwcut_mean_2012_2018 + 
                 #Formi_mean_2012_2018 +
-                # LandType_richness_class_2 , 
-                Forest_percent + #Agricultural_percent  + #  Urban_percent +
+                # LandType_richness_class_2 + 
+               Forest_percent + #Agricultural_percent + Urban_percent +
                 # Tree_abundance + 
                 #  Tree_sp_richness +
                 #  ssci + # +  Openness  , 
                 #   Vertical_structure + Standing_deadwood +
                 precipitation_radolan_mean,
                 family = poisson, 
-           data=Diversity_2023_2024 # %>% filter(sp_richness<9)
-          )
+           data=Diversity_2023_2024)
 
 
 check_collinearity(m1)
@@ -126,19 +131,22 @@ m1_2 <- glm(sp_richness ~
           family = poisson, 
           data=Diversity_2023_2024)
 
+check_collinearity(m1_2)
 Anova(m1_2)
+
 # select model
 anova(m1, m1_2)
 # no difference, remove Inonat_mean_2012_2018
 
 
 m1_3 <- glm(sp_richness ~  
-              Formi_mean_2012_2018 + 
+              log1p(Formi_mean_2012_2018) + 
               Forest_percent +
               precipitation_radolan_mean,
             family = poisson, 
-            data=Diversity_2023_2024)
+            data=Diversity_2023_2024 %>% filter(sp_richness<9))
 
+check_collinearity(m1_3)
 Anova(m1_3)
 
 ## Forest management: ------------------------------------
@@ -147,10 +155,11 @@ rng_Iharv <- range(Diversity_2023_2024$Iharv_mean_2012_2018, na.rm = TRUE)
 rng_Iharv
 
 m1a_SR_Iharv_perc <- Effect("Iharv_mean_2012_2018", m1,
-              levels = list(Iharv_mean_2012_2018 = seq(rng_Iharv[1]-0.01, 
+                            xlevels = list(Iharv_mean_2012_2018 = seq(rng_Iharv[1]-0.01, 
                                                        rng_Iharv[2], 
-                                                       by = 0.00001))) %>% 
+                                                      by=0.00001))) %>% 
   as.data.frame()
+
 
 
 ggplot(m1a_SR_Iharv_perc, aes(x = Iharv_mean_2012_2018, y = fit)) +
@@ -161,6 +170,7 @@ ggplot(m1a_SR_Iharv_perc, aes(x = Iharv_mean_2012_2018, y = fit)) +
              position = position_jitter(width = 0.005, height = 0.4)) +
   geom_line(linewidth = 1,  color = "#086096") +
   theme_bw() +
+  scale_y_continuous(breaks = seq(0, 16, by = 4)) +
   labs(x = "Harvested tree biomass",  y = "Species richness") 
 
 
@@ -171,9 +181,9 @@ rng_Iharv <- range(Diversity_2023_2024$Idwcut_mean_2012_2018, na.rm = TRUE)
 rng_Iharv
 
 m1a_SR_Idwcut_perc <- Effect("Idwcut_mean_2012_2018", m1,
-                            levels = list(Idwcut_mean_2012_2018 = seq(rng_Iharv[1]-0.01, 
-                                                                     rng_Iharv[2], 
-                                                                     by = 0.00001))) %>% 
+       xlevels = list(Idwcut_mean_2012_2018 = seq(rng_Iharv[1]-0.01, 
+                                                  rng_Iharv[2],
+                                                  by = 0.001))) %>% 
   as.data.frame()
 
 
@@ -193,9 +203,9 @@ rng_Inonat <- range(Diversity_2023_2024$Inonat_mean_tr, na.rm = TRUE)
 rng_Inonat
 
 m1_2_SR_Inonat_perc <- Effect("Inonat_mean_tr", m1_2,
-                             levels = list(Inonat_mean_tr = seq(rng_Inonat[1]-0.01, 
-                                                                       rng_Inonat[2]+100, 
-                                                                       by = 0.00001))) %>% 
+                              xlevels = list(Inonat_mean_tr = seq(rng_Inonat[1]-0.01, 
+                                                                       rng_Inonat[2]+0.1, 
+                                                                       by = 0.001))) %>% 
   as.data.frame()
 
 
@@ -211,17 +221,16 @@ ggplot(m1_2_SR_Inonat_perc, aes(x = Inonat_mean_tr, y = fit)) +
 
 
 ### Forest Management Intensity ----------------------------------------------------------
-rng_Inonat <- range(Diversity_2023_2024$Inonat_mean_tr, na.rm = TRUE)
-rng_Inonat
+rng_FMI <- range(Diversity_2023_2024$Formi_mean_2012_2018, na.rm = TRUE)
+rng_FMI
 
-m1_2_SR_Inonat_perc <- Effect("Inonat_mean_tr", m1_3,
-                              levels = list(Inonat_mean_tr = seq(rng_Inonat[1]-0.01, 
-                                                                 rng_Inonat[2]+100, 
-                                                                 by = 0.00001))) %>% 
+m1_3_SR_FMI_perc <- Effect("Formi_mean_2012_2018", m1_3,
+                           xlevels=list(Formi_mean_2012_2018=seq(0.09, 1.6, 
+                                                                 by=0.001))) %>% 
   as.data.frame()
 
 
-ggplot(m1_2_SR_Inonat_perc, aes(x = Inonat_mean_tr, y = fit)) +
+ggplot(m1_3_SR_FMI_perc, aes(x = Formi_mean_2012_2018, y = fit)) +
   geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.1, fill  = "#86BBD8") +
   geom_point(data=Diversity_2023_2024, 
              aes(y=sp_richness), 
@@ -229,15 +238,40 @@ ggplot(m1_2_SR_Inonat_perc, aes(x = Inonat_mean_tr, y = fit)) +
              position = position_jitter(width = 0.01, height = 0.4)) +
   geom_line(linewidth = 1,  color = "#086096") +
   theme_bw() +
-  labs(x = "Non-natural tree species",  y = "Species richness") 
+  labs(x = "Forest management intensity",  y = "Species richness") 
+
 
 
 ## Landscape heterogeneity: -----------------------------------------------------
+
+rng_Land <- range(Diversity_2023_2024$LandType_richness_class_2, na.rm = TRUE)
+rng_Land
+
+m1a_SR_Land_perc <- Effect("LandType_richness_class_2", m1,
+                             xlevels = list(LandType_richness_class_2  = 
+                                              seq(rng_Land[1]-1, 
+                                                  rng_Land[2]+1, 
+                                                  by = 0.001))) %>% 
+  as.data.frame()
+
+
+ggplot(m1a_SR_Land_perc, aes(x = LandType_richness_class_2, y = fit)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.1, fill  = "#86BBD8") +
+  geom_point(data=Diversity_2023_2024, # %>% filter(sp_richness<9),
+             aes(y=sp_richness), 
+             pch=21, size=1.5, alpha=0.6, stroke = 0.8, color="brown", fill="#FFA55B",
+             position = position_jitter(width = 0.3, height = 0.3)) +
+  geom_line(linewidth = 1,  color = "#086096") +
+  theme_bw() +
+  labs(x = "Landscape heterogeneity",  y = "Species richness") 
+
+
+
 ### Forest cover ----------------------------------------------------------
 rng_Forest <- range(Diversity_2023_2024$Forest_percent, na.rm = TRUE)
 rng_Forest
 
-m1a_SR_Forest_perc <- Effect("Forest_percent", m1a,
+m1a_SR_Forest_perc <- Effect("Forest_percent", m1,
     xlevels = list(Forest_percent = seq(rng_Forest[1]-1, rng_Forest[2]+1, by = 0.001))) %>% 
   as.data.frame()
 

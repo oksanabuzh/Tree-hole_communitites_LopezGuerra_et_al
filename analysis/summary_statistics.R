@@ -285,3 +285,349 @@ Diversity_2023_2024 %>%
 
 
 
+# Predictors (correlations)  -------------------------------------------------------
+dat_envir <- environm %>% 
+  mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
+  mutate(Tree_hole_type_coarse=factor(Tree_hole_type_coarse, levels=c("pan", "rot"))) %>% 
+  mutate(Tree_hole_type=factor(Tree_hole_type, 
+                               levels=c("Division", "Branch", "Trunk", 
+                                        "Cut tree", "Root",  NA))) %>%
+  summarise(
+    Inonat_mean_2012_2018 = first(Inonat_mean_2012_2018),
+    Iharv_mean_2012_2018 = first(Iharv_mean_2012_2018),
+    Idwcut_mean_2012_2018 = first(Idwcut_mean_2012_2018),
+    Formi_mean_2012_2018 = first(Formi_mean_2012_2018),
+    Tree_abundance = first(Tree_abundance),
+    Tree_sp_richness = first(Tree_sp_richness),
+    ssci = first(ssci),
+    Openness = first(Openness),
+    Vertical_structure = first(Vertical_structure),
+    Standing_deadwood = first(Standing_deadwood),
+    .by = c("Plot")) %>% 
+  #% per ha of open areas (clearings, edges and other areas with a well-developed herb layer composed of flowering plants): 0 = 0%, 2 = < 1% or > 5%, 5 = 1 to 5%
+  mutate(Openness = case_when(
+    Openness == 0 ~ "0%",
+    Openness == 2 ~ "1-5%",
+    Openness == 5 ~ ">5%"),
+    Openness = factor(Openness, levels = c("0%", "1-5%", ">5%"))
+  ) %>% 
+  mutate(Vertical_structure = case_when(
+    Vertical_structure == 1 ~ "2 layers",
+    Vertical_structure == 2 ~ "3-4 layers",
+    Vertical_structure == 5 ~ "5 layers"),
+    Vertical_structure = factor(Vertical_structure, 
+                                levels = c("2 layers", "3-4 layers", "5 layers"))
+  ) %>% 
+  left_join(landscape_heterogeneity %>% 
+              filter(buffer_size_m==500),
+            by = c("Plot" = "plotID")) %>% 
+  #  mutate(Inonat_mean_2012_2018 =Inonat_2018,
+  #    Iharv_mean_2012_2018 = Iharv_2018,
+  #      Idwcut_mean_2012_2018 = Idwcut_2018,
+  #     Formi_mean_2012_2018 = Formi_2018) %>%
+  mutate(Inonat_mean_tr =Inonat_mean_2012_2018^0.5) 
+
+names(dat_envir)
+
+Diversity_2023_2024 %>% 
+  select(Plot, Tree_ID, Inonat_mean_tr, Iharv_mean_2012_2018, Idwcut_mean_2012_2018, Openness)
+
+
+names(Diversity_2023_2024)
+
+## Forest management types ------------------
+
+## Stand structural complexity  --------------
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Idwcut_mean_2012_2018)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Dead wood with saw cuts")
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Inonat_mean_tr)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Non-natural tree species")
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Inonat_mean_tr)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Non-natural tree species")
+
+
+
+
+## Stand structural complexity  --------------
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = ssci)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Stand structural complexity")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = ssci)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Stand structural complexity")
+  
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = ssci)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Stand structural complexity")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = ssci)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+    geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Stand structural complexity")
+
+  
+## Openness  -----------------------------
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Openness)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+#  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Openness, % ha⁻¹")
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Openness)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  #  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Harvested tree biomass", y = "Openness, % ha⁻¹")
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Openness)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  #  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Dead wood with saw cuts", y = "Openness, % ha⁻¹")
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Openness)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  #  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Non-natural tree species", y = "Openness, % ha⁻¹")
+
+
+
+## Landscape heterogeneity -----------------------------------------------
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = LandType_richness_class_2)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Landscape heterogeneity")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = LandType_richness_class_2)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Landscape heterogeneity")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = LandType_richness_class_2)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Landscape heterogeneity")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = LandType_richness_class_2)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Landscape heterogeneity")
+
+
+
+## Forest cover ---------------------------
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Forest_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Forest cover, %")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Forest_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Forest cover, %")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Forest_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Forest cover, %")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Forest_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Forest cover, %")
+
+
+## Africulture cover ---------------------------
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Agricultural_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Agricultural lands cover, %")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Agricultural_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Agricultural lands cover, %")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Agricultural_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Agricultural lands cover, %")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Agricultural_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Agricultural lands cover, %")
+
+
+## Urban cover ---------------------------
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Urban_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Urban lands cover, %")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Urban_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Urban lands cover, %")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Urban_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Urban lands cover, %")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Urban_percent)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Urban lands cover, %")
+
+
+
+## Tree_sp_richness -----------------------
+
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Tree_sp_richness)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Tree species richness")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Tree_sp_richness)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Tree species richness")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Tree_sp_richness)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Tree species richness")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Tree_sp_richness)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Tree species richness")
+
+
+
+
+## Tree_abundance -----------------------
+
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Tree_abundance)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Tree density")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Tree_abundance)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Tree density")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Tree_abundance)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Tree density")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Tree_abundance)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth(method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2, se = TRUE) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Tree density")
+
+
+
+## Vertical_structure -----------------------
+
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Vertical_structure)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Vertical structure")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Vertical_structure)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Vertical structure")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Vertical_structure)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Vertical structure")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Vertical_structure)) +
+  geom_boxplot(outlier.shape = NA,  color = "#086096") +
+  geom_jitter(width=0, height=0.2, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Vertical structure")
+
+
+## Standing_deadwood -----------------------
+
+
+ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Standing_deadwood)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw()+ labs( x = "Forest Management Intensity", y = "Standing deadwood")
+
+
+ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Standing_deadwood)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw() + labs( x = "Harvested tree biomass", y = "Standing deadwood")
+
+
+ggplot(dat_envir, aes(x = Idwcut_mean_2012_2018, y = Standing_deadwood)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw() + labs( x = "Dead wood with saw cuts", y = "Standing deadwood")
+
+
+ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Standing_deadwood)) +
+  geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
+  geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
+  theme_bw() + labs( x = "Non-natural tree species", y = "Standing deadwood")
+
+
+
+
+

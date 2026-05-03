@@ -1,6 +1,8 @@
 # Summary statistics and exploratory plots 
 
 library(tidyverse)
+library(scales)
+library(forcats)
 
 # Prefer dplyr's select whenever there is a conflict
 conflict_prefer("select", "dplyr")
@@ -8,6 +10,8 @@ conflict_prefer("filter", "dplyr")
 
 
 # data -------------------------------------------------------
+
+# Environmental data -----------
 environm <- read_csv("data/processed_data/Environment_ALL.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
   mutate(Tree_hole_type_coarse=factor(Tree_hole_type_coarse, levels=c("pan", "rot"))) %>% 
@@ -16,6 +20,7 @@ environm <- read_csv("data/processed_data/Environment_ALL.csv") %>%
                                         "Cut tree", "Root",  NA)))
 str(environm)
 
+## Diversity data -------------
 Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
   mutate(Tree_hole_type_coarse=factor(Tree_hole_type_coarse, levels=c("pan", "rot"))) %>% 
@@ -24,6 +29,16 @@ Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %
                                         "Cut tree", "Root",  NA))) 
 
 str(Diversity_2023_2024)
+
+
+## Community composition data ------------
+sp_dat <- readr::read_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv") %>%
+  select(Treehole_number, Sp_ID_DNAcorrected, Abundance) %>%
+  left_join(trait_data, by = "Sp_ID_DNAcorrected") 
+
+## Trait data ---------------
+trait_data <- read_csv("data/processed_data/Traits_2023_2024_final_DNA_corrected.csv")
+
 
 
 # Tree and treehole data ---------
@@ -114,7 +129,7 @@ environm %>%
   xlim(0, 28)
 
 
-# Plot counts ---------------------
+# 1) Plot counts ---------------------
 plot_counts <- environm %>%
   group_by(Plot) %>%
   count(Plot, .drop = T) %>% 
@@ -130,12 +145,12 @@ environm %>%
 
 
 
-# Diversity metrics  --------------------------------------------
+# 2) Diversity metrics  --------------------------------------------
 
 Diversity_2023_2024 %>%  pull(Tree_hole_type) %>%  unique()
 
 
-hole_type_color <- (c("rot"="#D55E00", 
+hole_type_color <- (c("rot"="brown", 
                       "pan"="#14724C"))  
 ## Exploratory data checks ------
 
@@ -285,7 +300,115 @@ Diversity_2023_2024 %>%
 
 
 
-# Predictors (correlations)  -------------------------------------------------------
+# 3) Species composition -------------------------------------------------------------
+
+## Graphical data exploration -----
+
+### 1) Frequency of occurrence per species (number of treeholes where species is present)
+n_sites <- n_distinct(df$Treehole_number)
+
+freq_tbl <- df %>%
+  mutate(present = Abundance > 0) %>%
+  group_by(Species, Family_DNA_corrected) %>%
+  summarise(
+    sites_present = n_distinct(Treehole_number[present]),
+    total_abundance = sum(Abundance, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  mutate(freq = sites_present / n_sites) %>%
+  arrange(desc(freq), desc(total_abundance), Species) %>%
+  mutate(species_rank = row_number())
+
+print(freq_tbl, n = Inf)
+
+
+# 2) Bar plot: percent occurrence, species ordered by freq (descending)
+freq_tbl %>%
+  # mutate(Species = fct_reorder(Species, species_rank)) %>%
+  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
+  # arrange(desc(freq)) %>%
+  ggplot(aes(x = Species, y = freq, fill = Family_DNA_corrected)) +
+  geom_col(width = 0.7, colour = "grey30") +
+  coord_flip() +
+  scale_y_continuous(labels = percent_format(accuracy = 1)) +
+  labs(x = NULL, y = "Occurrence friequency",
+       fill = "Family") +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 13, color="black"),
+        axis.text.x = element_text(size = 10, color="black"),
+        text = element_text(size = 12, color="black"))
+
+# abundance:
+sp_dat %>% 
+  select(Species, Sp_ID_DNAcorrected, Abundance) %>% 
+  left_join(freq_tbl, by=c("Species")) %>% 
+  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
+  ggplot(aes(x = Abundance, y = Species, color=Family_DNA_corrected)) +
+  geom_boxplot(alpha=0, outliers = F) +
+  geom_jitter(width = 0, height = 0.3, alpha=1, size=2) +
+  theme_bw() + labs(x = "Total abundance", y = "Species", color="Family")+
+  theme(axis.text.y = element_text(size = 13, color="black"),
+        axis.text.x = element_text(size = 10, color="black"),
+        text = element_text(size = 12, color="black"))
+
+# body size:
+sp_dat %>% 
+  select(Species, Sp_ID_DNAcorrected, Abundance, dry_weight_mg) %>% 
+  left_join(freq_tbl, by=c("Species")) %>% 
+  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
+  ggplot(aes(x = 1, y = Species, color=Family_DNA_corrected, fill=Family_DNA_corrected,
+             size = dry_weight_mg)) +
+  geom_jitter(width = 0, height = 0, alpha=1, shape = 21,  colour = "black") +
+  theme_bw() + labs(x = "Body mass", y = "Species", 
+                    fill="Family", size="Body mass, g") +
+  theme(axis.text.y = element_text(size = 13, color="black"),
+        axis.text.x = element_text(size = 10, color="white"),
+        #   axis.text.x = element_blank(),
+        #   axis.ticks.x = element_blank(),
+        text = element_text(size = 12, color="black"),
+        # Legend text and title size
+        legend.text  = element_text(size = 12, color = "black"),
+        legend.title = element_text(size = 12, face = "bold"),
+        # Make legend keys (symbols) bigger
+        legend.key.size = grid::unit(0.8, "cm"),
+        # Optional: increase spacing between legend rows
+        legend.spacing.y = grid::unit(0.25, "cm")) +
+  scale_size_continuous(range = c(3, 13)) +
+  guides(
+    fill = guide_legend(override.aes = list(size = 5)), 
+    size = guide_legend(override.aes = list(
+      #  shape = 21,            # ensure shape uses fill+border
+      stroke = 1, 
+      colour = "black",     # border color in size legend
+      fill = "grey80"        # interior color in size legend
+    ))
+  )+
+  scale_x_continuous(
+    limits = c(0.995, 1.005),         # narrow viewing window
+    breaks = 1,                       # single tick at 1
+    labels = function(x) sprintf("%.2f", x), # display as "1.00"
+    expand = c(0, 0))
+
+
+
+
+# community biomass:
+sp_dat %>% 
+  select(Species, Sp_ID_DNAcorrected, Abundance, dry_weight_mg) %>% 
+  mutate(Biomass = Abundance * dry_weight_mg) %>%
+  left_join(freq_tbl, by=c("Species")) %>% 
+  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
+  ggplot(aes(x = log(Biomass), y = Species, color=Family_DNA_corrected)) +
+  geom_boxplot(alpha=0, outliers = F) +
+  geom_jitter(width = 0, height = 0.3, alpha=1, size=2) +
+  theme_bw() + labs(x = "Total biomass (log), g", y = "Species", color="Family")+
+  theme(axis.text.y = element_text(size = 13, color="black"),
+        axis.text.x = element_text(size = 10, color="black"),
+        text = element_text(size = 12, color="black"))
+
+
+
+# 4) Predictors (correlations)  -------------------------------------------------------
 dat_envir <- environm %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 
   mutate(Tree_hole_type_coarse=factor(Tree_hole_type_coarse, levels=c("pan", "rot"))) %>% 
@@ -336,8 +459,6 @@ Diversity_2023_2024 %>%
 names(Diversity_2023_2024)
 
 ## Forest management types ------------------
-
-## Stand structural complexity  --------------
 
 ggplot(dat_envir, aes(x = Iharv_mean_2012_2018, y = Idwcut_mean_2012_2018)) +
   geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +

@@ -395,7 +395,7 @@ traits_final_DNA_grouped %>%
   write_csv("data/processed_data/Traits_2023_2024_final_DNA_corrected.csv")
 
 
-### ENVIRONMENTAL DATA  --------------------------
+# ENVIRONMENTAL DATA  --------------------------
 Community_final %>% 
   select(-Sp_ID_DNAcorrected, -Species, -Abundance) %>% 
   distinct() %>%
@@ -408,9 +408,6 @@ Community_final %>%
            Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside) %>%
   count()
 
-
-
-# End-----
 
 # EXPLORATORIES DATA -----------------------------------------------------------
 

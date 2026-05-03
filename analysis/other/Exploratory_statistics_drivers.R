@@ -102,7 +102,7 @@ Diversity_2023_2024_log <- Diversity_2023_2024 %>%
 
 # All selected predictors: ----------
 
-# Land Use>
+# Land Use:
 ## Inonat_mean_2012_2018_log + Iharv_mean_2012_2018 + Idwcut_mean_2012_2018 + 
 ## Formi_mean_2012_2018 +
 

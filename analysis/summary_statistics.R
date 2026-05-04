@@ -302,8 +302,6 @@ Diversity_2023_2024 %>%
 
 # 3) Species composition -------------------------------------------------------------
 
-## Graphical data exploration -----
-
 ### 1) Frequency of occurrence per species (number of treeholes where species is present)
 n_sites <- n_distinct(df$Treehole_number)
 
@@ -321,7 +319,9 @@ freq_tbl <- df %>%
 
 print(freq_tbl, n = Inf)
 
-
+write_csv(freq_tbl %>% 
+            select(Species, species_rank), 
+          "data/processed_data/Species_rank.csv")
 # 2) Bar plot: percent occurrence, species ordered by freq (descending)
 freq_tbl %>%
   # mutate(Species = fct_reorder(Species, species_rank)) %>%

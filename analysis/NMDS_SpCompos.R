@@ -142,7 +142,55 @@ fit1 <- vegan::envfit(ord_mod   ~
 
 fit1
 
-environm$Openness
+
+# extract vector scores (NMDS axes), r and p-values
+vec_scores <- as.data.frame(scores(fit1, display = "vectors")) %>%
+  rownames_to_column("Term") %>% 
+  mutate(NMDS1 = round(NMDS1, 3), 
+         NMDS2 = round(NMDS2, 3))
+
+# attach r and p-values from the envfit object
+if (!is.null(fit1$vectors)) {
+  vec_scores <- vec_scores %>%
+    mutate(
+      r2   = round(fit1$vectors$r[Term],3),
+      pval = round(fit1$vectors$pvals[Term], 3)
+    )
+}
+
+# add significance codes (optional)
+vec_scores <- vec_scores %>%
+  mutate(sig = case_when(
+    is.na(pval) ~ NA_character_,
+    pval <= 0.001 ~ "***",
+    pval <= 0.01  ~ "**",
+    pval <= 0.05  ~ "*",
+    pval <= 0.1   ~ ".",
+    TRUE ~ ""
+  ))
+
+# reorder columns
+vec_scores <- vec_scores %>%
+  select(Term, NMDS1, NMDS2, r2, pval, sig) %>% 
+  mutate(Term=case_when(
+    Term=="Formi_mean_2012_2018" ~ "Forest management intensity",
+    Term=="Inonat_mean_2012_2018" ~ "Non-natural tree species",
+    Term=="Iharv_mean_2012_2018" ~ "Harvested tree biomass",
+    Term=="Idwcut_mean_2012_2018" ~ "Dead wood with saw cuts", 
+    Term=="LandType_richness_class_2"  ~ "Landscape heterogeneity",
+    Term=="Tree_sp_richness" ~ "Tree species richness",
+    Term=="Forest_percent" ~ "Forest cover, %",
+    Term=="Openness" ~ "Open areas, % ha⁻¹",
+    Term=="precipitation_radolan_mean" ~ "Precipitation",
+    TRUE ~ Term))
+    
+    
+
+# inspect
+vec_scores
+
+# save
+write_csv(vec_scores, "results/NMDS_envfit_table.csv")
 
 # exploratory plot
 plot(ord_mod, main = "NMDS plot", display = "sites")
@@ -184,52 +232,19 @@ vector.scrs <- scores(fit1, display = "bp", # vector
     Drivers=="Formi_mean_2012_2018" ~ "ForMI",
     Drivers=="Inonat_mean_2012_2018" ~ "Nonat.trees",
     Drivers=="Iharv_mean_2012_2018" ~ "Harvst.trees",
-    Drivers=="Idwcut_mean_2012_2018" ~ "Deadwood.cuts",
-    Drivers=="LandType_richness_class_2"  ~ "Landscape.heter",
-    Drivers=="Tree_sp_richness" ~ "Tree.SR",
-    Drivers=="Forest_percent" ~ "Forest.cover",
+    Drivers=="Idwcut_mean_2012_2018" ~ "DeadwoodCuts",
+    Drivers=="LandType_richness_class_2"  ~ "LandscapeHeter",
+    Drivers=="Tree_sp_richness" ~ "TreeSR",
+    Drivers=="Forest_percent" ~ "ForestCover",
     Drivers=="Openness" ~ "Openness",
     Drivers=="precipitation_radolan_mean" ~ "Precipit",
                       TRUE ~ Drivers))
 vector.scrs
 
 
-# calculate centroid for  Grazing_season
-centroid_mowing <- scores(fit1, 
-                          display="cn",  
-                          scaling="species") %>%   
-  as_tibble(rownames = "treatment")  %>%
-  filter(str_detect(treatment, "MowFreq")) %>% 
-  mutate(MowFreq=stringr::str_sub(treatment, 8)) %>% 
-  dplyr::select(-treatment) %>% 
-  rename(NMDS1_mowing=NMDS1,
-         NMDS2_mowing=NMDS2)
-
-centroid_mowing
-
-centroid_month <- scores(fit2, 
-                         display="cn",  
-                         scaling="species") %>%   
-  as_tibble(rownames = "treatment")  %>%
-  filter(str_detect(treatment, "Month")) %>% 
-  mutate(Month=stringr::str_sub(treatment, 6)) %>% 
-  dplyr::select(-treatment) %>% 
-  rename(NMDS1_month=NMDS1,
-         NMDS2_month=NMDS2)
-
-centroid_month
 
 
-# merge with site scores, order levels of categorical predictors
-plot.scrs <- plot.scrs %>%
-  left_join(centroids, by=c("MowFreq", "Month")) %>%
-  mutate(Mowing=fct_relevel(Mowing,"regular mowing", "reduced mowing", "reduced mowing & sowing")) %>% 
-  mutate(Month=fct_relevel(Month,"March", "May", "July", "September")) 
-
-
-plot.scrs
-
-# plot 
+# plots -----------
 set.seed(11)
 # adjust label positions for vectors
 text_for_vectors <- vector.scrs %>%
@@ -265,18 +280,31 @@ plot1 <- ggplot(data=sp.scrs %>%
                      0.7, 0, 0.5)) +
   
   # species
-  geom_point(aes(x=NMDS1, y=NMDS2, color=Family_DNA_corrected, 
+  geom_point(aes(x=NMDS1, y=NMDS2, fill=Family_DNA_corrected, 
+                 color=Family_DNA_corrected,
                  size=(dry_weight_mg)), 
              # size = 3
-             pch=19,
-             alpha=0.7)+
+             pch=21,
+             alpha=0.8)+
   geom_text_repel(aes(x=NMDS1, y=NMDS2, color=Family_DNA_corrected,
-                      label = Species), 
+                      label = Species), alpha=1,
                   size=3.3, fontface="bold", show.legend = F,
                   max.overlaps=Inf) +
   theme_bw()+
-  guides(color = guide_legend(override.aes = list(size = 3)))  +
-  labs(x="NMDS1", y="NMDS2", color="Family", size="Dry body mass (g)")
+ # guides(color = guide_legend(override.aes = list(size = 3)))  +
+  guides(
+    fill = guide_legend(override.aes = list(size = 5, 
+                                            colour = "black", 
+                                            alpha=1)), 
+    size = guide_legend(override.aes = list(
+      #  shape = 21,            # ensure shape uses fill+border
+    #  stroke = 1, 
+      colour = "black",     # border color in size legend
+      fill = "grey80"        # interior color in size legend
+    ))
+  )+
+  labs(x="NMDS1", y="NMDS2", fill="Family", 
+       color="Family", size="Dry body mass (g)")
 
 
 print(plot1)

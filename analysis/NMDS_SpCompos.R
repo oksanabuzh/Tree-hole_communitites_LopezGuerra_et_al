@@ -19,6 +19,9 @@ names(Community_data)
 read_csv("data/processed_data/Diversity_2023_2024.csv") %>% 
   count(Treehole_number) %>%  arrange(desc(n))
 
+
+species_rank <- read_csv("data/processed_data/Species_rank.csv")
+
 ## Environment data ---------------
 
 environm <- read_csv("data/processed_data/Environment_ALL.csv") %>% 
@@ -63,159 +66,21 @@ anyNA(Community_data) # no NA's
 # <3 -> linear methods (PCA)
 # >3 -> nonlinear methods (CCA)
 # in any case non metric distance based methods can be used (NMDS or PCoA)
-decorana((Community_data)) 
+decorana(Community_data) 
 # we can perform NMDS 
 
-## Graphical data exploration -----
-
-### 1) Frequency of occurrence per species (number of treeholes where species is present)
-
-sp_dat <- readr::read_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv") %>%
-  select(Treehole_number, Sp_ID_DNAcorrected, Abundance) %>%
-  left_join(trait_data, by = "Sp_ID_DNAcorrected") 
-
-n_sites <- n_distinct(df$Treehole_number)
-
-freq_tbl <- df %>%
-  mutate(present = Abundance > 0) %>%
-  group_by(Species, Family_DNA_corrected) %>%
-  summarise(
-    sites_present = n_distinct(Treehole_number[present]),
-    total_abundance = sum(Abundance, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  mutate(freq = sites_present / n_sites) %>%
-  arrange(desc(freq), desc(total_abundance), Species) %>%
-  mutate(species_rank = row_number())
-
-print(freq_tbl, n = Inf)
 
 
-# 2) Bar plot: percent occurrence, species ordered by freq (descending)
-library(scales)
-library(forcats)
-
-freq_tbl %>%
- # mutate(Species = fct_reorder(Species, species_rank)) %>%
-  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
- # arrange(desc(freq)) %>%
-  ggplot(aes(x = Species, y = freq, fill = Family_DNA_corrected)) +
-  geom_col(width = 0.7, colour = "grey30") +
-  coord_flip() +
-  scale_y_continuous(labels = percent_format(accuracy = 1)) +
-  labs(x = NULL, y = "Occurrence friequency",
-       fill = "Family") +
-  theme_bw() +
-  theme(axis.text.y = element_text(size = 13, color="black"),
-        axis.text.x = element_text(size = 10, color="black"),
-        text = element_text(size = 12, color="black"))
-
-# abundance:
-sp_dat %>% 
-  select(Species, Sp_ID_DNAcorrected, Abundance) %>% 
-  left_join(freq_tbl, by=c("Species")) %>% 
-  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
-  ggplot(aes(x = Abundance, y = Species, color=Family_DNA_corrected)) +
-  geom_boxplot(alpha=0, outliers = F) +
-  geom_jitter(width = 0, height = 0.3, alpha=1, size=2) +
-  theme_bw() + labs(x = "Total abundance", y = "Species", color="Family")+
-  theme(axis.text.y = element_text(size = 13, color="black"),
-        axis.text.x = element_text(size = 10, color="black"),
-        text = element_text(size = 12, color="black"))
-
-# body size:
-sp_dat %>% 
-  select(Species, Sp_ID_DNAcorrected, Abundance, dry_weight_mg) %>% 
-  left_join(freq_tbl, by=c("Species")) %>% 
-  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
-  ggplot(aes(x = 1, y = Species, color=Family_DNA_corrected, fill=Family_DNA_corrected,
-             size = dry_weight_mg)) +
-  geom_jitter(width = 0, height = 0, alpha=1, shape = 21,  colour = "black") +
-  theme_bw() + labs(x = "Body mass", y = "Species", 
-                    fill="Family", size="Body mass, g") +
-  theme(axis.text.y = element_text(size = 13, color="black"),
-        axis.text.x = element_text(size = 10, color="white"),
-        #   axis.text.x = element_blank(),
-        #   axis.ticks.x = element_blank(),
-        text = element_text(size = 12, color="black"),
-        # Legend text and title size
-        legend.text  = element_text(size = 12, color = "black"),
-        legend.title = element_text(size = 12, face = "bold"),
-        # Make legend keys (symbols) bigger
-        legend.key.size = grid::unit(0.8, "cm"),
-        # Optional: increase spacing between legend rows
-        legend.spacing.y = grid::unit(0.25, "cm")) +
-  scale_size_continuous(range = c(3, 13)) +
-  guides(
-    fill = guide_legend(override.aes = list(size = 5)), 
-    size = guide_legend(override.aes = list(
-    #  shape = 21,            # ensure shape uses fill+border
-      stroke = 1, 
-      colour = "black",     # border color in size legend
-      fill = "grey80"        # interior color in size legend
-    ))
-  )+
-  scale_x_continuous(
-    limits = c(0.995, 1.005),         # narrow viewing window
-    breaks = 1,                       # single tick at 1
-    labels = function(x) sprintf("%.2f", x), # display as "1.00"
-    expand = c(0, 0))
-
-
-
-
-# community biomass:
-sp_dat %>% 
-  select(Species, Sp_ID_DNAcorrected, Abundance, dry_weight_mg) %>% 
-  mutate(Biomass = Abundance * dry_weight_mg) %>%
-  left_join(freq_tbl, by=c("Species")) %>% 
-  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
-  ggplot(aes(x = log(Biomass), y = Species, color=Family_DNA_corrected)) +
-  geom_boxplot(alpha=0, outliers = F) +
-  geom_jitter(width = 0, height = 0.3, alpha=1, size=2) +
-  theme_bw() + labs(x = "Total biomass (log), g", y = "Species", color="Family")+
-  theme(axis.text.y = element_text(size = 13, color="black"),
-        axis.text.x = element_text(size = 10, color="black"),
-        text = element_text(size = 12, color="black"))
-
-
-
-# we see large differences in abundances
-# therefore the ordination can be dominated by dominant taxa
-
-# wisconsin transformation in NMDS  removes the influence of dominant abundance, so that dominant species don't dominate the ordination.
-species_data %>%
-  wisconsin() %>% 
+Community_data %>%
   pivot_longer(everything(), names_to = "Species", 
                values_to = "Abundance") %>% 
   ggplot(aes(x = Abundance, y = Species)) +
   geom_boxplot() 
 
-
-# check also plots:
-species_data %>% 
-  rownames_to_column("plot_ID") %>% 
-  pivot_longer(- plot_ID, values_to = "abund", names_to = "species") %>% 
-  group_by( plot_ID) %>% 
-  summarise(sum=sum(abund))%>% 
-  ggplot(aes(x = sum, y = plot_ID)) +
-  geom_bar(stat = "identity") 
-
-# wisconsin transformation in NMDS  removes the influence of overall abundance at a plot, so that sites with higher total species counts don't dominate the ordination.
-
-species_data %>% 
-  wisconsin() %>% 
-  rownames_to_column("plot_ID") %>%  
-  pivot_longer(- plot_ID, values_to = "abund", names_to = "species") %>% 
-  group_by( plot_ID) %>% 
-  summarise(sum=sum(abund))%>% 
-  ggplot(aes(x = sum, y = plot_ID)) +
-  geom_bar(stat = "identity") 
-
-
+# wisconsin transformation in NMDS  removes the influence of dominant abundance, so that dominant species don't dominate the ordination.
 
 set.seed(2435)
-ord_mod <- metaMDS(wisconsin(species_data), 
+ord_mod <- metaMDS(wisconsin(Community_data), 
                    scale = FALSE, distance = "bray") 
 
 ord_mod
@@ -228,79 +93,106 @@ stressplot(ord_mod, main = "Shepard plot")
 
 # Permutation test:  --------------------------------------
 set.seed(10)
-PERM1 <- vegan::adonis2(species_data ~ 
-                          MowFreq + Month + 
-                          n_mow_events_befre_sampling, 
-                        data=plot_data,
+
+PERM1 <- vegan::adonis2(wisconsin(Community_data) ~ 
+                          Inonat_mean_2012_2018 + 
+                          Iharv_mean_2012_2018 + 
+                          Idwcut_mean_2012_2018 +
+                          LandType_richness_class_2 +
+                          Tree_sp_richness +
+                          Forest_percent + 
+                          precipitation_radolan_mean, 
+                        data=environm,
                         permutations = 1000, method = "bray",
-                        strata=as.factor(plot_data$PlotNo),
+                     #   strata=as.factor(environm$Plot),
                         by = "terms")
 
 PERM1
+
+set.seed(10)
+PERM2 <- vegan::adonis2(wisconsin(Community_data) ~ 
+                          Formi_mean_2012_2018 + ssci + 
+                          Openness, 
+                        data=environm,
+                        permutations = 1000, method = "bray",
+                        #  strata=as.factor(environm$Plot),
+                        by = "terms")
+
+PERM2
+
 
 
 
 # variable fitting for posthoc plotting  ------------------
 set.seed(1259)
-fit2 <- vegan::envfit(ord_mod   ~  
-                        MowFreq + Month + 
-                        n_mow_events_befre_sampling, 
-                      data=plot_data,
+fit1 <- vegan::envfit(ord_mod   ~  
+                        Formi_mean_2012_2018 +
+                        Inonat_mean_2012_2018 + 
+                        Iharv_mean_2012_2018 + 
+                        Idwcut_mean_2012_2018 +
+                        LandType_richness_class_2 +
+                        Tree_sp_richness +
+                        Forest_percent + 
+                        Openness +
+                        precipitation_radolan_mean, 
+                      data=environm,
                       #  strata=as.factor(plot_data$PlotNo),
                       perm=1000) #
 
 
-fit2
+fit1
 
-
+environm$Openness
 
 # exploratory plot
 plot(ord_mod, main = "NMDS plot", display = "sites")
 plot(ord_mod, main = "NMDS plot", display = "species")
 plot(ord_mod, main = "NMDS plot")
-plot(fit2)
+plot(fit1)
 
 ### Plotting NMDS results using the ggplot --------------------------------------
 
 # extract species scores
 sp.scrs <- scores(ord_mod, display = "species",
                   scaling = "species") %>% 
-  as_tibble(rownames = "Taxon_EuroMed") %>% 
-  left_join(Trait_data, by="Taxon_EuroMed") %>% 
-  mutate(species_full_name=Taxon_EuroMed,
-         Taxon_EuroMed = if_else(
-           str_count(Taxon_EuroMed, "\\S+") == 1,      # If only one word (non-space sequence)
-           paste(Taxon_EuroMed, "sp."),                # add "sp."
-           Taxon_EuroMed                               # else keep as is
-         ),
-         Taxon_EuroMed = str_c(str_split_i(Taxon_EuroMed, '\\s+', 1) %>%    # splits the species_name at each empty space in the species name and extracts the first word (the genus)
-                                 str_sub(.,  1, 5 ),          #  in this string (".") subtracts first 4 letters of genus (start, end 
-                               str_split_i( Taxon_EuroMed, '\\s+', 2) %>%   # gets the second part of the species name after the first empty space (species)
-                                 str_sub(., 1, 3),            #  subtracts first 5 letters of from that second part (species)
-                               sep = '.')) %>% 
-  mutate(Taxon_EuroMed = ifelse(Taxon_EuroMed=="Plant.(ro", "Plantae", Taxon_EuroMed)) %>% 
-  mutate(trait=fct_relevel(status,"endangered",
-                           "vulnerable", 
-                           "least-concerned",
-                           "neophytes", 
-                           "data insufficient"))
+  as_tibble(rownames = "Sp_ID_DNAcorrected") %>% 
+  left_join(trait_data, by="Sp_ID_DNAcorrected") %>% 
+  left_join(species_rank, by="Species") 
 
 
-
-sp.scrs %>% 
-  pull(status) %>% 
-  unique()
+sp.scrs
 
 
-# extract plot scores 
+# extract plot scores   --------------------------------------------------
 plot.scrs <- scores(ord_mod, display = "sites",
                     scaling = "sites") %>% 
-  as_tibble(rownames = "Plot") %>% 
-  left_join(predictor_data, by="Plot") 
+  as_tibble(rownames = "Treehole_number") %>% 
+  left_join(environm, by="Treehole_number") 
 
 plot.scrs
 
-names(plot.scrs)
+
+
+# vector --------------------------------------------------
+vector.scrs <- scores(fit1, display = "bp", # vector
+                      scaling = "species") %>% 
+  as_tibble(rownames = "Drivers")  %>% 
+#  filter(Drivers %in% c("Formi_mean_2012_2018", "Inonat_mean_2012_2018",
+#                        "Iharv_mean_2012_2018", "Idwcut_mean_2012_2018" )  %>% 
+  mutate(NMDS1=NMDS1*2.5, NMDS2=NMDS2*2.5) %>%  # rescale for better visualization
+  mutate(Drivers=case_when(
+    Drivers=="Formi_mean_2012_2018" ~ "ForMI",
+    Drivers=="Inonat_mean_2012_2018" ~ "Nonat.trees",
+    Drivers=="Iharv_mean_2012_2018" ~ "Harvst.trees",
+    Drivers=="Idwcut_mean_2012_2018" ~ "Deadwood.cuts",
+    Drivers=="LandType_richness_class_2"  ~ "Landscape.heter",
+    Drivers=="Tree_sp_richness" ~ "Tree.SR",
+    Drivers=="Forest_percent" ~ "Forest.cover",
+    Drivers=="Openness" ~ "Openness",
+    Drivers=="precipitation_radolan_mean" ~ "Precipit",
+                      TRUE ~ Drivers))
+vector.scrs
+
 
 # calculate centroid for  Grazing_season
 centroid_mowing <- scores(fit1, 
@@ -327,22 +219,6 @@ centroid_month <- scores(fit2,
 
 centroid_month
 
-# centroid for interaction from raw data
-centroids <- plot.scrs %>% 
-  group_by(MowFreq, Month) %>% 
-  summarise(NMDS1_centroid=mean(NMDS1),
-            NMDS2_centroid=mean(NMDS2)) %>% 
-  ungroup() %>% 
-  left_join(centroid_mowing, by=c("MowFreq")) %>% 
-  left_join(centroid_month, by=c("Month")) %>%
-  mutate(Mowing=case_when(
-    MowFreq == "reduced_sown" ~ "reduced mowing & sowing",
-    MowFreq == "regular" ~ "regular mowing",
-    MowFreq == "reduced" ~ "reduced mowing",
-    TRUE ~ as.character(MowFreq)))
-
-centroids
-
 
 # merge with site scores, order levels of categorical predictors
 plot.scrs <- plot.scrs %>%
@@ -353,37 +229,55 @@ plot.scrs <- plot.scrs %>%
 
 plot.scrs
 
-# plot for plots data
+# plot 
 set.seed(11)
-# plot for plots data
-plot1 <- ggplot(data=plot.scrs, 
+# adjust label positions for vectors
+text_for_vectors <- vector.scrs %>%
+  mutate(len = sqrt(NMDS1^2 + NMDS2^2),
+         # push label 15% further out along same direction
+         lx = NMDS1 * 1.2,
+         ly = NMDS2 * 1.2)
+
+
+set.seed(11)
+
+plot1 <- ggplot(data=sp.scrs %>% 
+                  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()), 
                 aes(x=NMDS1, y=NMDS2))+
   geom_hline(yintercept = 0, color="grey", lty =1) +
   geom_vline(xintercept = 0, color="grey", lty =1) +
-  # spiders
+    # vectors
+      geom_segment(data=vector.scrs, 
+                 aes(x=0, y=0, xend=NMDS1, yend=NMDS2), 
+                 arrow=arrow(length=unit(0.3,"cm")), 
+                 color="gray23", linewidth=1) +
   
-  geom_segment(data = plot.scrs,        
-               mapping = aes(xend = NMDS1_centroid, yend = NMDS2_centroid, 
-                             color=Mowing),
-               alpha=0.5) +
-  # add plot scores as point:
-  geom_point(data=plot.scrs, 
-             aes(x=NMDS1, y=NMDS2, 
-                 color=Mowing),
-             size=1.5, pch=21) + 
-  # add centroids as point:
-  geom_point(data=plot.scrs, 
-             aes(x=NMDS1_centroid, y=NMDS2_centroid, 
-                 color=Mowing),
-             size=3, pch=18) + 
-  # centroids as text
-  geom_text_repel(data=centroids, 
-                  #geom_text(data=centroids, 
-                  aes(x=NMDS1_centroid, y=NMDS2_centroid, 
-                      color=Mowing, label = Month), 
-                  size=5, fontface="bold", show.legend = F) +
+    geom_text(data=text_for_vectors, 
+              aes(x = lx, y = ly, label=Drivers), 
+              color="black", fontface="bold", 
+             size=4,
+             
+             hjust=c(1, 1, 0.6,
+                     0, 0.3, 0.4,
+                     0.7, 0, 0.5), 
+             vjust=c(-0.7, 0, 0.3,
+                     0.3, 1, -0.2,
+                     0.7, 0, 0.5)) +
+  
+  # species
+  geom_point(aes(x=NMDS1, y=NMDS2, color=Family_DNA_corrected, 
+                 size=(dry_weight_mg)), 
+             # size = 3
+             pch=19,
+             alpha=0.7)+
+  geom_text_repel(aes(x=NMDS1, y=NMDS2, color=Family_DNA_corrected,
+                      label = Species), 
+                  size=3.3, fontface="bold", show.legend = F,
+                  max.overlaps=Inf) +
   theme_bw()+
-  scale_color_manual(values = c("#F8766D", "#00B0F6","#00BA38"))+
-  labs(color="Management")
+  guides(color = guide_legend(override.aes = list(size = 3)))  +
+  labs(x="NMDS1", y="NMDS2", color="Family", size="Dry body mass (g)")
+
 
 print(plot1)
+

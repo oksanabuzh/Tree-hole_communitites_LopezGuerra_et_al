@@ -28,7 +28,7 @@ environm <- read_csv("data/processed_data/Environment_ALL.csv") %>%
 str(environm)
 
 landscape_heterogeneity <- read_csv("data/processed_data/Landscape_heterogeneity.csv")
-
+names(landscape_heterogeneity)
 
 Diversity_2023_2024 <- read_csv("data/processed_data/Diversity_2023_2024.csv") %>% 
   mutate(Month=factor(Month, levels=c("May", "June", "July", "November"))) %>% 

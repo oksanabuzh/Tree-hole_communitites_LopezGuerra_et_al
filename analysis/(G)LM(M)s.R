@@ -14,6 +14,10 @@ library(lme4)
 library(lmerTest)
 library(effects)
 
+
+citation("vegan")
+
+
 # Prefer dplyr's select whenever there is a conflict
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
@@ -106,7 +110,7 @@ check_overdispersion(m0b_Abund)
 
 
 ## Test fixed effects: ---------------------------------------------------------
-
+?glm
 m1_Abund <- glm(abundance ~  
                   log1p(Formi_mean_2012_2018) + 
                   Forest_percent +
@@ -187,8 +191,37 @@ Anova(m5_Abund)
 drop1(m5_Abund, test = "F")
 
 
+## Extract results :   -----------------------------------
 
+output_Abund <- bind_rows(
+  as.data.frame(Anova(m1_Abund)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("log1p(Formi_mean_2012_2018)", "Tree_sp_richness")) %>%
+    mutate(model = "m1_Abund"),
+  
+  as.data.frame(Anova(m2a_Abund)) %>%
+    rownames_to_column("term") %>%
+    filter(term == "Inonat_mean_tr") %>%
+    mutate(model = "m2a_Abund"),
+  
+  as.data.frame(Anova(m2_Abund)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                       "Forest_percent", "precipitation_radolan_mean")) %>%
+    mutate(model = "m2_Abund"),
+  
+  as.data.frame(Anova(m4_Abund)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("ssci", "Openness")) %>%
+    mutate(model = "m4_Abund"),
+  
+  as.data.frame(Anova(m5_Abund)) %>%
+    rownames_to_column("term") %>%
+    filter(term == "log1p(LandType_richness_class_2)") %>%
+    mutate(model = "m5_Abund")) 
 
+output_Abund
+  
 ## Plots: --------------------------
 ### Forest management: ------------------------------------
 #### Harvested tree biomass: Iharv_mean_2012_2018 ----------------------------------------------------------
@@ -487,7 +520,6 @@ anova(m0_SR, m0b_SR)
 ## Test fixed effects: ---------------------------------------------------------
 
 
-
 m1_SR <- glm(sp_richness ~  
                log1p(Formi_mean_2012_2018) + 
                Forest_percent +
@@ -545,8 +577,7 @@ Anova(m3_SR)
 m4_SR <- glm(sp_richness ~  
                Formi_mean_2012_2018 + 
                ssci +  
-               Openness +
-               Vertical_structure,
+               Openness,
              family = poisson,
              data=Diversity_2023_2024)
 
@@ -564,8 +595,38 @@ check_collinearity(m5_SR)
 Anova(m5_SR)
 
 
+## Extract results :   -----------------------------------
 
+output_SR <- bind_rows(
+  as.data.frame(Anova(m1_SR)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("log1p(Formi_mean_2012_2018)", "Tree_sp_richness")) %>%
+    mutate(model = "m1_SR"),
+  
+  as.data.frame(Anova(m2a_SR)) %>%
+    rownames_to_column("term") %>%
+    filter(term == "Inonat_mean_tr") %>%
+    mutate(model = "m2a_SR"),
+  
+  as.data.frame(Anova(m2_SR)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                       "Forest_percent", "precipitation_radolan_mean")) %>%
+    mutate(model = "m2_SR"),
+  
+  as.data.frame(Anova(m4_SR)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("ssci", "Openness")) %>%
+    mutate(model = "m4_SR"),
+  
+  as.data.frame(Anova(m5_SR)) %>%
+    rownames_to_column("term") %>%
+    filter(term == "log1p(LandType_richness_class_2)") %>%
+    mutate(model = "m5_SR")) 
 
+output_SR
+
+## Plots: --------------------------
 ## Forest management: ------------------------------------
 ### Harvested tree biomass: Iharv_mean_2012_2018 ----------------------------------------------------------
 rng_Iharv <- range(Diversity_2023_2024$Iharv_mean_2012_2018, na.rm = TRUE)
@@ -817,7 +878,7 @@ m2a_mass <- lm(biomass_dry_mg_log ~
                 Inonat_mean_tr + 
                 Iharv_mean_2012_2018 + 
                 Idwcut_mean_2012_2018 +
-                Forest_percent + 
+             #   Forest_percent + 
                 precipitation_radolan_mean,
               data=Diversity_2023_2024)
 
@@ -830,7 +891,7 @@ m2_mass <- lm(biomass_dry_mg_log ~
                 Inonat_mean_tr + 
                 Iharv_mean_2012_2018 + 
                 Idwcut_mean_2012_2018 +
-                # Forest_percent + 
+                Forest_percent + 
                 precipitation_radolan_mean,
               data=Diversity_2023_2024)
 
@@ -852,8 +913,7 @@ Anova(m3_mass)
 m4_mass <- lm(biomass_dry_mg_log ~  
                 Formi_mean_2012_2018 + 
                 ssci +  
-                Openness +
-                Vertical_structure,
+                Openness,
               data=Diversity_2023_2024)
 
 check_collinearity(m4_mass)
@@ -868,6 +928,35 @@ m5_mass <- lm(biomass_dry_mg_log ~
 
 check_collinearity(m5_mass)
 Anova(m5_mass)
+
+## Extract results :   -----------------------------------
+output_mass <- bind_rows(
+  as.data.frame(Anova(m1_mass)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("Formi_mean_2012_2018", "Tree_sp_richness")) %>%
+    mutate(model = "m1_mass"),
+  
+  as.data.frame(Anova(m2a_mass)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("Inonat_mean_tr", "Iharv_mean_2012_2018", "Idwcut_mean_2012_2018")) %>%
+    mutate(model = "m2_mass"),
+  
+  as.data.frame(Anova(m2_mass)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("Forest_percent", "precipitation_radolan_mean")) %>%
+    mutate(model = "m2_mass"),
+  
+  as.data.frame(Anova(m4_mass)) %>%
+    rownames_to_column("term") %>%
+    filter(term %in% c("ssci", "Openness")) %>%
+    mutate(model = "m4_mass"),
+  
+  as.data.frame(Anova(m5_mass)) %>%
+    rownames_to_column("term") %>%
+    filter(term == "log1p(LandType_richness_class_2)") %>%
+    mutate(model = "m5_mass")) 
+
+output_mass
 
 
 ## Plots: --------------------------
@@ -1188,6 +1277,45 @@ ggplot(m1a_SR_Tree_SR_perc, aes(x = Tree_sp_richness, y = fit)) +
 
 
 
+# 4) Extract results: -------------------------------------------------------------
+Model_results <- bind_rows(output_SR %>% 
+            rename(Statistic="LR Chisq",  
+                   p_value = "Pr(>Chisq)") %>% 
+            mutate(Responce = "SR"), 
+          output_Abund %>% 
+            rename(Statistic="LR Chisq",  
+                   p_value = "Pr(>Chisq)") %>% 
+            mutate(Responce = "Abundance"),
+          output_mass %>% 
+            rename(Statistic="F value",  
+                   p_value = "Pr(>F)") %>% 
+            mutate(Responce = "Biomass") %>% 
+            select(-"Sum Sq")
+          ) %>% 
+  rename(Driver = "term") %>%
+  select(Responce, Driver, Df, Statistic, p_value) %>% 
+  mutate(sig = case_when(
+    p_value <= 0.001 ~ "***",
+    p_value <= 0.01  ~ "**",
+    p_value <= 0.05  ~ "*",
+    p_value <= 0.1   ~ ".",
+    TRUE ~ "")) %>% 
+  mutate(Driver = case_when(
+  Driver %in% c("log1p(Formi_mean_2012_2018)", "Formi_mean_2012_2018") ~ "Forest management intensity",
+  Driver == "Tree_sp_richness" ~ "Tree species richness",
+  Driver == "Inonat_mean_tr" ~ "Non-natural tree species",
+  Driver == "Iharv_mean_2012_2018" ~ "Harvested tree biomass",
+  Driver == "Idwcut_mean_2012_2018" ~ "Dead wood with saw cuts",
+  Driver == "Forest_percent" ~ "Forest cover, %",
+  Driver == "precipitation_radolan_mean" ~ "Precipitation",
+  Driver == "ssci" ~ "Stand structural complexity",
+  Driver == "Openness" ~ "Open areas, % ha⁻¹",
+  Driver == "log1p(LandType_richness_class_2)" ~ "Landscape heterogeneity"
+)) %>% 
+  mutate(Statistic=round(Statistic, 2),
+         p_value=round(p_value, 3))
 
+Model_results
 
+write_csv(Model_results, "results/G(LM)_results.csv")
 # END --------------------------------------------------------------------------

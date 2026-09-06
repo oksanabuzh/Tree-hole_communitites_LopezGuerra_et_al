@@ -110,7 +110,7 @@ check_overdispersion(m0b_Abund)
 
 
 ## Test fixed effects: ---------------------------------------------------------
-?glm
+
 m1_Abund <- glm(abundance ~  
                   log1p(Formi_mean_2012_2018) + 
                   Forest_percent +
@@ -123,6 +123,7 @@ check_collinearity(m1_Abund)
 
 #Anova(m1_Abund)
 drop1(m1_Abund, test = "F")
+
 
 # test components of Formi
 m2a_Abund <- glm(abundance ~   
@@ -166,6 +167,8 @@ check_collinearity(m3_Abund)
 Anova(m3_Abund)
 drop1(m3_Abund, test = "F")
 
+
+
 # test forest structure
 m4_Abund <- glm(abundance ~  
                   Formi_mean_2012_2018 + 
@@ -174,8 +177,6 @@ m4_Abund <- glm(abundance ~
                   precipitation_radolan_mean, # + Vertical_structure,
                 family = quasipoisson,
                 data=Diversity_2023_2024)
-
-check_collinearity(m4_Abund)
 
 drop1(m4_Abund, test = "F")
 
@@ -218,10 +219,104 @@ output_Abund <- bind_rows(
   as.data.frame(Anova(m5_Abund)) %>%
     rownames_to_column("term") %>%
     filter(term == "log1p(LandType_richness_class_2)") %>%
-    mutate(model = "m5_Abund")) 
+    mutate(model = "m5_Abund")) %>% 
+ 
+  # extract slopes 
+  left_join(
+    bind_rows(
+      
+      broom::tidy(m1_Abund) %>% 
+        filter(term %in% c("log1p(Formi_mean_2012_2018)", "Tree_sp_richness")) %>%
+        mutate(model = "m1_Abund"),
+ 
+      broom::tidy(m2a_Abund) %>% 
+        filter(term == "Inonat_mean_tr") %>%
+        mutate(model = "m2a_Abund"),
+      
+      broom::tidy(m2_Abund) %>% 
+        filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                           "Forest_percent", "precipitation_radolan_mean")) %>%
+        mutate(model = "m2_Abund"),
+      
+      broom::tidy(m4_Abund) %>% 
+        filter(term %in% c("ssci", "Openness")) %>%
+        mutate(model = "m4_Abund"),
+      
+      broom::tidy(m5_Abund) %>% 
+        filter(term == "log1p(LandType_richness_class_2)") %>%
+        mutate(model = "m5_Abund")
+      ) %>% 
+      select(term, estimate, std.error, model), 
+    by = c("term", "model")) %>%
+            
+  # R2 for each effect
+   left_join(
+    bind_rows(
+      
+      r2glmm::r2beta(m1_Abund,  partial = T) %>% as.data.frame() %>% 
+      rename(term="Effect") %>%
+      filter(term %in% c("log1p(Formi_mean_2012_2018)", "Tree_sp_richness")) %>%
+      select(term,  Rsq), 
+      
+      r2glmm::r2beta(m2a_Abund,  partial = T) %>% as.data.frame() %>% 
+      rename(term="Effect") %>%
+      filter(term == "Inonat_mean_tr") %>%
+      select(term,  Rsq), 
+      
+      r2glmm::r2beta(m2_Abund,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                           "Forest_percent", "precipitation_radolan_mean")) %>% 
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(m4_Abund,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("ssci")) %>%
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(glm(abundance ~ Openness, family = quasipoisson, data=Diversity_2023_2024),  
+                     partial = T) %>% as.data.frame() %>% 
+        filter(Effect %in% c("Model")) %>%
+        rename(term="Effect") %>%
+        mutate(term=ifelse(term=="Model", "Openness", term)) %>%
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(m5_Abund,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("log1p(LandType_richness_class_2)")) %>%
+        select(term,  Rsq)
+      ), 
+    by = "term") %>% 
+  
+  # R2 for the entire model
+  left_join(
+    bind_rows(
+      MuMIn::r.squaredGLMM(m1_Abund) %>% as.data.frame() %>% rownames_to_column("type") %>%
+        mutate(model = "m1_Abund"),
+      MuMIn::r.squaredGLMM(m2a_Abund) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m2a_Abund"),
+      MuMIn::r.squaredGLMM(m2_Abund) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m2_Abund"),
+      MuMIn::r.squaredGLMM(m4_Abund) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m4_Abund"),
+      MuMIn::r.squaredGLMM(m5_Abund) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m5_Abund")
+      ) %>%
+        filter(type == "delta") %>%
+        select(R2m, model),
+    by = "model") %>% 
+  rename(R2_model = R2m,
+         R2_partial = Rsq) 
+
+  
+      
+      
 
 output_Abund
-  
+
+
+
+
 ## Plots: --------------------------
 ### Forest management: ------------------------------------
 #### Harvested tree biomass: Iharv_mean_2012_2018 ----------------------------------------------------------
@@ -622,7 +717,96 @@ output_SR <- bind_rows(
   as.data.frame(Anova(m5_SR)) %>%
     rownames_to_column("term") %>%
     filter(term == "log1p(LandType_richness_class_2)") %>%
-    mutate(model = "m5_SR")) 
+    mutate(model = "m5_SR")) %>% 
+  
+  
+  # extract slopes 
+  left_join(
+    bind_rows(
+      
+      broom::tidy(m1_SR) %>% 
+        filter(term %in% c("log1p(Formi_mean_2012_2018)", "Tree_sp_richness")) %>%
+        mutate(model = "m1_SR"),
+      
+      broom::tidy(m2a_SR) %>% 
+        filter(term == "Inonat_mean_tr") %>%
+        mutate(model = "m2a_SR"),
+      
+      broom::tidy(m2_SR) %>% 
+        filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                           "Forest_percent", "precipitation_radolan_mean")) %>%
+        mutate(model = "m2_SR"),
+      
+      broom::tidy(m4_SR) %>% 
+        filter(term %in% c("ssci", "Openness")) %>%
+        mutate(model = "m4_SR"),
+      
+      broom::tidy(m5_SR) %>% 
+        filter(term == "log1p(LandType_richness_class_2)") %>%
+        mutate(model = "m5_SR")
+    ) %>% 
+      select(term, estimate, std.error, model), 
+    by = c("term", "model")) %>%
+  
+  # extract partial R2 for each effect
+  left_join(
+    bind_rows(
+      
+      r2glmm::r2beta(m1_SR,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("log1p(Formi_mean_2012_2018)", "Tree_sp_richness")) %>%
+        select(term,  Rsq), 
+      
+      r2glmm::r2beta(m2a_SR,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term == "Inonat_mean_tr") %>%
+        select(term,  Rsq), 
+      
+      r2glmm::r2beta(m2_SR,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                           "Forest_percent", "precipitation_radolan_mean")) %>% 
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(m4_SR,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("ssci")) %>%
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(glm(sp_richness ~ Openness, family = poisson, data=Diversity_2023_2024),  
+                     partial = T) %>% as.data.frame() %>% 
+        filter(Effect %in% c("Model")) %>%
+        rename(term="Effect") %>%
+        mutate(term=ifelse(term=="Model", "Openness", term)) %>%
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(m5_SR,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("log1p(LandType_richness_class_2)")) %>%
+        select(term,  Rsq)
+    ), 
+    by = "term")%>% 
+  
+  # R2 for the entire model
+  left_join(
+    bind_rows(
+      MuMIn::r.squaredGLMM(m1_SR) %>% as.data.frame() %>% rownames_to_column("type") %>%
+        mutate(model = "m1_SR"),
+      MuMIn::r.squaredGLMM(m2a_SR) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m2a_SR"),
+      MuMIn::r.squaredGLMM(m2_SR) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m2_SR"),
+      MuMIn::r.squaredGLMM(m4_SR) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m4_SR"),
+      MuMIn::r.squaredGLMM(m5_SR) %>% as.data.frame()%>% rownames_to_column("type") %>% 
+        mutate(model = "m5_SR")
+    ) %>%
+      filter(type == "delta") %>%
+      select(R2m, model),
+    by = "model") %>% 
+  rename(R2_model = R2m,
+         R2_partial = Rsq)
+
 
 output_SR
 
@@ -939,7 +1123,7 @@ output_mass <- bind_rows(
   as.data.frame(Anova(m2a_mass)) %>%
     rownames_to_column("term") %>%
     filter(term %in% c("Inonat_mean_tr", "Iharv_mean_2012_2018", "Idwcut_mean_2012_2018")) %>%
-    mutate(model = "m2_mass"),
+    mutate(model = "m2a_mass"),
   
   as.data.frame(Anova(m2_mass)) %>%
     rownames_to_column("term") %>%
@@ -954,7 +1138,87 @@ output_mass <- bind_rows(
   as.data.frame(Anova(m5_mass)) %>%
     rownames_to_column("term") %>%
     filter(term == "log1p(LandType_richness_class_2)") %>%
-    mutate(model = "m5_mass")) 
+    mutate(model = "m5_mass")) %>% 
+  
+  # extract slopes 
+  left_join(
+    bind_rows(
+      
+      broom::tidy(m1_mass) %>% 
+        filter(term %in% c("Formi_mean_2012_2018", "Tree_sp_richness")),
+      
+      broom::tidy(m2a_mass) %>% 
+        filter(term == "Inonat_mean_tr"),
+      
+      broom::tidy(m2_mass) %>% 
+        filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                           "Forest_percent", "precipitation_radolan_mean")),
+      
+      broom::tidy(m4_mass) %>% 
+        filter(term %in% c("ssci", "Openness")),
+      
+      broom::tidy(m5_mass) %>% 
+        filter(term == "log1p(LandType_richness_class_2)") 
+    ) %>% 
+      select(term, estimate, std.error), 
+    by = c("term")) %>%
+  
+  # extract partial R2 for each effect
+  left_join(
+    bind_rows(
+      
+      r2glmm::r2beta(m1_mass,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("Formi_mean_2012_2018", "Tree_sp_richness")) %>%
+        select(term,  Rsq), 
+      
+      r2glmm::r2beta(m2a_mass,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term == "Inonat_mean_tr") %>%
+        select(term,  Rsq), 
+      
+      r2glmm::r2beta(m2_mass,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("Iharv_mean_2012_2018", "Idwcut_mean_2012_2018",
+                           "Forest_percent", "precipitation_radolan_mean")) %>% 
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(m4_mass,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("ssci")) %>%
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(lm(biomass_dry_mg_log ~ Openness, data=Diversity_2023_2024),  
+                     partial = T) %>% as.data.frame() %>% 
+        filter(Effect %in% c("Model")) %>%
+        rename(term="Effect") %>%
+        mutate(term=ifelse(term=="Model", "Openness", term)) %>%
+        select(term,  Rsq),
+      
+      r2glmm::r2beta(m5_mass,  partial = T) %>% as.data.frame() %>% 
+        rename(term="Effect") %>%
+        filter(term %in% c("log1p(LandType_richness_class_2)")) %>%
+        select(term,  Rsq)
+    ), 
+    by = "term") %>% 
+  # R2 for the entire model
+  left_join(
+    bind_rows(
+      MuMIn::r.squaredGLMM(m1_mass) %>% as.data.frame() %>%
+        mutate(model = "m1_mass"),
+      MuMIn::r.squaredGLMM(m2a_mass) %>% as.data.frame()%>%  
+        mutate(model = "m2a_mass"),
+      MuMIn::r.squaredGLMM(m2_mass) %>% as.data.frame()%>%  
+        mutate(model = "m2_mass"),
+      MuMIn::r.squaredGLMM(m4_mass) %>% as.data.frame()%>%  
+        mutate(model = "m4_mass"),
+      MuMIn::r.squaredGLMM(m5_mass) %>% as.data.frame()%>%  
+        mutate(model = "m5_mass")
+    ) %>%
+      select(R2m, model),
+    by = "model") %>% 
+  rename(R2_model = R2m,
+         R2_partial = Rsq)
 
 output_mass
 
@@ -1293,13 +1557,14 @@ Model_results <- bind_rows(output_SR %>%
             select(-"Sum Sq")
           ) %>% 
   rename(Driver = "term") %>%
-  select(Responce, Driver, Df, Statistic, p_value) %>% 
+  select(Responce, Driver, Df, Statistic, p_value, estimate,  std.error, R2_model, R2_partial) %>% 
   mutate(sig = case_when(
     p_value <= 0.001 ~ "***",
     p_value <= 0.01  ~ "**",
     p_value <= 0.05  ~ "*",
     p_value <= 0.1   ~ ".",
-    TRUE ~ "")) %>% 
+    TRUE ~ ""),
+    .after = p_value) %>% 
   mutate(Driver = case_when(
   Driver %in% c("log1p(Formi_mean_2012_2018)", "Formi_mean_2012_2018") ~ "Forest management intensity",
   Driver == "Tree_sp_richness" ~ "Tree species richness",
@@ -1313,9 +1578,84 @@ Model_results <- bind_rows(output_SR %>%
   Driver == "log1p(LandType_richness_class_2)" ~ "Landscape heterogeneity"
 )) %>% 
   mutate(Statistic=round(Statistic, 2),
-         p_value=round(p_value, 3))
+         p_value=round(p_value, 3),
+         R2_model=round(R2_model, 2),
+         R2_partial=round(R2_partial, 4)) %>% 
+  rename(Slope="estimate", 
+         Slope_Std_error="std.error")
 
 Model_results
 
 write_csv(Model_results, "results/G(LM)_results.csv")
+
+
+
+# 5) R2 figure -----------------------------------------------------------------
+
+
+Model_reslt <- read_csv("results/G(LM)_results.csv") %>% 
+  mutate(Eff=case_when(
+    Slope > 0 ~ "positive effect",
+    Slope < 0 ~ "negative effect",
+    TRUE ~ "categorical driver")) %>% 
+  mutate(significance=ifelse(p_value <=0.05, "significant", "non-significant"),
+         .after=sig) %>% 
+  mutate(Responce = ifelse(Responce=="SR", "Species richness", Responce)) %>% 
+  mutate(Responce = factor(Responce, levels = c("Species richness", "Abundance", "Biomass")),
+         Driver = factor(Driver, levels = c("Forest management intensity",
+                                            "Harvested tree biomass",
+                                            "Dead wood with saw cuts",
+                                            "Non-natural tree species", 
+                                            "Tree species richness",
+                                            "Landscape heterogeneity",
+                                            "Forest cover, %",
+                                            "Stand structural complexity", 
+                                            "Precipitation",
+                                            "Open areas, % ha⁻¹")),
+         significance = factor(significance, 
+                               levels = c("significant", "non-significant")) 
+
+
+library(scales)
+
+Model_reslt %>% 
+  mutate(Driver = fct_rev(as.factor(Driver)),
+         Eff = fct_rev(as.factor(Eff)),
+         significance=fct_rev(as.factor(significance))) %>%
+  ggplot(aes(x = Responce, y = Driver, 
+                      fill = Eff, size = R2_partial, alpha=significance)) +
+  geom_point(shape = 21, stroke = 0.5) +
+  scale_fill_manual(
+    values = c("negative effect" = "#ED9121", "positive effect" = "olivedrab", 
+               "categorical driver" = "#2166AC"),
+    name = "Effect type"
+  ) +
+  scale_alpha_manual(values = c("significant" = 1, "non-significant" = 0.5), 
+                     name = "Effect significance") +
+  scale_size_continuous(
+    range = c(1, 8),
+    name = "Variance explained", # expression(Partial~R^2),
+    breaks = c(0.01, 0.05, 0.10, 0.20),         # legend keys start at 0.005; exclude 0
+    labels = label_number(scale = 100, suffix = " %"), # show as percent if you prefer
+    guide = guide_legend(override.aes = list(shape = 21, 
+                                             fill = "grey80", 
+                                             colour = "black"))
+    ) +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(),
+    axis.text = element_text(color = "black", size=10),
+    panel.grid.major = element_line(color = "grey90"),
+    legend.position = "right") +
+  guides(
+    fill = guide_legend(override.aes = list(size = 6)),
+    alpha = guide_legend(override.aes = list(
+      size   = 6,
+      fill   = c("grey69", "grey75"),   # dark = significant, light = non-significant
+      colour = "black",
+      alpha  = c(1, 0.5)
+    ))
+  ) +
+  labs(x = " ", y = "Drivers")
+
 # END --------------------------------------------------------------------------

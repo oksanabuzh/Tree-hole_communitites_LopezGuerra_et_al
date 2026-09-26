@@ -1592,16 +1592,35 @@ write_csv(Model_results, "results/G(LM)_results.csv")
 
 # 5) R2 figure -----------------------------------------------------------------
 
+NMDS_resul <- read_csv("results/NMDS_envfit_table.csv") %>% 
+  mutate(significance=ifelse(pval <=0.05, "significant", "non-significant"),
+         .after=sig) %>% 
+  rename(Driver = "Term",
+         R2_partial="r2") %>%
+  mutate(Responce  = "Species composition",
+         Eff="no direction of effect") %>% 
+  dplyr::select(Responce, Driver, R2_partial, significance, Eff) 
+
+
 
 Model_reslt <- read_csv("results/G(LM)_results.csv") %>% 
   mutate(Eff=case_when(
     Slope > 0 ~ "positive effect",
     Slope < 0 ~ "negative effect",
-    TRUE ~ "categorical driver")) %>% 
+    TRUE ~ "no direction of effect")) %>% 
   mutate(significance=ifelse(p_value <=0.05, "significant", "non-significant"),
          .after=sig) %>% 
   mutate(Responce = ifelse(Responce=="SR", "Species richness", Responce)) %>% 
-  mutate(Responce = factor(Responce, levels = c("Species richness", "Abundance", "Biomass")),
+  dplyr::select(Responce, Driver, R2_partial, significance, Eff) 
+
+
+library(scales)
+
+Model_reslt %>% 
+  bind_rows(NMDS_resul) %>%
+  mutate(Responce = factor(Responce, 
+                           levels = c("Species richness", "Abundance", 
+                                      "Biomass", "Species composition")),
          Driver = factor(Driver, levels = c("Forest management intensity",
                                             "Harvested tree biomass",
                                             "Dead wood with saw cuts",
@@ -1613,21 +1632,18 @@ Model_reslt <- read_csv("results/G(LM)_results.csv") %>%
                                             "Precipitation",
                                             "Open areas, % ha⁻¹")),
          significance = factor(significance, 
-                               levels = c("significant", "non-significant")) 
-
-
-library(scales)
-
-Model_reslt %>% 
-  mutate(Driver = fct_rev(as.factor(Driver)),
-         Eff = fct_rev(as.factor(Eff)),
-         significance=fct_rev(as.factor(significance))) %>%
+                               levels = c("significant", "non-significant")),
+         Eff = factor(Eff, levels = c("positive effect", "negative effect", 
+                                   "no direction of effect"))
+         ) %>% 
+         
+  mutate(Driver = fct_rev(as.factor(Driver))) %>%
   ggplot(aes(x = Responce, y = Driver, 
                       fill = Eff, size = R2_partial, alpha=significance)) +
   geom_point(shape = 21, stroke = 0.5) +
   scale_fill_manual(
     values = c("negative effect" = "#ED9121", "positive effect" = "olivedrab", 
-               "categorical driver" = "#2166AC"),
+               "no direction of effect" = "#2166AC"),
     name = "Effect type"
   ) +
   scale_alpha_manual(values = c("significant" = 1, "non-significant" = 0.5), 

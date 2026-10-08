@@ -3,6 +3,7 @@
 library(tidyverse)
 library(scales)
 library(forcats)
+library(conflicted)
 
 # Prefer dplyr's select whenever there is a conflict
 conflict_prefer("select", "dplyr")
@@ -640,7 +641,9 @@ ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Urban_percent)) +
 
 ## Tree_sp_richness -----------------------
 
+names(environm)
 
+                                
 ggplot(dat_envir, aes(x = Formi_mean_2012_2018, y = Tree_sp_richness)) +
   geom_jitter(width=0, height=0, pch=21, size=2.5, color="brown", fill="#FFA55B") +
   geom_smooth( method = "lm", color = "#086096",fill  = "#86BBD8", alpha = 0.2) +
@@ -750,5 +753,75 @@ ggplot(dat_envir, aes(x = Inonat_mean_tr, y = Standing_deadwood)) +
 
 
 
+# 5) Predictor explorations ------------------------------------------
 
+names(environm)
+
+environm %>% 
+  group_by(Plot) %>%
+  summarise(
+    Formi_mean_2012_2018 = first(Formi_mean_2012_2018),
+    Formi_sd_2012_2018 = first(Formi_sd_2012_2018),
+    Iharv_mean_2012_2018 = first(Iharv_mean_2012_2018),
+    Iharv_sd_2012_2018 = first(Iharv_sd_2012_2018),
+    Idwcut_mean_2012_2018 = first(Idwcut_mean_2012_2018),
+    Idwcut_sd_2012_2018 = first(Idwcut_sd_2012_2018),
+    Inonat_mean_2012_2018 = first(Inonat_mean_2012_2018),
+    Inonat_sd_2012_2018 = first(Inonat_sd_2012_2018),
+    Tree_sp_richness = first(Tree_sp_richness)
+    .groups = "drop"
+  ) %>% 
+  write_csv("data/processed_data/plot_predictor_values.csv")
+
+
+
+# 6) Pie charts: tree species composition per plot ------------------------------------------
+
+
+library(scales)
+
+
+
+palette12 <- c(
+  "#4E79A7", "#F28E2B", "#E15759", "#76B7B2",
+  "#59A14F", "#EDC948", "#B07AA1", "#FF9DA7",
+  "#9C755F", "#BAB0AC", "#0072B2", "#D55E00"
+)
+
+
+pie_long <- environm %>%
+  select(Plot, starts_with("perc_")) %>%
+  summarise(across(starts_with("perc_"), mean, na.rm = TRUE), .by = Plot) %>%
+  pivot_longer(cols = starts_with("perc_"),
+               names_to = "tree_species", values_to = "perc") %>%
+  mutate(
+    species = str_remove(tree_species, "^perc_") %>% str_replace_all("_", " "),
+    perc = as.numeric(perc)
+  ) %>%
+  filter(!is.na(perc) & perc > 0)    # drop zeros/NA
+
+# faceted pies: one small pie per plot
+pie_long %>%
+  ggplot(aes(x = 1, y = perc, fill = species)) +
+  geom_col(width = 1, colour = "grey40", linewidth = 0.1) +
+  coord_polar(theta = "y") +
+  facet_wrap(~ Plot, ncol = 4) +                # adjust ncol
+  theme_void() +
+  theme(
+    legend.position = "right",
+    strip.text = element_text(size = 8)
+  ) +
+  guides(fill = guide_legend(ncol = 1, override.aes = list(size = 2))) +
+  labs(fill = "Tree species")
+
+
+
+pie_long %>%
+  ggplot(aes(x = 1, y = perc, fill = species)) +
+  geom_col(width = 1, colour = "grey40", linewidth = 0.1) +
+  coord_polar(theta = "y") +
+  facet_wrap(~ Plot, ncol = 4) +
+  scale_fill_manual(values = palette12, name = "Tree species") +
+  theme_void() +
+  theme(legend.position = "right")
 

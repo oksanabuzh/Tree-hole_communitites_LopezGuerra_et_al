@@ -402,7 +402,7 @@ sp_dat %>%
   ggplot(aes(x = log(Biomass), y = Species, color=Family_DNA_corrected)) +
   geom_boxplot(alpha=0, outliers = F) +
   geom_jitter(width = 0, height = 0.3, alpha=1, size=2) +
-  theme_bw() + labs(x = "Total biomass (log), g", y = "Species", color="Family")+
+  theme_bw() + labs(x = "Total biomass (log), mg", y = "Species", color="Family")+
   theme(axis.text.y = element_text(size = 13, color="black"),
         axis.text.x = element_text(size = 10, color="black"),
         text = element_text(size = 12, color="black"))
@@ -798,7 +798,24 @@ pie_long <- environm %>%
     species = str_remove(tree_species, "^perc_") %>% str_replace_all("_", " "),
     perc = as.numeric(perc)
   ) %>%
-  filter(!is.na(perc) & perc > 0)    # drop zeros/NA
+  filter(!is.na(perc) & perc > 0)  %>%   # drop zeros/NA
+  mutate(Site=case_when(
+    Plot=="SEW04" ~ "Site 1",
+    Plot=="SEW05" ~ "Site 2",
+    Plot=="SEW06" ~ "Site 3",
+    Plot=="SEW07" ~ "Site 4",
+    Plot=="SEW29" ~ "Site 5",
+    Plot=="SEW35" ~ "Site 6",
+    Plot=="SEW36" ~ "Site 7",
+    Plot=="SEW37" ~ "Site 8",
+    Plot=="SEW43" ~ "Site 9",
+    Plot=="SEW44" ~ "Site 10",
+    Plot=="SEW45" ~ "Site 11",
+    Plot=="SEW49" ~ "Site 12")) %>% 
+  mutate(Site=factor(Site, 
+                     levels=c("Site 1", "Site 2", "Site 3", "Site 4", "Site 5", "Site 6",
+                                    "Site 7", "Site 8", "Site 9", "Site 10", "Site 11", "Site 12")))
+           
 
 # faceted pies: one small pie per plot
 pie_long %>%
@@ -820,8 +837,15 @@ pie_long %>%
   ggplot(aes(x = 1, y = perc, fill = species)) +
   geom_col(width = 1, colour = "grey40", linewidth = 0.1) +
   coord_polar(theta = "y") +
-  facet_wrap(~ Plot, ncol = 4) +
+  facet_wrap(~ Site, ncol = 4) +
   scale_fill_manual(values = palette12, name = "Tree species") +
   theme_void() +
   theme(legend.position = "right")
 
+
+
+
+environm %>%
+  select(Plot, starts_with("perc_")) %>%
+  summarise(across(starts_with("perc_"), mean, na.rm = TRUE), .by = Plot) %>% 
+  write_csv("data/processed_data/tree_species_composition_per_plot.csv")

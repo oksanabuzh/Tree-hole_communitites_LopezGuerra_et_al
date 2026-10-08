@@ -1248,7 +1248,7 @@ ggplot(m1a_SR_Iharv_perc, aes(x = Iharv_mean_2012_2018, y = fit)) +
   scale_y_continuous(breaks = c(0, 1, 2), 
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
   # scale_y_continuous(breaks = seq(0, 16, by = 4)) +
-  labs(x = "Harvested tree biomass",  y = "Biomass, g") 
+  labs(x = "Harvested tree biomass",  y = "Biomass, mg") 
 
 
 
@@ -1274,7 +1274,7 @@ ggplot(m1a_SR_Idwcut_perc, aes(x = Idwcut_mean_2012_2018, y = fit)) +
   theme_bw() +
   scale_y_continuous(breaks = c(0, 1, 2), 
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Dead wood with saw cuts",  y = "Biomass, g") 
+  labs(x = "Dead wood with saw cuts",  y = "Biomass, mg") 
 
 
 #### Non-natural tree species ----------------------------------------------------------
@@ -1299,7 +1299,7 @@ ggplot(m1_2_SR_Inonat_perc, aes(x = Inonat_mean_tr, y = fit)) +
   theme_bw() +
   scale_y_continuous(breaks = seq(0, 3, by = 1),
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Non-natural tree species",  y = "Biomass, g") 
+  labs(x = "Non-natural tree species",  y = "Biomass, mg") 
 
 
 
@@ -1323,7 +1323,7 @@ ggplot(m1_3_SR_FMI_perc, aes(x = Formi_mean_2012_2018, y = fit)) +
   theme_bw() +
   scale_y_continuous(breaks = seq(0, 3, by = 1),
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Forest management intensity",  y = "Biomass, g") 
+  labs(x = "Forest management intensity",  y = "Biomass, mg") 
 
 
 ### Landscape: ----------------------------------------------------
@@ -1350,7 +1350,7 @@ ggplot(m1a_SR_Land_perc, aes(x = LandType_richness_class_2, y = fit)) +
   theme_bw() +
   scale_y_continuous(breaks = seq(0, 3, by = 1),
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Landscape heterogeneity",  y = "Biomass, g") 
+  labs(x = "Landscape heterogeneity",  y = "Biomass, mg") 
 
 
 
@@ -1373,7 +1373,7 @@ ggplot(m1a_SR_Forest_perc, aes(x = Forest_percent, y = fit)) +
   theme_bw() +
   scale_y_continuous(breaks = seq(0, 3, by = 1),
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Forest cover, %",  y = "Biomass, g") 
+  labs(x = "Forest cover, %",  y = "Biomass, mg") 
 
 
 
@@ -1401,7 +1401,7 @@ ggplot(m1_SR_Agric_perc, aes(x = log1p(Agricultural_percent), y = fit)) +
                      labels =  function(x) paste0(round(exp(x) - 1), "")) +
   scale_y_continuous(breaks = seq(0, 3, by = 1),
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Agricultural lands cover",  y = "Biomass, g") 
+  labs(x = "Agricultural lands cover",  y = "Biomass, mg") 
 
 
 
@@ -1427,7 +1427,7 @@ ggplot(m1_SR_Urb_perc, aes(x = log1p(Urban_percent), y = fit)) +
   theme_bw() +
   scale_y_continuous(breaks = seq(0, 3, by = 1),
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Urban lands cover, %",  y = "Biomass, g") 
+  labs(x = "Urban lands cover, %",  y = "Biomass, mg") 
 
 
 
@@ -1455,7 +1455,7 @@ ggplot(m1_SR_ssci_perc, aes(x = log1p(ssci), y = fit)) +
   theme_bw() +
   scale_y_continuous(breaks = seq(0, 3, by = 1),
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
-  labs(x = "Stand structural complexity",  y = "Biomass, g") 
+  labs(x = "Stand structural complexity",  y = "Biomass, mg") 
 
 
 
@@ -1482,7 +1482,7 @@ Diversity_2023_2024 %>%
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
   labs(
     x = "Open areas, % ha⁻¹",
-    y="Biomass, g") +
+    y="Biomass, mg") +
   theme_bw()
 
 
@@ -1510,7 +1510,7 @@ Diversity_2023_2024 %>%
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
   labs(
     x = "Number of vegetation layers",
-    y="Biomass, g") +
+    y="Biomass, mg") +
   theme_bw()
 
 
@@ -1537,7 +1537,7 @@ ggplot(m1a_SR_Tree_SR_perc, aes(x = Tree_sp_richness, y = fit)) +
   scale_y_continuous(breaks = c(0, 1, 2), 
                      labels =  function(x) paste0(round(exp(x) - 1, 1))) +
   # scale_y_continuous(breaks = seq(0, 16, by = 4)) +
-  labs(x = "Tree species richness",  y = "Biomass, g") 
+  labs(x = "Tree species richness",  y = "Biomass, mg") 
 
 
 

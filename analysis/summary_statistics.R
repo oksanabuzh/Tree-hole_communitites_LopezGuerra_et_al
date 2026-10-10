@@ -34,11 +34,27 @@ str(Diversity_2023_2024)
 
 ## Community composition data ------------
 sp_dat <- readr::read_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv") %>%
-  select(Treehole_number, Sp_ID_DNAcorrected, Abundance) %>%
-  left_join(trait_data, by = "Sp_ID_DNAcorrected") 
+  select(Treehole_number, Sp_ID_DNAcorrected, Species, Abundance) 
 
-## Trait data ---------------
-trait_data <- read_csv("data/processed_data/Traits_2023_2024_final_DNA_corrected.csv")
+sp_dat %>% 
+  distinct(Species, Sp_ID_DNAcorrected) %>% 
+  print(n = Inf)
+
+##distinct()## Trait data ---------------
+trait_data <- read_csv("data/processed_data/Traits_2023_2024_final_DNA_corrected.csv") %>% 
+  select(-Species) %>% 
+  mutate(dry_weight_mg_sd=ifelse(is.na(dry_weight_mg_sd), 0, dry_weight_mg_sd))
+
+trait_data %>% 
+  distinct(Sp_ID_DNAcorrected) %>% 
+  print(n = Inf)
+
+sp_dat <- sp_dat %>%
+  left_join(trait_data, by = c("Sp_ID_DNAcorrected") )
+
+sp_dat %>% 
+  distinct(Sp_ID_DNAcorrected, Species) %>% 
+  print(n = Inf)
 
 
 
@@ -353,15 +369,21 @@ sp_dat %>%
         text = element_text(size = 12, color="black"))
 
 # body size:
+names(sp_dat)
 sp_dat %>% 
-  select(Species, Sp_ID_DNAcorrected, Abundance, dry_weight_mg) %>% 
+  select(Species, Sp_ID_DNAcorrected, Abundance, dry_weight_mg, 
+         dry_weight_mg_sd) %>% 
   left_join(freq_tbl, by=c("Species")) %>% 
-  mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()) %>%
+  mutate(Species = fct_reorder(Species, species_rank) %>% 
+           forcats::fct_rev()) %>%
   ggplot(aes(x = 1, y = Species, color=Family_DNA_corrected, fill=Family_DNA_corrected,
              size = dry_weight_mg)) +
+  geom_errorbarh(aes(xmin = pmax(dry_weight_mg + dry_weight_mg_sd, 0), 
+                     xmax = dry_weight_mg - dry_weight_mg_sd),
+                 height = 0.25, colour = "grey40") +
   geom_jitter(width = 0, height = 0, alpha=1, shape = 21,  colour = "black") +
   theme_bw() + labs(x = "Body mass", y = "Species", 
-                    fill="Family", size="Body mass, g") +
+                    fill="Family", size="Body mass, mg") +
   theme(axis.text.y = element_text(size = 13, color="black"),
         axis.text.x = element_text(size = 10, color="white"),
         #   axis.text.x = element_blank(),

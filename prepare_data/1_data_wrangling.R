@@ -286,8 +286,13 @@ body_size_all <- read_csv("data/raw_data/traits/body_measurements_merged_final.c
 # Summarised body size data by Sp_ID
 BodySize_mean_Sp_ID <- body_size_all %>% 
   summarise(Sp_ID_wet_weight = mean(wet_weight_mg, na.rm = TRUE), 
+            Sp_ID_wet_weight_sd = sd(wet_weight_mg, na.rm = TRUE),
             Sp_ID_length = mean(length_mm, na.rm = TRUE),
+            Sp_ID_length_sd = sd(length_mm, na.rm = TRUE),
             Sp_ID_dry_weight = mean(dry_weight_mg, na.rm = TRUE),
+            Sp_ID_dry_weight_sd = sd(dry_weight_mg, na.rm = TRUE),
+            Sp_ID_dry_weight_min = min(dry_weight_mg, na.rm = TRUE),
+            Sp_ID_dry_weight_max = max(dry_weight_mg, na.rm = TRUE),
              Sp_ID_Indiv_n = n(),
              Body_size_level = "Sp_ID",
             .by = c("Sp_ID")) %>% 
@@ -295,22 +300,37 @@ BodySize_mean_Sp_ID <- body_size_all %>%
               dplyr::select(Sp_ID, Sp_ID_DNAcorrected), by = c("Sp_ID")) %>% 
   relocate(Sp_ID_DNAcorrected, .after = Sp_ID) %>% 
   print(n=Inf)
-   
+  
+
+BodySize_mean_Sp_ID %>% 
+  print(n=Inf)
+
 # Summarised body size data by Sp_ID corrected with DNA data (for some species we have more than one Sp_ID but only one Sp_ID_DNAcorrected, so we will average the body size for those species)
+
 BodySize_mean_SpID_DNA_Corr <-  body_size_all %>% 
   left_join(traits_2023_2024, by = c("Sp_ID"))%>% 
   relocate(Sp_ID_DNAcorrected, .after = Sp_ID) %>%
-  summarise(wet_weight_mg = mean(wet_weight_mg, na.rm = TRUE), 
-            length_mm = mean(length_mm, na.rm = TRUE),
-            dry_weight_mg = mean(dry_weight_mg, na.rm = TRUE),
-            Indiv_n = n(),
+  summarise(Wet.weight_mg = mean(wet_weight_mg, na.rm = TRUE),
+            Wet.weight_mg_sd = sd(wet_weight_mg, na.rm = TRUE),
+            Length_mm = mean(length_mm, na.rm = TRUE),
+            Length_mm_sd = sd(length_mm, na.rm = TRUE),
+            Dry.weight_mg = mean(dry_weight_mg, na.rm = TRUE),
+            Dry.weight_mg_sd = sd(dry_weight_mg, na.rm = TRUE),
+            Dry.weight_mg_min = min(dry_weight_mg, na.rm = TRUE),
+            Dry.weight_mg_max = max(dry_weight_mg, na.rm = TRUE),
+            Indiv_n = sum(!is.na(dry_weight_mg)), # non-missing weight rows,
+          #  Indiv_n = n(),  # all rows, including missing weight rows
             Body_size_level = "SpID_DNA_Corr",
-            .by = c("Sp_ID_DNAcorrected"))  
+            .by = c("Sp_ID_DNAcorrected"))  %>% 
+  # replace NaN with NA across all numeric columns: mean(..., na.rm = TRUE) returns NaN when there are no non-missing values in the group (no data to average).
+  mutate(across(where(is.numeric), ~ ifelse(is.nan(.), NA_real_, .))) %>% 
+  # replace Inf with NA across all numeric columns: mean(..., na.rm = TRUE) returns Inf when there are no non-missing values in the group (no data to average).
+  mutate(across(where(is.numeric), ~ replace(.x, is.infinite(.x), NA_real_)))
 
-BodySize_mean_SpID_DNA_Corr %>% 
-  print(n=Inf)
+
 
 # Summarised body size data by Family_DNA_corrected
+
 BodySize_mean_Family_DNA_corrected <- body_size_all %>% 
   left_join(traits_2023_2024 %>% 
               select(Sp_ID, Family_DNA_corrected), 
@@ -318,24 +338,50 @@ BodySize_mean_Family_DNA_corrected <- body_size_all %>%
   relocate(Family_DNA_corrected, .after = Sp_ID) %>% 
   summarise(
     Family_DNA_wet_weight_mg = mean(wet_weight_mg, na.rm = TRUE),
+    Family_DNA_wet_weight_mg_sd = sd(wet_weight_mg, na.rm = TRUE),
     Family_DNA_length_mm = mean(length_mm, na.rm = TRUE),
+    Family_DNA_length_mm_sd = sd(length_mm, na.rm = TRUE),
     Family_DNA_dry_weight_mg = mean(dry_weight_mg, na.rm = TRUE),
-    Family_DNA_Indiv_n = n(),
-    .by = "Family_DNA_corrected")
+    Family_DNA_dry_weight_mg_sd = sd(dry_weight_mg, na.rm = TRUE),
+    Family_DNA_dry_weight_mg_min = min(dry_weight_mg, na.rm = TRUE),
+    Family_DNA_dry_weight_mg_max = max(dry_weight_mg, na.rm = TRUE),
+    Family_DNA_Indiv_n = sum(!is.na(dry_weight_mg)), # non-missing weight rows,
+    # Family_DNA_Indiv_n = n(), # all rows, including missing weight rows
+    .by = "Family_DNA_corrected") %>% 
+  # replace Inf with NA across all numeric columns: mean(..., na.rm = TRUE) returns Inf when there are no non-missing values in the group (no data to average).
+  mutate(across(where(is.numeric), ~ replace(.x, is.infinite(.x), NA_real_)))
 
+
+BodySize_mean_Family_DNA_corrected %>% 
+  select(Family_DNA_corrected,  
+         Family_DNA_dry_weight_mg, Family_DNA_dry_weight_mg_sd, Family_DNA_dry_weight_mg_min, Family_DNA_dry_weight_mg_max, 
+  ) %>%
+  filter(Family_DNA_corrected == "Syrphidae") %>% 
+  print(n=Inf)
 
 # Merge summerised body size data with traits data, first by Sp_ID_DNAcorrected and then by Family_DNA_corrected, and fill NA with family mean if Sp_ID mean is not available, and then fill remaining NA with literature data for missing families (Tipulidae and Tabanidae)
+
+names(BodySize_mean_SpID_DNA_Corr)
+names(BodySize_mean_Family_DNA_corrected)
+
 traits_final <- traits_2023_2024 %>% 
-  mutate(Genus_DNA_corrected = ifelse(is.na(Genus_DNA_corrected), Family_DNA_corrected, Genus_DNA_corrected)) %>%
+  mutate(Genus_DNA_corrected = ifelse(is.na(Genus_DNA_corrected), 
+                                      Family_DNA_corrected, Genus_DNA_corrected)) %>%
   left_join(BodySize_mean_SpID_DNA_Corr, by = c("Sp_ID_DNAcorrected")) %>% 
-  relocate(c(Sp_ID_DNAcorrected, Sp_ID, wet_weight_mg, length_mm, dry_weight_mg, Indiv_n, Body_size_level),  
-           .before = Order_DNA_corrected) %>% 
+ # relocate(c(Sp_ID_DNAcorrected, Sp_ID, wet_weight_mg, length_mm, dry_weight_mg, Indiv_n, Body_size_level),  
+ #          .before = Order_DNA_corrected) %>% 
  left_join(BodySize_mean_Family_DNA_corrected, by = c("Family_DNA_corrected")) %>% 
-  mutate(Body_size_level = ifelse(is.na(dry_weight_mg), "Family_DNA_corr", Body_size_level),
-         Indiv_n = ifelse(is.na(dry_weight_mg), Family_DNA_Indiv_n, Indiv_n),
-         wet_weight_mg = ifelse(is.na(wet_weight_mg), Family_DNA_wet_weight_mg, wet_weight_mg),
-         length_mm = ifelse(is.na(length_mm), Family_DNA_length_mm, length_mm),
-         dry_weight_mg = ifelse(is.na(dry_weight_mg), Family_DNA_dry_weight_mg, dry_weight_mg)) %>% 
+  mutate(Body_size_level = ifelse(is.na(Dry.weight_mg), "Family_DNA_corr", Body_size_level),
+         Indiv_n = ifelse(is.na(Dry.weight_mg), Family_DNA_Indiv_n, Indiv_n),
+         wet_weight_mg = ifelse(is.na(Wet.weight_mg), Family_DNA_wet_weight_mg, Wet.weight_mg),
+         wet_weight_mg_sd = ifelse(is.na(Wet.weight_mg_sd), Family_DNA_wet_weight_mg_sd, Wet.weight_mg_sd),
+         length_mm = ifelse(is.na(Length_mm), Family_DNA_length_mm, Length_mm),
+         length_mm_sd = ifelse(is.na(Length_mm_sd), Family_DNA_length_mm_sd, Length_mm_sd),
+         dry_weight_mg = ifelse(is.na(Dry.weight_mg), Family_DNA_dry_weight_mg, Dry.weight_mg),
+         dry_weight_mg_sd = ifelse(is.na(Dry.weight_mg_sd), Family_DNA_dry_weight_mg_sd, Dry.weight_mg_sd),
+         dry_weight_mg_min = ifelse(is.na(Dry.weight_mg_min), Family_DNA_dry_weight_mg_min, Dry.weight_mg_min),
+         dry_weight_mg_max = ifelse(is.na(Dry.weight_mg_max), Family_DNA_dry_weight_mg_max, Dry.weight_mg_max)
+           ) %>% 
   # Fill NA with the literature data:
   mutate(dry_weight_mg = ifelse(Family_DNA_corrected=="Tipulidae", 1.41, dry_weight_mg), # Table 3 in https://doi.org/10.3390/ijerph19063240 (Estimate based on the literature allometric relationship)
          length_mm = ifelse(Family_DNA_corrected=="Tipulidae", 10, length_mm), # Table 3 in https://doi.org/10.3390/ijerph19063240 (Estimate based on the literature allometric relationship)
@@ -345,31 +391,44 @@ traits_final <- traits_2023_2024 %>%
          length_mm = ifelse(Family_DNA_corrected=="Tabanidae", 10, length_mm), # range 5.0-15.0 mm (Tab. 1 in https://www.zobodat.at/pdf/Faun-Oekol-Mitt_7_0379-0386.pdf)
          Indiv_n = ifelse(Family_DNA_corrected=="Tabanidae", 19, Indiv_n), # n=19 individuals (Tab. 1 in https://www.zobodat.at/pdf/Faun-Oekol-Mitt_7_0379-0386.pdf)
          Body_size_level = ifelse(Family_DNA_corrected=="Tabanidae", "Literature", Body_size_level)) %>% 
-  select(-Family_DNA_wet_weight_mg, -Family_DNA_length_mm, -Family_DNA_dry_weight_mg, -Family_DNA_Indiv_n) %>% 
-  rename(Indiv_number_for_body_size_estimation=Indiv_n,
+  select(- Dry.weight_mg, - Wet.weight_mg, -Length_mm, 
+         -Wet.weight_mg_sd, -Length_mm_sd, -Dry.weight_mg_sd,
+         - Dry.weight_mg_min, - Dry.weight_mg_max,
+    -Family_DNA_wet_weight_mg, -Family_DNA_length_mm, 
+         -Family_DNA_dry_weight_mg, -Family_DNA_Indiv_n,
+         -Family_DNA_wet_weight_mg_sd, -Family_DNA_length_mm_sd,
+         -Family_DNA_dry_weight_mg_sd, -Family_DNA_dry_weight_mg_min, -Family_DNA_dry_weight_mg_max 
+         ) %>% 
+  rename(Indiv_number_for_dry_weight_estimation=Indiv_n,
          Level_of_aggregation_for_body_size_estimation=Body_size_level) %>% 
   left_join(DNA_dat %>% 
               select(Sp_ID_DNAcorrected, Species) %>%
               summarise(Species = unique(Species), .by = c("Sp_ID_DNAcorrected")),
             by = "Sp_ID_DNAcorrected") %>% 
-  relocate(Species, .after = Sp_ID_DNAcorrected) 
+  relocate(Species, .after = Sp_ID_DNAcorrected) %>% 
+  mutate(Indiv_number_for_dry_weight_estimation = ifelse(
+    dry_weight_mg_sd==0, 1, Indiv_number_for_dry_weight_estimation)) 
 
 traits_final%>% 
   print(n=Inf)
 
 
 
+traits_final %>% 
+  select(Sp_ID_DNAcorrected, Family_DNA_corrected,  
+         dry_weight_mg, dry_weight_mg_sd, dry_weight_mg_min, dry_weight_mg_max, 
+         ) %>%
+  filter(Family_DNA_corrected == "Syrphidae") %>% 
+  print(n=Inf)
+
 write_csv(traits_final, "data/processed_data/Traits_2023_2024_final.csv")
 
-traits_final %>% 
-  group_by(Sp_ID_DNAcorrected) %>% 
-  count() %>% ungroup() %>% 
-  arrange(desc(n)) %>%
-  print(n=Inf)
 
 # are traits repetitive for the same Sp_ID_DNAcorrected? 
 traits_final %>% 
-  group_by(Sp_ID_DNAcorrected, wet_weight_mg,	length_mm,	dry_weight_mg) %>% 
+  group_by(Sp_ID_DNAcorrected, dry_weight_mg,dry_weight_mg_sd,
+           #wet_weight_mg,	length_mm,	
+           ) %>% 
   count() %>% ungroup() %>% 
   arrange(desc(n)) %>%
   print(n=Inf)
@@ -379,8 +438,12 @@ traits_final %>%
 # grouped traits by Sp_ID_DNAcorrected
 traits_final_DNA_grouped <- traits_final %>%
   summarise(length_mm = unique(length_mm),
+            length_mm_sd = unique(length_mm_sd),
             dry_weight_mg = unique(dry_weight_mg),
-            Indiv_number_for_body_size_estimation = unique(Indiv_number_for_body_size_estimation),
+            dry_weight_mg_sd = unique(dry_weight_mg_sd),
+            dry_weight_mg_min = unique(dry_weight_mg_min),
+            dry_weight_mg_max = unique(dry_weight_mg_max),
+            Indiv_number_for_dry_weight_estimation = unique(Indiv_number_for_dry_weight_estimation),
             Level_of_aggregation_for_body_size_estimation = unique(Level_of_aggregation_for_body_size_estimation),
             predator = unique(predator),
             decomposer = unique(decomposer),

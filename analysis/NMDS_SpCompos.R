@@ -61,14 +61,9 @@ read_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv") %>%
 anyNA(Community_data) # no NA's
 
 ## Linear or nonlinear methods to use? ----
-# check gradient length of first DCA axis (optional)
-# if axis lengths for DCA1 is 
-# <3 -> linear methods (PCA)
-# >3 -> nonlinear methods (CCA)
-# in any case non metric distance based methods can be used (NMDS or PCoA)
+# check gradient length
 decorana(Community_data) 
-# we can perform NMDS 
-
+# DCA1 >3 -> long gradient, requires nonlinear methods or NMDS (or PCoA)
 
 
 Community_data %>%
@@ -104,24 +99,10 @@ PERM1 <- vegan::adonis2(wisconsin(Community_data) ~
                           precipitation_radolan_mean, 
                         data=environm,
                         permutations = 1000, method = "bray",
-                     #   strata=as.factor(environm$Plot),
+                      # strata=as.factor(environm$Plot),
                         by = "terms")
 
 PERM1
-
-set.seed(10)
-PERM2 <- vegan::adonis2(wisconsin(Community_data) ~ 
-                          Formi_mean_2012_2018 + ssci + 
-                          Openness, 
-                        data=environm,
-                        permutations = 1000, method = "bray",
-                        #  strata=as.factor(environm$Plot),
-                        by = "terms")
-
-PERM2
-
-
-
 
 # variable fitting for posthoc plotting  ------------------
 set.seed(1259)
@@ -136,7 +117,7 @@ fit1 <- vegan::envfit(ord_mod   ~
                         Openness +
                         precipitation_radolan_mean, 
                       data=environm,
-                      #  strata=as.factor(plot_data$PlotNo),
+                     # strata=as.factor(environm$Plot),
                       perm=1000) #
 
 
@@ -190,7 +171,7 @@ vec_scores <- vec_scores %>%
 vec_scores
 
 # save
-write_csv(vec_scores, "results/NMDS_envfit_table.csv")
+# write_csv(vec_scores, "results/NMDS_envfit_table.csv")
 
 # exploratory plot
 plot(ord_mod, main = "NMDS plot", display = "sites")
@@ -304,7 +285,7 @@ plot1 <- ggplot(data=sp.scrs %>%
     ))
   )+
   labs(x="NMDS1", y="NMDS2", fill="Family", 
-       color="Family", size="Dry body mass (g)")
+       color="Family", size="Dry body mass (mg)")
 
 
 print(plot1)

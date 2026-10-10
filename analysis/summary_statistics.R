@@ -378,9 +378,6 @@ sp_dat %>%
            forcats::fct_rev()) %>%
   ggplot(aes(x = 1, y = Species, color=Family_DNA_corrected, fill=Family_DNA_corrected,
              size = dry_weight_mg)) +
-  geom_errorbarh(aes(xmin = pmax(dry_weight_mg + dry_weight_mg_sd, 0), 
-                     xmax = dry_weight_mg - dry_weight_mg_sd),
-                 height = 0.25, colour = "grey40") +
   geom_jitter(width = 0, height = 0, alpha=1, shape = 21,  colour = "black") +
   theme_bw() + labs(x = "Body mass", y = "Species", 
                     fill="Family", size="Body mass, mg") +
@@ -397,6 +394,7 @@ sp_dat %>%
         # Optional: increase spacing between legend rows
         legend.spacing.y = grid::unit(0.25, "cm")) +
   scale_size_continuous(range = c(3, 13)) +
+ # scale_fill_brewer(palette = "Set3", name = "Family") +
   guides(
     fill = guide_legend(override.aes = list(size = 5)), 
     size = guide_legend(override.aes = list(

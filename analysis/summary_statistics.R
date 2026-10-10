@@ -56,7 +56,7 @@ sp_dat %>%
   distinct(Sp_ID_DNAcorrected, Species) %>% 
   print(n = Inf)
 
-
+names(sp_dat)
 
 # Tree and treehole data ---------
 environm %>% 

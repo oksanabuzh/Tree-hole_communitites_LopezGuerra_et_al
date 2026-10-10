@@ -180,13 +180,12 @@ DNA_dat <- read_csv("data/raw_data/Community_2023_2024_Sp_ID_DNAcorrected.csv") 
 #  mutate(# Sp_ID_DNAcorrected=ifelse(Sp_ID_DNAcorrected=="Syrph2", "Syrph", Sp_ID_DNAcorrected), 
 #         Species=ifelse(Species=="Syrphidae sp.2", "Syrphidae sp.", Species)) %>% 
   mutate(Species=ifelse(Sp_ID_DNAcorrected=="Ceratopogonidae", "Ceratopogonidae sp.", Species)) %>% 
-  mutate(Species=ifelse(Species=="Poecilobothrus nobilitatus20", "Poecilobothrus nobilitatus", Species)) 
+  mutate(Species=ifelse(Species=="Poecilobothrus nobilitatus20", "Poecilobothrus nobilitatus", Species)) %>% 
+  mutate(Species=ifelse(Sp_ID=="Fagi", "Syrphidae sp.2", Species)) 
 
-DNA_dat %>% 
-  filter(Species=="Syrphidae sp.")
+names(DNA_dat)
 
-DNA_dat %>% 
-  filter(str_detect(Sp_ID_DNAcorrected, "Syrph")) 
+
 # Syrph and Syrph2 (Sp_ID=="Fagi") were identifyed as morphologically different species. No DNA analysis was performed on them.
 # Syrph has body size directly identified 
 
@@ -415,7 +414,7 @@ traits_final%>%
 
 
 traits_final %>% 
-  select(Sp_ID_DNAcorrected, Family_DNA_corrected,  
+  select(Species, Sp_ID_DNAcorrected, Family_DNA_corrected,  
          dry_weight_mg, dry_weight_mg_sd, dry_weight_mg_min, dry_weight_mg_max, 
          ) %>%
   filter(Family_DNA_corrected == "Syrphidae") %>% 

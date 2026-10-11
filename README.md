@@ -6,7 +6,7 @@
 **Lopez Guerra et al.**  
 **Title:** From forest management to landscape drivers of tree-hole macroinvertebrate communities in temperate forests
 **Journal:** Ecology and Evolution (to be submitted) 
-**DOI:** [...]
+[**DOI:**] (...)
 
 #### Data availability:
 The data iare available in the Biodiversity Exploratories Information System (BEXIS; https://www.bexis.uni-jena.de)
@@ -45,9 +45,9 @@ In this folder, the raw data is prepared for analysis
 
 ### Folder `analysis`
 - `(G)LM(M)s.R`: performs the univariate analysis for Abundance, Species richness, Biomass, extracts model summaries and partial R² values, and creates output result plots 
- Output files: results/G(LM)_results.csv 
+ Output files: `results/G(LM)_results.csv` 
 - `NMDS_SpCompos.R`: Run NMDS on community data, test environmental drivers with fit vectors. Produce a table of envfit scores and an NMDS plot.
- Output files: results/NMDS_envfit_table.csv 
+ Output files: `results/NMDS_envfit_table.csv` 
 - `summary_statistics.R`: Generate summary tables and exploratory figures for tree‑hole data (counts, diversity, body size, predictor relationships, and per‑plot tree‑species composition).
 
 

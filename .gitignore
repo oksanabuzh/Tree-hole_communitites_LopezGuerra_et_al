@@ -1,6 +1,6 @@
 # Data folder
 data/
-.analysis/other
+analysis/other
 
 # History files
 .Rhistory

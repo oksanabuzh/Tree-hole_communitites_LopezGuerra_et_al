@@ -66,6 +66,7 @@ decorana(Community_data)
 # DCA1 >3 -> long gradient, requires nonlinear methods or NMDS (or PCoA)
 
 
+
 Community_data %>%
   pivot_longer(everything(), names_to = "Species", 
                values_to = "Abundance") %>% 
@@ -74,7 +75,7 @@ Community_data %>%
 
 # wisconsin transformation in NMDS  removes the influence of dominant abundance, so that dominant species don't dominate the ordination.
 
-set.seed(2435)
+set.seed(2437)
 ord_mod <- metaMDS(wisconsin(Community_data), 
                    scale = FALSE, distance = "bray") 
 
@@ -87,6 +88,7 @@ stressplot(ord_mod, main = "Shepard plot")
 
 
 # Permutation test:  --------------------------------------
+
 set.seed(10)
 
 PERM1 <- vegan::adonis2(wisconsin(Community_data) ~ 
@@ -99,13 +101,27 @@ PERM1 <- vegan::adonis2(wisconsin(Community_data) ~
                           precipitation_radolan_mean, 
                         data=environm,
                         permutations = 1000, method = "bray",
-                      # strata=as.factor(environm$Plot),
+                        # strata=as.factor(environm$Plot),
                         by = "terms")
 
 PERM1
 
-# variable fitting for posthoc plotting  ------------------
-set.seed(1259)
+# Fit Formi
+PERM2 <- vegan::adonis2(wisconsin(Community_data) ~ 
+                          Formi_mean_2012_2018 +
+                          LandType_richness_class_2 +
+                          Tree_sp_richness +
+                          Forest_percent + 
+                          precipitation_radolan_mean, 
+                        data=environm,
+                        permutations = 10000, method = "bray",
+                        # strata=as.factor(environm$Plot),
+                        by = "margin")
+
+PERM2
+
+# variable fitting posthoc   ------------------
+set.seed(1)
 fit1 <- vegan::envfit(ord_mod   ~  
                         Formi_mean_2012_2018 +
                         Inonat_mean_2012_2018 + 
@@ -236,7 +252,7 @@ text_for_vectors <- vector.scrs %>%
 
 
 set.seed(11)
-
+set.seed(1954)
 plot1 <- ggplot(data=sp.scrs %>% 
                   mutate(Species = fct_reorder(Species, species_rank) %>% forcats::fct_rev()), 
                 aes(x=NMDS1, y=NMDS2))+

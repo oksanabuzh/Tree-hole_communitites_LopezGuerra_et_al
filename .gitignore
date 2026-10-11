@@ -2,6 +2,10 @@
 data/
 analysis/other
 
+# Git files
+.gitignore
+.gitattributes
+
 # History files
 .Rhistory
 .Rapp.history

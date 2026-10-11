@@ -56,13 +56,3 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-
-# add ignore rules (won't remove duplicates if already present)
-echo ".gitignore" >> .gitignore
-echo ".gitattributes" >> .gitignore
-
-git add .gitignore
-git rm --cached .gitignore .gitattributes
-
-git commit -m "Stop tracking .gitignore and .gitattributes; add ignore rules"
-git push

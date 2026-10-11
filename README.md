@@ -6,7 +6,6 @@
 **Lopez Guerra et al.**  
 **Title:** From forest management to landscape drivers of tree-hole macroinvertebrate communities in temperate forests
 **Journal:** Ecology and Evolution (to be submitted) 
-**Year:** 2026-2027  
 **DOI:** [...]
 
 #### Data availability:

@@ -6,10 +6,10 @@
 **Lopez Guerra et al.**  
 **Title:** From forest management to landscape drivers of tree-hole macroinvertebrate communities in temperate forests
 **Journal:** Ecology and Evolution (to be submitted) 
-[**DOI:**] (...)
+[DOI](...)
 
 #### Data availability:
-The data iare available in the Biodiversity Exploratories Information System (BEXIS; https://www.bexis.uni-jena.de)
+The data iare available in the Biodiversity Exploratories Information System [BEXIS](https://www.bexis.uni-jena.de)
 
 
 

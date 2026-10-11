@@ -34,7 +34,7 @@ results/
 Rproject.Rproj
 ```
 
-## R Files
+## Files:
 
 ### Folder `prepare_data`
 

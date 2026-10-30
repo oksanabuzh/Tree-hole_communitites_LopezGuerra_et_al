@@ -1,0 +1,570 @@
+Plot,Tree_ID,Sampling_date,Species,Species_ID,Individual_ID,DNA_ID,DNA_sample,Nickname2014,Nickname2015,Nickname2015_2,wet_weight_mg,length_mm,length_total_mm,tail1_mm,tail2_mm,dry_weight _mg,weight_individually,Comment,Origin,General_notes
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola1,,,Metriocnemus_cavicula,Met_cav,NA,0.65,6.546,NA,NA,NA,0.2,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola2,,,Metriocnemus_cavicula,Met_cav,NA,0.39,5.611,NA,NA,NA,0.11,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola3,,,Metriocnemus_cavicula,Met_cav,NA,0.41,6.025,NA,NA,NA,0.14,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola4,,,Metriocnemus_cavicula,Met_cav,NA,0.41,5.34,NA,NA,NA,0.14,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola5,,,Metriocnemus_cavicula,Met_cav,NA,0.15,4.699,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola6,,,Metriocnemus_cavicula,Met_cav,NA,0.13,4.916,NA,NA,NA,0.06,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola7,,,Metriocnemus_cavicula,Met_cav,NA,0.54,6.627,NA,NA,NA,0.17,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola8,,,Metriocnemus_cavicula,Met_cav,NA,0.11,3.815,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola9,,,Metriocnemus_cavicula,Met_cav,NA,0.35,6.46,NA,NA,NA,0.06,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola10,,,Metriocnemus_cavicula,Met_cav,NA,0.6,6.853,NA,NA,NA,0.1,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola11,,,Metriocnemus_cavicula,Met_cav,NA,1.1,5.66,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola12,,,Metriocnemus_cavicula,Met_cav,NA,0.079,5.8,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola13,,,Metriocnemus_cavicula,Met_cav,NA,0.6,6.14,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola14,,,Metriocnemus_cavicula,Met_cav,NA,1.3,5.62,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola15,,,Metriocnemus_cavicula,Met_cav,NA,0.096,6.01,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola16,,,Metriocnemus_cavicula,Met_cav,NA,0.048,4.69,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola17,,,Metriocnemus_cavicula,Met_cav,NA,0.14,6.84,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola18,,,Metriocnemus_cavicula,Met_cav,NA,0.075,4.45,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola19,,,Metriocnemus_cavicula,Met_cav,NA,0.117,6.6,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+SEW,NA,NA,Metriocnemus cavicola,Met_cavicola,Met_cavicola20,,,Metriocnemus_cavicula,Met_cav,NA,0.122,6.45,NA,NA,NA,NA,TRUE,NA,Octobre samping (2023),NA
+AEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp1,,,Dasyhelea_Species,Dasy_1,NA,0.28,4.807,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+AEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp2,,,Dasyhelea_Species,Dasy_1,NA,0.28,4.316,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+AEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp3,,,Dasyhelea_Species,Dasy_1,NA,0.28,4.564,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+AEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp4,,,Dasyhelea_Species,Dasy_1,NA,0.28,2.846,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+AEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp5,,,Dasyhelea_Species,Dasy_1,NA,0.28,4.283,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp6,,,Dasyhelea_Species,Dasy_1,NA,0.28,4.096,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp7,,,Dasyhelea_Species,Dasy_1,NA,0.28,2.599,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp8,,,Dasyhelea_Species,Dasy_1,NA,0.28,4.362,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp9,,,Dasyhelea_Species,Dasy_1,NA,0.28,3.99,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp10,,,Dasyhelea_Species,Dasy_1,NA,0.28,3.074,NA,NA,NA,0.25,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp11,,,Dasyhelea_Species,Dasy_1,NA,0.044,2.67,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp12,,,Dasyhelea_Species,Dasy_1,NA,0.069,3.97,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp13,,,Dasyhelea_Species,Dasy_1,NA,0.051,3.93,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp14,,,Dasyhelea_Species,Dasy_1,NA,0.046,3.54,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp15,,,Dasyhelea_Species,Dasy_1,NA,NA,3.46,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp16,,,Dasyhelea_Species,Dasy_1,NA,0.057,4,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp17,,,Dasyhelea_Species,Dasy_1,NA,0.045,2.81,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp18,,,Dasyhelea_Species,Dasy_1,NA,0.039,2.83,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp19,,,Dasyhelea_Species,Dasy_1,NA,0.059,3.22,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp20,,,Dasyhelea_Species,Dasy_1,NA,0.049,3.06,NA,NA,NA,NA,TRUE,NA,October samping (2023),NA
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp21,,,Dasyhelea_Species,Dasy_1,NA,0.355,9.62,NA,NA,NA,NA,TRUE,NA,October samping (2023),Maybe not identified correctly
+SEW,NA,NA,Dasyhelea species,Dashylea_sp,Dashylea_sp22,,,Dasyhelea_Species,Dasy_1,NA,0.419,12.01,NA,NA,NA,NA,TRUE,NA,October samping (2023),Maybe not identified correctly
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp1,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,4.651,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp2,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,9.277,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp3,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,7.044,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp4,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,13.15,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp5,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,13.7,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp6,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,13.67,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp7,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,13.41,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp8,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,5.16,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp9,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,11.17,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Silvicola cinctus /fenestralis,Silvicola_sp,Silvicola_sp10,,,Ceratop_unk3,Cera_unk4,Cera_unk3,NA,8.83,NA,NA,NA,2.93,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus1,,,Aedes_geniculatus,Aed_gen,NA,NA,2.758,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+AEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus2,,,Aedes_geniculatus,Aed_gen,NA,NA,2.834,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg. .
+AEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus3,,,Aedes_geniculatus,Aed_gen,NA,NA,7.559,NA,NA,NA,0.17,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus4,,,Aedes_geniculatus,Aed_gen,NA,NA,8.535,NA,NA,NA,0.25,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus5,,,Aedes_geniculatus,Aed_gen,NA,NA,8.229,NA,NA,NA,0.32,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus6,,,Aedes_geniculatus,Aed_gen,NA,NA,10.653,NA,NA,NA,0.36,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus7,,,Aedes_geniculatus,Aed_gen,NA,NA,6.672,NA,NA,NA,0.23,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus8,,,Aedes_geniculatus,Aed_gen,NA,NA,9.771,NA,NA,NA,0.29,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus9,,,Aedes_geniculatus,Aed_gen,NA,NA,9.035,NA,NA,NA,0.39,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus10,,,Aedes_geniculatus,Aed_gen,NA,NA,9.862,NA,NA,NA,0.38,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus11,,,Aedes_geniculatus,Aed_gen,NA,0.056,5.13,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus12,,,Aedes_geniculatus,Aed_gen,NA,0.043,5.04,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus13,,,Aedes_geniculatus,Aed_gen,NA,0.016,2.9,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus14,,,Aedes_geniculatus,Aed_gen,NA,0.039,2.74,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus15,,,Aedes_geniculatus,Aed_gen,NA,0.014,4.38,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus16,,,Aedes_geniculatus,Aed_gen,NA,0.022,3.39,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus17,,,Aedes_geniculatus,Aed_gen,NA,NA,2.92,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus18,,,Aedes_geniculatus,Aed_gen,NA,0.052,3.21,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Aedes geniculatus,Aedes_geniculatus,Aedes_geniculatus19,,,Aedes_geniculatus,Aed_gen,NA,0.038,3.75,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus1,,,Anopholes_plumbeus,Ano_plum,NA,0.37,4.989,NA,NA,NA,0.03,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus2,,,Anopholes_plumbeus,Ano_plum,NA,0.58,4.7,NA,NA,NA,0.14,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus3,,,Anopholes_plumbeus,Ano_plum,NA,0.18,2.74,NA,NA,NA,0.07,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus4,,,Anopholes_plumbeus,Ano_plum,NA,NA,1.65,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/ too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+AEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus5,,,Anopholes_plumbeus,Ano_plum,NA,NA,2.04,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/ too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+AEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus6,,,Anopholes_plumbeus,Ano_plum,NA,0.58,4.83,NA,NA,NA,0.15,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus7,,,Anopholes_plumbeus,Ano_plum,NA,0.15,3.52,NA,NA,NA,0.01,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus8,,,Anopholes_plumbeus,Ano_plum,NA,0.81,5.02,NA,NA,NA,0.12,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus9,,,Anopholes_plumbeus,Ano_plum,NA,0.57,5.07,NA,NA,NA,0.13,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus10,,,Anopholes_plumbeus,Ano_plum,NA,0.73,4.93,NA,NA,NA,0.16,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus11,,,Anopholes_plumbeus,Ano_plum,NA,0.048,2.43,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Anopheles plumbeus,Anopheles_plumbeus,Anopheles_plumbeus12,,,Anopholes_plumbeus,Ano_plum,NA,0.025,5.26,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis1,,,Prionocyphon_serricornis,Prio_ser,NA,1.21,7.792,NA,NA,NA,0.07,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis2,,,Prionocyphon_serricornis,Prio_ser,NA,1.37,9.085,NA,NA,NA,0.09,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis3,,,Prionocyphon_serricornis,Prio_ser,NA,2.13,6.972,NA,NA,NA,0.15,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis4,,,Prionocyphon_serricornis,Prio_ser,NA,0.93,6.008,NA,NA,NA,0.12,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis5,,,Prionocyphon_serricornis,Prio_ser,NA,9.94,15.116,NA,NA,NA,0.54,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis6,,,Prionocyphon_serricornis,Prio_ser,NA,0.75,7.018,NA,NA,NA,0.04,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis7,,,Prionocyphon_serricornis,Prio_ser,NA,12.75,13.327,NA,NA,NA,1.19,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis8,,,Prionocyphon_serricornis,Prio_ser,NA,16.47,16.453,NA,NA,NA,0.48,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis9,,,Prionocyphon_serricornis,Prio_ser,NA,6.34,11.338,NA,NA,NA,0.29,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis10,,,Prionocyphon_serricornis,Prio_ser,NA,5.65,12.774,NA,NA,NA,0.23,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis11,,,Prionocyphon_serricornis,Prio_ser,NA,0.124,1.81,NA,NA,NA,NA,TRUE,NA,October sapmling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis12,,,Prionocyphon_serricornis,Prio_ser,NA,1.45,8.67,NA,NA,NA,NA,TRUE,NA,October sapmling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis13,,,Prionocyphon_serricornis,Prio_ser,NA,0.076,5.55,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis14,,,Prionocyphon_serricornis,Prio_ser,NA,0.092,6.19,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis15,,,Prionocyphon_serricornis,Prio_ser,NA,0.07,4.43,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis16,,,Prionocyphon_serricornis,Prio_ser,NA,0.132,5,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis17,,,Prionocyphon_serricornis,Prio_ser,NA,4.143,8.15,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis18,,,Prionocyphon_serricornis,Prio_ser,NA,2.57,7.17,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis19,,,Prionocyphon_serricornis,Prio_ser,NA,0.162,8.18,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis20,,,Prionocyphon_serricornis,Prio_ser,NA,0.309,10.06,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis21,,,Prionocyphon_serricornis,Prio_ser,NA,0.435,7.78,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis22,,,Prionocyphon_serricornis,Prio_ser,NA,0.552,9.87,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Prionocyphon serricornis,P_serricornis,P_serricornis23,,,Prionocyphon_serricornis,Prio_ser,NA,11.207,11.25,NA,NA,NA,NA,TRUE,NA,October sampling (2023),Same species as the other Prior_ser
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp1,,,Chironomus_species,Chironomus_sp1,NA,4.79,14.575,NA,NA,NA,0.55,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp2,,,Chironomus_species,Chironomus_sp1,NA,2.73,11.143,NA,NA,NA,0.3,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp3,,,Chironomus_species,Chironomus_sp1,NA,6.12,14.984,NA,NA,NA,0.76,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp4,,,Chironomus_species,Chironomus_sp1,NA,1.41,9.836,NA,NA,NA,0.21,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp5,,,Chironomus_species,Chironomus_sp1,NA,4.88,13.439,NA,NA,NA,0.67,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp6,,,Chironomus_species,Chironomus_sp1,NA,3.29,10.025,NA,NA,NA,0.18,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp7,,,Chironomus_species,Chironomus_sp1,NA,3.76,12.872,NA,NA,NA,0.48,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp8,,,Chironomus_species,Chironomus_sp1,NA,4.6,13.235,NA,NA,NA,0.52,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp9,,,Chironomus_species,Chironomus_sp1,NA,5.36,13.144,NA,NA,NA,0.68,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Chironomus species 1,Chironomous_sp,Chironomus_sp10,,,Chironomus_species,Chironomus_sp1,NA,3.66,12.141,NA,NA,NA,0.47,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor1,,,Myiatropa_florea,Myia_flo,NA,81.39,8.71,NA,NA,NA,8.85,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor2,,,Myiatropa_florea,Myia_flo,NA,40.1,8.54,NA,NA,NA,6.67,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor3,,,Myiatropa_florea,Myia_flo,NA,68.18,12.61,NA,NA,NA,3.85,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor4,,,Myiatropa_florea,Myia_flo,NA,123.63,14.65,NA,NA,NA,8.12,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor5,,,Myiatropa_florea,Myia_flo,NA,133.38,15.68,NA,NA,NA,6.45,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor6,,,Myiatropa_florea,Myia_flo,NA,121.36,15.59,NA,NA,NA,5.76,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor7,,,Myiatropa_florea,Myia_flo,NA,107.24,13.99,NA,NA,NA,7.75,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor8,,,Myiatropa_florea,Myia_flo,NA,76.24,11.73,NA,NA,NA,4.32,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor9,,,Myiatropa_florea,Myia_flo,NA,55.4,10.97,NA,NA,NA,3.52,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor10,,,Myiatropa_florea,Myia_flo,NA,45.12,9.88,NA,NA,NA,3.54,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor11,,,Myiatropa_florea,Myia_flo,NA,5.946,19.94,NA,NA,NA,NA,TRUE,NA,NA,NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor12,,,Myiatropa_florea,Myia_flo,NA,2.05,15.24,NA,NA,NA,NA,TRUE,NA,NA,NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor13,,,Myiatropa_florea,Myia_flo,NA,0.804,7.73,NA,NA,NA,NA,TRUE,NA,NA,NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor14,,,Myiatropa_florea,Myia_flo,NA,0.233,8.25,NA,NA,NA,NA,TRUE,NA,NA,NA
+SEW,NA,NA,Myathropa florea,Myia_flor,Myia_flor15,,,Myiatropa_florea,Myia_flo,NA,0.111,9.69,NA,NA,NA,NA,TRUE,NA,NA,NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp1,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.74,4.32,NA,NA,NA,2.2,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp2,,,Dolichopodidae_sp1,Dolich_sp1,NA,2.02,5.38,NA,NA,NA,0.6,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp3,,,Dolichopodidae_sp1,Dolich_sp1,NA,2.25,5.38,NA,NA,NA,0.58,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp4,,,Dolichopodidae_sp1,Dolich_sp1,NA,2.92,6.18,NA,NA,NA,0.78,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp5,,,Dolichopodidae_sp1,Dolich_sp1,NA,2.03,4.26,NA,NA,NA,0.75,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp6,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.5,4.1,NA,NA,NA,0.14,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp7,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.58,4.11,NA,NA,NA,0.13,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp8,,,Dolichopodidae_sp1,Dolich_sp1,NA,2.32,5.72,NA,NA,NA,0.83,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp9,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.08,2.69,NA,NA,NA,0.03,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Dolichopodidae species,Doli_sp,Doli_sp10,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.46,4.47,NA,NA,NA,0.22,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa1,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,5.72,NA,NA,NA,1.11,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2015
+AEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa2,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,6.3,NA,NA,NA,0.93,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2016
+HEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa3,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,9.39,NA,NA,NA,4.83,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2017
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa4,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,8.36,NA,NA,NA,0.48,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2018
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa5,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,9.4,NA,NA,NA,3.68,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2019
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa6,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,10.28,NA,NA,NA,2.42,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2020
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa7,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,3.34,NA,NA,NA,0.12,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2021
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa8,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,7.33,NA,NA,NA,2.02,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2022
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa9,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,8.48,NA,NA,NA,2.41,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2023
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa10,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,NA,2.87,NA,NA,NA,0.13,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2024
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa11,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,0.361,4.36,NA,NA,NA,NA,TRUE,NA,October sapmling (2023),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2025
+SEW,NA,NA,Phaonia subventa,Phaonia_subventa,Phaonia_subventa12,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,1.047,5.19,NA,NA,NA,NA,TRUE,NA,October sapmling (2023),in 2014 were classified by Phaonia sp. But probably they are the same species the ones in comparaison with 2026
+SEW,NA,NA,Xylota sylvarum,Xylota_sp,Xylota_sp1,,,Xylota_syl,NA,NA,NA,11.98,NA,NA,NA,3.03,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Xylota sylvarum,Xylota_sp,Xylota_sp2,,,Xylota_syl,NA,NA,NA,9.71,NA,NA,NA,2.64,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Xylota sylvarum,Xylota_sp,Xylota_sp3,,,Xylota_syl,NA,NA,NA,10.35,NA,NA,NA,2.79,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Xylota sylvarum,Xylota_sp,Xylota_sp4,,,Xylota_syl,NA,NA,NA,9.8,NA,NA,NA,3.26,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Xylota sylvarum,Xylota_sp,Xylota_sp5,,,Xylota_syl,NA,NA,NA,11.86,NA,NA,NA,4.36,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp1,,,Pericoma_sp,Peri_sp,NA,0.37,2.9,NA,NA,NA,0.24,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp2,,,Pericoma_sp,Peri_sp,NA,NA,1.67,NA,NA,NA,NA,NA,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp3,,,Pericoma_sp,Peri_sp,NA,0.38,3.17,NA,NA,NA,0.28,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp4,,,Pericoma_sp,Peri_sp,NA,0.55,3.04,NA,NA,NA,0.24,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp5,,,Pericoma_sp,Peri_sp,NA,0.19,2.84,NA,NA,NA,0.23,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp6,,,Pericoma_sp,Peri_sp,NA,NA,1.75,NA,NA,NA,NA,NA,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp7,,,Pericoma_sp,Peri_sp,NA,0.42,3.59,NA,NA,NA,0.27,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp8,,,Pericoma_sp,Peri_sp,NA,0.52,3.08,NA,NA,NA,0.3,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp9,,,Pericoma_sp,Peri_sp,NA,0.35,2.99,NA,NA,NA,0.23,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp10,,,Pericoma_sp,Peri_sp,NA,NA,1.73,NA,NA,NA,NA,NA,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Clogmia albipunctata/Psychoda alternata,Clogmia_sp,Clogmia_sp11,,,Pericoma_sp,Peri_sp,NA,0.23,3.15,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+HEW,NA,NA,Unknown Diptera species 10,Unk_10,Unk_10_1,,,NA,Dip_unk_10,NA,0.46,3.56,NA,NA,NA,0.05,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Mycetobia obscura (Culicoides species),M_obscura,M_obscura1,,,Culicoides_species,Cera_unk2,NA,NA,12.9,NA,NA,NA,1.12,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Syrphidae species 2,Syrph,Syrph_1,,,Syrph_unk2,Syrph_unk1,NA,0.16,1.97,NA,NA,NA,0.12,FALSE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Syrphidae species 2,Syrph,Syrph_2,,,Syrph_unk2,Syrph_unk1,NA,0.16,1.9,NA,NA,NA,0.12,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp1,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,1.56,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp2,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,1.5,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp3,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,3.93,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp4,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,2.03,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+SEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp5,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,2.54,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+SEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp6,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,2.51,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+SEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp7,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,2.51,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+SEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp8,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,2.36,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+SEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp9,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,2.17,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+SEW,NA,NA,Stratiomyidae species 1,Stratio_sp,Stratio_sp10,,,Stratiomyidae_sp1,Stratiomyidae,NA,0.16,2.81,NA,NA,NA,0.39,FALSE,grupal wet weighted was measured,individual weight was not possible to detect. August and september 2023,Salzburg.
+HEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Faniidae_1,,,Platypezidae,Platypezidae,NA,0.15,2.79,NA,NA,NA,0.09,TRUE,NA,Salzburg (2024-2015),NA
+HEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Faniidae_2,,,Platypezidae,Platypezidae,NA,0.12,2.69,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+HEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Faniidae_3,,,Platypezidae,Platypezidae,NA,NA,1.56,NA,NA,NA,NA,TRUE,too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+HEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Faniidae_4,,,Platypezidae,Platypezidae,NA,NA,1.3,NA,NA,NA,NA,TRUE,too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+SEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Faniidae_5,,,Platypezidae,Platypezidae,NA,5,6.43,NA,NA,NA,0.41,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Plat_1,,,Platypezidae,Platypezidae,NA,0.04,3.17,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Plat_2,,,Platypezidae,Platypezidae,NA,11.73,7.41,NA,NA,NA,1.69,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Faniidae sp/Platzpeyidae,Faniidae,Plat_3,,,Platypezidae,Platypezidae,NA,8.27,8.77,NA,NA,NA,1.11,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_1,,,NA,Dip_unk_7,NA,NA,1.16,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_2,,,NA,Dip_unk_7,NA,NA,1.31,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_3,,,NA,Dip_unk_7,NA,NA,1.36,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_4,,,NA,Dip_unk_7,NA,NA,1.14,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_5,,,NA,Dip_unk_7,NA,NA,1.35,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_6,,,NA,Dip_unk_7,NA,NA,1.31,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_7,,,NA,Dip_unk_7,NA,NA,1.34,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_8,,,NA,Dip_unk_7,NA,NA,1.27,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_9,,,NA,Dip_unk_7,NA,NA,1.31,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_10,,,NA,Dip_unk_7,NA,NA,1.33,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+SEW,NA,NA,Brachyderes incanus,Dip_unk_7,Dip_unk_7_11,,,NA,Dip_unk_7,NA,0.0126,12.11,NA,NA,NA,NA,TRUE,Missmatch with dry and wet eigth,October sampling  (2023),might be bad identify
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_1,,,NA,Psych_sp3,NA,0.25,5.02,NA,NA,NA,0.08,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_2,,,NA,Psych_sp3,NA,0.16,5.87,NA,NA,NA,0.2,TRUE,Missmatch with dry and wet eigth,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_3,,,NA,Psych_sp3,NA,0.14,4.8,NA,NA,NA,0.14,TRUE,Missmatch with dry and wet eigth,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_4,,,NA,Psych_sp3,NA,0.15,4.63,NA,NA,NA,0.1,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_5,,,NA,Psych_sp3,NA,0.13,5.08,NA,NA,NA,0.08,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_6,,,NA,Psych_sp3,NA,0.56,5.51,NA,NA,NA,0.28,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_7,,,NA,Psych_sp3,NA,0.23,4.78,NA,NA,NA,0.17,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_8,,,NA,Psych_sp3,NA,0.1,5.64,NA,NA,NA,0.14,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_9,,,NA,Psych_sp3,NA,0.37,5.51,NA,NA,NA,0.13,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psych 3/ Psych 5,Psy5,Psy5_10,,,NA,Psych_sp3,NA,0.19,5.12,NA,NA,NA,0.15,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_1,,,NA,Psych_sp6,NA,NA,1.39,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_2,,,NA,Psych_sp6,NA,NA,1.39,NA,NA,NA,NA,FALSE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_3,,,NA,Psych_sp6,NA,0.24,5.22,NA,NA,NA,NA,TRUE,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023.,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_4,,,NA,Psych_sp6,NA,0.18,3.46,NA,NA,NA,5.00E-05,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_5,,,NA,Psych_sp6,NA,NA,3,NA,NA,NA,NA,NA,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_6,,,NA,Psych_sp6,NA,0.48,6.3,NA,NA,NA,0.24,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_7,,,NA,Psych_sp6,NA,0.09,3.99,NA,NA,NA,0.1,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_8,,,NA,Psych_sp6,NA,0.05,3.58,NA,NA,NA,0.11,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_9,,,NA,Psych_sp6,NA,0.27,6.08,NA,NA,NA,0.26,TRUE,NA,Salzburg (2024-2015),NA
+AEW,NA,NA,Psychoda sp. (albipennis o. parthenogenetica),Psy6,Psy6_10,,,NA,Psych_sp6,NA,0.6,3.72,NA,NA,NA,0.12,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr1,,,NA,Atri_sp,NA,0.3,4.57,NA,NA,NA,0.13,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr2,,,NA,Atri_sp,NA,0.17,4.69,NA,NA,NA,0.15,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr3,,,NA,Atri_sp,NA,0.42,4.54,NA,NA,NA,0.19,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr4,,,NA,Atri_sp,NA,0.52,4.12,NA,NA,NA,0.2,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr5,,,NA,Atri_sp,NA,0.09,4.8,NA,NA,NA,0.18,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr6,,,NA,Atri_sp,NA,0.11,3.59,NA,NA,NA,0.2,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr7,,,NA,Atri_sp,NA,0.12,4.93,NA,NA,NA,0.16,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr8,,,NA,Atri_sp,NA,0.33,5.2,NA,NA,NA,0.18,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr9,,,NA,Atri_sp,NA,0.29,2.98,NA,NA,NA,0.19,TRUE,NA,Salzburg (2024-2015),NA
+SEW,NA,NA,Atrichopogon,Atr,Atr10,,,NA,Atri_sp,NA,NA,2.44,NA,NA,NA,NA,NA,individual and groupal wet weight was unable to do in Salzburg during August and Spetember 2023/too small to be weighted but the rest could be weighted with the balance in Salzburg,Salzburg (2024-2015),NA
+SEW,NA,NA,Chironomidae,Chiromidae,Chiromidae 1,,,NA,NA,NA,0.258,5.88,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Ceratopogonidae sp 6,Cera,Cera1,,,NA,NA,NA,0.062,3.32,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Ceratopogonidae sp 6,Cera,Cera2,,,NA,NA,NA,0.055,3.46,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Ceratopogonidae sp 6,Cera,Cera3,,,NA,NA,NA,0.053,3.49,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Ceratopogonidae sp 6,Cera,Cera4,,,NA,NA,NA,0.079,3.33,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Ephemenoptera,Ephemenoptera_sp,Ephemeroptera 1,,,NA,NA,NA,0.012,3.11,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Ephemenoptera,Ephemenoptera_sp,Ephemeroptera 2,,,NA,NA,NA,0.024,2.76,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Coleoptera,Coleptera_sp,Coleoptera 1,,,NA,NA,NA,0.1855,6.83,NA,NA,NA,NA,TRUE,NA,October sampling (2023),NA
+SEW,NA,NA,Unkown Diptera 2023,Unk_Dip2023,Dip_unk_2023_1,,,NA,NA,NA,0.0025,6.74,NA,NA,NA,NA,TRUE,NA,October sampling (2023),We cannot idenitfy this Diptera
+SEW,NA,NA,Unkown Ceratopogonidae,Unk_Cera2023,Cera_unk1,,,NA,NA,NA,0.054,1.83,NA,NA,NA,NA,TRUE,NA,October sampling (2023),We need better pictures for a better identification
+SEW,NA,NA,Unkown Ceratopogonidae,Unk_Cera2024,Cera_unk2,,,NA,NA,NA,0.246,5.94,NA,NA,NA,NA,TRUE,NA,October sampling (2023),We need better pictures for a better identification
+SEW,NA,NA,Unkown Ceratopogonidae,Unk_Cera2025,Cera_unk3,,,NA,NA,NA,0.163,5.19,NA,NA,NA,NA,TRUE,NA,October sampling (2023),We need better pictures for a better identification
+SEW,NA,NA,Unkown Ceratopogonidae,Unk_Cera2026,Cera_unk4,,,NA,NA,NA,0.176,4.1,NA,NA,NA,NA,TRUE,NA,October sampling (2023),We need better pictures for a better identification
+SEW,NA,NA,Faniidae,Faniidae,Fanii_unk1,,,Platypezidae,Platypezidae,NA,0.954,4.99,NA,NA,NA,NA,TRUE,NA,October sampling (2023),We need better pictures for a better identification
+NA,NA,NA,Chironomidae sp.,Chiro,NA,,,Chir_unk,Chiro_unk1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Psychodidae species 5,Psy5,NA,,,NA,Psych_sp5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Tabanidae species 1,Taba,NA,,,NA,Tabanidae_unk1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Tipulidae species 3 (poss. Lonchaeidae),Tipu,NA,,,Tipulidae_sp_3,Tipul_sp3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Megaselia species 1,Mag,NA,,,NA,Megselia_sp,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 1,Unk_Dip1,NA,,,NA,Dip_unk_1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 4,Unk_Dip4,NA,,,NA,Dip_unk_4,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 5,Unk_Dip5,NA,,,NA,Dip_unk_5,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 7,Unk_Dip7,NA,,,NA,Dip_unk_7,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 9,Unk_Dip9,NA,,,NA,Dip_unk_9,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species11,Unk_Dip11,NA,,,NA,Dip_unk_11,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,not in species list given by Heidi
+NA,NA,NA,Unkown Diptera Species 13,Unk_Dip13,NA,,,NA,Dip_unk_13,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,not in species list given by Heidi
+NA,NA,NA,Unkown Diptera Species 15,Unk_Dip15,NA,,,NA,Dip_unk_15,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,not in species list given by Heidi
+NA,NA,NA,Tipulidae? species 17,Tipu17,NA,,,NA,Dip_unk_17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Syrphus torvus,Syr_torv,NA,,,NA,Callicera,Syrp_unk_19,NA,NA,NA,NA,NA,NA,NA,NA,NA,Both Callicera were identified as so
+NA,NA,NA,Episyrphus balteatus o. viridaureus,Epis,NA,,,NA,Callicera,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,Both Callicera were identified as so
+NA,NA,NA,Unkown Diptera Species 20,Unk_Dip20,NA,,,NA,Dip_unk_20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 21,Unk_Dip21,NA,,,NA,Dip_unk_21,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 22,Unk_Dip22,NA,,,NA,Dip_unk_22,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 25,Unk_Dip25,NA,,,NA,Dip_unk_25,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Fagisyrphus cinctus/Meliscaeva auricollis,Fagi,NA,,,NA,Dip_unk_26,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Coleptera Species 28,Unk_Col28,NA,,,NA,Dip_unk_28,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 29,Unk_Dip29,NA,,,NA,Dip_unk_29,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 31,Unk_Dip31,NA,,,NA,Dip_unk_31,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Unkown Diptera Species 32,Unk_Dip32,NA,,,NA,Dip_unk_32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+NA,NA,NA,Trichoptera Species 1,Trich,NA,,,NA,Trichoptera_sp1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,not in species list given by Heidi
+NA,NA,NA,Scatopsidae,Scato,NA,,,Scatopsidae_sp1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,not in species list given by Heidi
+Resp23,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp23_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,2.398,6.49,NA,NA,NA,0.288,NA,NA,NA,NA
+Resp25,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp25_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,0.882,4.27,NA,NA,NA,0.144,NA,NA,NA,NA
+Resp43,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp43_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,2.203,6.64,NA,NA,NA,0.244,NA,NA,NA,NA
+Resp44,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp44_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,0.901,4.18,NA,NA,NA,0.102,NA,NA,NA,NA
+Resp45,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp45_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,0.5,3.05,NA,NA,NA,0.076,NA,NA,NA,NA
+Resp46,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp46_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.05,5.4,NA,NA,NA,0.124,NA,NA,NA,NA
+Resp47,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp47_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,0.886,6.21,NA,NA,NA,0.08,NA,NA,NA,NA
+Resp48,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp48_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.873,6.9,NA,NA,NA,0.183,NA,NA,NA,NA
+Resp49,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp49_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,4.521,8.78,NA,NA,NA,0.536,NA,NA,NA,NA
+Resp50,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp50_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.264,6.32,NA,NA,NA,0.123,NA,NA,NA,NA
+Resp51,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp51_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.952,7.82,NA,NA,NA,0.139,NA,NA,NA,NA
+Resp52,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp52_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.277,6.78,NA,NA,NA,0.12,NA,NA,NA,NA
+Resp53,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp53_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,2.44,6.83,NA,NA,NA,0.27,NA,NA,NA,NA
+Resp54,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp54_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.03,5.74,NA,NA,NA,0.088,NA,NA,NA,NA
+RM(B)_1(T),NA,NA,Anophales plumbeus,Anopheles_plumbeus,RM(B)_1(T)_Anopheles_plumbeus,,,Anopholes_plumbeus,Ano_plum,NA,0.742,3.24,NA,NA,NA,0.142,NA,NA,NA,NA
+RM(B)_2(T),NA,NA,Anophales plumbeus,Anopheles_plumbeus,RM(B)_2(T)_Anopheles_plumbeus,,,Anopholes_plumbeus,Ano_plum,NA,1.299,5.39,NA,NA,NA,NA,NA,NA,NA,NA
+RM(B)_6(T),NA,NA,Anophales plumbeus,Anopheles_plumbeus,RM(B)_6(T)_Anopheles_plumbeus,,,Anopholes_plumbeus,Ano_plum,NA,1.519,6.06,NA,NA,NA,0.178,NA,NA,NA,NA
+RM(B)_11(T),NA,NA,Anophales plumbeus,Anopheles_plumbeus,RM(B)_11(T)_Anopheles_plumbeus,,,Anopholes_plumbeus,Ano_plum,NA,1.47,5.87,NA,NA,NA,NA,NA,NA,NA,NA
+RM3_5(T)(2nd meas.),NA,NA,Anophales plumbeus,Anopheles_plumbeus,RM3_5(T)(2nd meas.)_Anopheles_plumbeus,,,Anopholes_plumbeus,Ano_plum,NA,1.487,4.91,NA,NA,NA,0.155,NA,NA,NA,NA
+Resp55,NA,NA,Anophales plumbeus,Anopheles_plumbeus,Resp55_Anopheles_plumbeus,,,Anopholes_plumbeus,Ano_plum,NA,1.952,5.93,NA,NA,NA,0.316,NA,NA,NA,NA
+Resp56,NA,NA,Anophales plumbeus,Anopheles_plumbeus,Resp56_Anopheles_plumbeus,,,Anopholes_plumbeus,Ano_plum,NA,0.806,4.35,NA,NA,NA,0.085,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.025,5.55,NA,NA,NA,NA,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.009,2.39,NA,NA,NA,NA,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.024,2.68,NA,NA,NA,2.67,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.01,2.82,NA,NA,NA,NA,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.009,2.58,NA,NA,NA,2.45,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.024,2.19,NA,NA,NA,NA,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.024,2.9,NA,NA,NA,NA,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.008,2.46,NA,NA,NA,NA,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.012,2.86,NA,NA,NA,2.92,NA,NA,NA,NA
+SEW21,SEW21_C4,14/08/2015,Atrichopogon sp.,Atr,SEW21_Atr,,,NA,Atri_sp,NA,0.017,2.61,NA,NA,NA,NA,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Cerato,Silvicola_sp,AEW8_Silvicola_sp,,,Ceratop_unk3,Cera_unk4,Cera_unk3,0.041,2.76,NA,NA,NA,NA,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Cerato,Silvicola_sp,AEW8_Silvicola_sp,,,Ceratop_unk3,Cera_unk4,Cera_unk3,0.072,2.55,NA,NA,NA,0.032,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Cerato,Silvicola_sp,AEW8_Silvicola_sp,,,Ceratop_unk3,Cera_unk4,Cera_unk3,0.092,2.36,NA,NA,NA,0.015,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Cerato,Silvicola_sp,AEW8_Silvicola_sp,,,Ceratop_unk3,Cera_unk4,Cera_unk3,0.027,2.42,NA,NA,NA,0.015,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Cerato,Silvicola_sp,AEW8_Silvicola_sp,,,Ceratop_unk3,Cera_unk4,Cera_unk3,0.007,NA,NA,NA,NA,0.035,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Cerato,Silvicola_sp,AEW8_Silvicola_sp,,,Ceratop_unk3,Cera_unk4,Cera_unk3,0.006,NA,NA,NA,NA,0.013,NA,NA,NA,NA
+AEW2,AEW2_M26,05/09/2014,Ceratop Beccia,M_obscura,AEW2_M_obscura,,,Culicoides_species,Cera_unk2,NA,0.317,6.52,NA,NA,NA,0.166,NA,NA,NA,NA
+AEW2,AEW2_M26,05/09/2014,Ceratop Beccia,M_obscura,AEW2_M_obscura,,,Culicoides_species,Cera_unk2,NA,0.48,12.84,NA,6.47,6.37,0.491,NA,NA,NA,NA
+AEW2,AEW2_M26,05/09/2014,Ceratop Beccia,M_obscura,AEW2_M_obscura,,,Culicoides_species,Cera_unk2,NA,0.07,7.74,NA,NA,NA,0.087,NA,NA,NA,NA
+AEW2,AEW2_M26,05/09/2014,Ceratop Beccia,M_obscura,AEW2_M_obscura,,,Culicoides_species,Cera_unk2,NA,0.071,5.84,NA,NA,NA,0.018,NA,NA,NA,NA
+AEW2,AEW2_M26,05/09/2014,Ceratop Beccia,M_obscura,AEW2_M_obscura,,,Culicoides_species,Cera_unk2,NA,0.035,2.8,NA,NA,NA,0.041,NA,NA,NA,NA
+AEW2,AEW2_M26,05/09/2014,Ceratop Beccia,M_obscura,AEW2_M_obscura,,,Culicoides_species,Cera_unk2,NA,0.032,4.8,NA,NA,NA,0.031,NA,NA,NA,NA
+SEW21,SEW21_S16,02/08/2014,Cevotop Becia,M_obscura,SEW21_M_obscura,,,Culicoides_species,Cera_unk2,NA,0.066,7.28,NA,NA,NA,NA,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.185,5.38,NA,NA,NA,0.155,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.248,5.17,NA,NA,NA,0.071,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.121,5.66,NA,NA,NA,0.136,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.051,4.6,NA,NA,NA,0.059,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.128,5.57,NA,NA,NA,0.144,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.14,5.11,NA,NA,NA,0.149,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.08,4.89,NA,NA,NA,0.085,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.091,5.13,NA,NA,NA,0.108,NA,NA,NA,NA
+AEW7,AEW7_M27 6,04/07/2014,Chiron,Chironomous_sp,AEW7_Chironomous_sp,,,Chironomus_species,Chironomus_sp1,NA,0.065,2.96,NA,NA,NA,NA,NA,NA,NA,NA
+RM(B)_3(T),NA,NA,Chironomidae sp. 6,Chiro_sp6,RM(B)_3(T)_Chiro_sp6,,,NA,NA,NA,0.05,3.53,NA,NA,NA,NA,NA,lost in wet weight,NA,NA
+RM(B)_5(T),NA,NA,Chironomidae sp. 6,Chiro_sp6,RM(B)_5(T)_Chiro_sp6,,,NA,NA,NA,0.108,3.08,NA,NA,NA,0.028,NA,NA,NA,NA
+RM(B)_7(T),NA,NA,Chironomidae sp. 6,Chiro_sp6,RM(B)_7(T)_Chiro_sp6,,,NA,NA,NA,0.271,4.61,NA,NA,NA,0.045,NA,NA,NA,NA
+RM(B)_10(T),NA,NA,Chironomidae sp. 6,Chiro_sp6,RM(B)_10(T)_Chiro_sp6,,,NA,NA,NA,0.101,3.24,NA,NA,NA,NA,NA,lost in weight,NA,NA
+Resp28(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(10)_Chiro_sp6,,,NA,NA,NA,0.026,4.47,NA,NA,NA,0.024,NA,NA,NA,NA
+Resp33(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(10)_Chiro_sp6,,,NA,NA,NA,0.034,3.42,NA,NA,NA,0.025,NA,NA,NA,NA
+Resp34(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(10)_Chiro_sp6,,,NA,NA,NA,0.064,4.15,NA,NA,NA,0.028,NA,NA,NA,NA
+RM(B)_8(T),NA,NA,Chironomidae sp. 6,Chiro_sp6,RM(B)_8(T)_Chiro_sp6,,,NA,NA,NA,0.119,3.32,NA,NA,NA,0.034,NA,NA,NA,NA
+RM(B)_9(T),NA,NA,Chironomidae sp. 6,Chiro_sp6,RM(B)_9(T)_Chiro_sp6,,,NA,NA,NA,0.094,3.56,NA,NA,NA,0.021,NA,NA,NA,NA
+Resp24(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(1)_Chiro_sp6,,,NA,NA,NA,0.301,5.37,NA,NA,NA,0.054,NA,NA,NA,NA
+Resp24(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(2)_Chiro_sp6,,,NA,NA,NA,0.155,5.49,NA,NA,NA,0.05,NA,NA,NA,NA
+Resp24(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(3)_Chiro_sp6,,,NA,NA,NA,0.069,5.35,NA,NA,NA,0.043,NA,NA,NA,NA
+Resp24(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(4)_Chiro_sp6,,,NA,NA,NA,0.256,5.78,NA,NA,NA,0.052,NA,NA,NA,NA
+Resp24(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(5)_Chiro_sp6,,,NA,NA,NA,0.076,5.57,NA,NA,NA,0.055,NA,NA,NA,NA
+Resp24(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(6)_Chiro_sp6,,,NA,NA,NA,0.065,4.69,NA,NA,NA,0.039,NA,NA,NA,NA
+Resp24(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(7)_Chiro_sp6,,,NA,NA,NA,0.133,5.27,NA,NA,NA,0.057,NA,NA,NA,NA
+Resp24(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(8)_Chiro_sp6,,,NA,NA,NA,0.082,5.35,NA,NA,NA,0.056,NA,NA,NA,NA
+Resp24(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp24(9)_Chiro_sp6,,,NA,NA,NA,0.239,4.89,NA,NA,NA,0.105,NA,NA,NA,NA
+Resp28(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(1)_Chiro_sp6,,,NA,NA,NA,0.016,2.94,NA,NA,NA,NA,NA,NA,NA,NA
+Resp28(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(2)_Chiro_sp6,,,NA,NA,NA,0.037,3.17,NA,NA,NA,0.025,NA,NA,NA,NA
+Resp28(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(3)_Chiro_sp6,,,NA,NA,NA,0.123,3.93,NA,NA,NA,0.023,NA,NA,NA,NA
+Resp28(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(4)_Chiro_sp6,,,NA,NA,NA,0.192,4.21,NA,NA,NA,0.079,NA,NA,NA,NA
+Resp28(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(5)_Chiro_sp6,,,NA,NA,NA,0.209,4.78,NA,NA,NA,0.091,NA,NA,NA,NA
+Resp28(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(6)_Chiro_sp6,,,NA,NA,NA,0.284,4.47,NA,NA,NA,0.115,NA,NA,NA,NA
+Resp28(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(7)_Chiro_sp6,,,NA,NA,NA,0.283,5.47,NA,NA,NA,0.123,NA,NA,NA,NA
+Resp28(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(8)_Chiro_sp6,,,NA,NA,NA,0.102,4.64,NA,NA,NA,0.025,NA,NA,NA,NA
+Resp28(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp28(9)_Chiro_sp6,,,NA,NA,NA,0.144,4.31,NA,NA,NA,0.078,NA,NA,NA,NA
+Resp32(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(1)_Chiro_sp6,,,NA,NA,NA,0.125,5.15,NA,NA,NA,0.034,NA,NA,NA,NA
+Resp32(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(2)_Chiro_sp6,,,NA,NA,NA,0.107,3.77,NA,NA,NA,0.047,NA,NA,NA,NA
+Resp32(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(3)_Chiro_sp6,,,NA,NA,NA,0.233,4.65,NA,NA,NA,0.042,NA,NA,NA,NA
+Resp32(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(4)_Chiro_sp6,,,NA,NA,NA,0.288,4.48,NA,NA,NA,0.087,NA,NA,NA,NA
+Resp32(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(5)_Chiro_sp6,,,NA,NA,NA,0.117,3.99,NA,NA,NA,NA,NA,NA,NA,NA
+Resp32(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(6)_Chiro_sp6,,,NA,NA,NA,0.093,4.16,NA,NA,NA,0.057,NA,NA,NA,NA
+Resp32(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(7)_Chiro_sp6,,,NA,NA,NA,0.12,3.87,NA,NA,NA,0.049,NA,NA,NA,NA
+Resp32(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(8)_Chiro_sp6,,,NA,NA,NA,0.095,3.27,NA,NA,NA,0.031,NA,NA,NA,NA
+Resp32(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp32(9)_Chiro_sp6,,,NA,NA,NA,0.056,4.09,NA,NA,NA,0.04,NA,NA,NA,NA
+Resp33(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(1)_Chiro_sp6,,,NA,NA,NA,0.123,4.14,NA,NA,NA,0.061,NA,NA,NA,NA
+Resp33(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(2)_Chiro_sp6,,,NA,NA,NA,0.064,4.31,NA,NA,NA,0.037,NA,NA,NA,NA
+Resp33(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(3)_Chiro_sp6,,,NA,NA,NA,0.078,3.83,NA,NA,NA,0.049,NA,NA,NA,NA
+Resp33(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(4)_Chiro_sp6,,,NA,NA,NA,0.144,5.04,NA,NA,NA,0.047,NA,NA,NA,NA
+Resp33(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(5)_Chiro_sp6,,,NA,NA,NA,0.095,4.45,NA,NA,NA,0.065,NA,NA,NA,NA
+Resp33(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(6)_Chiro_sp6,,,NA,NA,NA,0.103,3.59,NA,NA,NA,0.066,NA,NA,NA,NA
+Resp33(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(7)_Chiro_sp6,,,NA,NA,NA,0.069,3.72,NA,NA,NA,0.032,NA,NA,NA,NA
+Resp33(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(8)_Chiro_sp6,,,NA,NA,NA,0.029,3.72,NA,NA,NA,0.026,NA,NA,NA,NA
+Resp33(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp33(9)_Chiro_sp6,,,NA,NA,NA,0.1,4.12,NA,NA,NA,0.037,NA,NA,NA,NA
+Resp34(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(1)_Chiro_sp6,,,NA,NA,NA,0.068,4.16,NA,NA,NA,0.034,NA,NA,NA,NA
+Resp34(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(2)_Chiro_sp6,,,NA,NA,NA,0.142,4.65,NA,NA,NA,0.05,NA,NA,NA,NA
+Resp34(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(3)_Chiro_sp6,,,NA,NA,NA,0.027,3,NA,NA,NA,0.021,NA,NA,NA,NA
+Resp34(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(4)_Chiro_sp6,,,NA,NA,NA,0.239,4.65,NA,NA,NA,0.087,NA,NA,NA,NA
+Resp34(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(5)_Chiro_sp6,,,NA,NA,NA,0.101,4.05,NA,NA,NA,0.044,NA,NA,NA,NA
+Resp34(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(6)_Chiro_sp6,,,NA,NA,NA,0.144,4.33,NA,NA,NA,0.071,NA,NA,NA,NA
+Resp34(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(7)_Chiro_sp6,,,NA,NA,NA,0.171,4.38,NA,NA,NA,0.075,NA,NA,NA,NA
+Resp34(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(8)_Chiro_sp6,,,NA,NA,NA,0.133,4.12,NA,NA,NA,0.055,NA,NA,NA,NA
+Resp34(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp34(9)_Chiro_sp6,,,NA,NA,NA,0.226,4.5,NA,NA,NA,0.071,NA,NA,NA,NA
+Resp38(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(1)_Chiro_sp6,,,NA,NA,NA,0.289,5.17,NA,NA,NA,0.086,NA,NA,NA,NA
+Resp38(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(2)_Chiro_sp6,,,NA,NA,NA,0.256,4.63,NA,NA,NA,0.051,NA,NA,NA,NA
+Resp38(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(3)_Chiro_sp6,,,NA,NA,NA,0.209,4.33,NA,NA,NA,0.035,NA,NA,NA,NA
+Resp38(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(4)_Chiro_sp6,,,NA,NA,NA,0.214,5.16,NA,NA,NA,0.037,NA,NA,NA,NA
+Resp38(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(5)_Chiro_sp6,,,NA,NA,NA,0.255,4.45,NA,NA,NA,0.037,NA,NA,NA,NA
+Resp38(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(6)_Chiro_sp6,,,NA,NA,NA,0.24,4.9,NA,NA,NA,0.051,NA,NA,NA,NA
+Resp38(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(7)_Chiro_sp6,,,NA,NA,NA,0.296,4.67,NA,NA,NA,0.056,NA,NA,NA,NA
+Resp38(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(8)_Chiro_sp6,,,NA,NA,NA,0.42,5.54,NA,NA,NA,0.073,NA,NA,NA,NA
+Resp38(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(9)_Chiro_sp6,,,NA,NA,NA,0.378,5.28,NA,NA,NA,0.085,NA,NA,NA,NA
+Resp38(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp38(10)_Chiro_sp6,,,NA,NA,NA,0.108,5.21,NA,NA,NA,0.066,NA,"messed up drying, dried bit too long",NA,NA
+Resp42(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(1)_Chiro_sp6,,,NA,NA,NA,0.024,3.41,NA,NA,NA,0.024,NA,NA,NA,NA
+Resp42(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(2)_Chiro_sp6,,,NA,NA,NA,0.043,3.35,NA,NA,NA,0.018,NA,NA,NA,NA
+Resp42(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(3)_Chiro_sp6,,,NA,NA,NA,0.24,4.12,NA,NA,NA,0.081,NA,NA,NA,NA
+Resp42(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(4)_Chiro_sp6,,,NA,NA,NA,0.112,3.96,NA,NA,NA,0.045,NA,NA,NA,NA
+Resp42(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(5)_Chiro_sp6,,,NA,NA,NA,0.122,3.77,NA,NA,NA,0.054,NA,NA,NA,NA
+Resp42(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(6)_Chiro_sp6,,,NA,NA,NA,0.377,4.43,NA,NA,NA,0.082,NA,NA,NA,NA
+Resp42(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(7)_Chiro_sp6,,,NA,NA,NA,0.056,3.66,NA,NA,NA,0.021,NA,NA,NA,NA
+Resp42(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(8)_Chiro_sp6,,,NA,NA,NA,0.15,4.37,NA,NA,NA,0.058,NA,NA,NA,NA
+Resp42(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(9)_Chiro_sp6,,,NA,NA,NA,0.099,3.25,NA,NA,NA,0.057,NA,NA,NA,NA
+Resp42(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp42(10)_Chiro_sp6,,,NA,NA,NA,0.08,3.58,NA,NA,NA,0.026,NA,NA,NA,NA
+Resp57(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(1)_Chiro_sp6,,,NA,NA,NA,0.074,4.07,NA,NA,NA,0.044,NA,NA,NA,NA
+Resp57(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(2)_Chiro_sp6,,,NA,NA,NA,0.146,4.24,NA,NA,NA,0.063,NA,NA,NA,NA
+Resp57(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(3)_Chiro_sp6,,,NA,NA,NA,0.214,5.06,NA,NA,NA,0.072,NA,NA,NA,NA
+Resp57(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(4)_Chiro_sp6,,,NA,NA,NA,0.122,4.28,NA,NA,NA,0.067,NA,NA,NA,NA
+Resp57(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(5)_Chiro_sp6,,,NA,NA,NA,0.29,5.08,NA,NA,NA,0.08,NA,NA,NA,NA
+Resp57(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(6)_Chiro_sp6,,,NA,NA,NA,0.078,4.64,NA,NA,NA,0.048,NA,NA,NA,NA
+Resp57(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(7)_Chiro_sp6,,,NA,NA,NA,0.157,4.14,NA,NA,NA,0.063,NA,NA,NA,NA
+Resp57(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(8)_Chiro_sp6,,,NA,NA,NA,0.315,4.94,NA,NA,NA,0.101,NA,NA,NA,NA
+Resp57(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(9)_Chiro_sp6,,,NA,NA,NA,0.175,4.26,NA,NA,NA,0.053,NA,NA,NA,NA
+Resp57(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp57(10)_Chiro_sp6,,,NA,NA,NA,0.106,3.96,NA,NA,NA,0.043,NA,NA,NA,NA
+Resp58(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp58(1)_Chiro_sp6,,,NA,NA,NA,0.026,3.27,NA,NA,NA,0.022,NA,NA,NA,NA
+Resp58(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp58(2)_Chiro_sp6,,,NA,NA,NA,0.077,4.1,NA,NA,NA,0.056,NA,NA,NA,NA
+Resp58(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp58(3)_Chiro_sp6,,,NA,NA,NA,0.153,3.88,NA,NA,NA,0.075,NA,NA,NA,NA
+Resp58(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp58(4)_Chiro_sp6,,,NA,NA,NA,0.092,4.59,NA,NA,NA,0.053,NA,NA,NA,NA
+Resp58(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp58(5)_Chiro_sp6,,,NA,NA,NA,0.09,3.79,NA,NA,NA,0.041,NA,NA,NA,NA
+Resp58(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp58(6)_Chiro_sp6,,,NA,NA,NA,0.073,4.1,NA,NA,NA,0.041,NA,NA,NA,NA
+Resp58(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp58(7)_Chiro_sp6,,,NA,NA,NA,0.135,5.08,NA,NA,NA,0.062,NA,NA,NA,NA
+Resp59(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(1)_Chiro_sp6,,,NA,NA,NA,0.09,4.17,NA,NA,NA,0.057,NA,NA,NA,NA
+Resp59(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(2)_Chiro_sp6,,,NA,NA,NA,0.121,3.43,NA,NA,NA,NA,NA,NA,NA,NA
+Resp59(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(3)_Chiro_sp6,,,NA,NA,NA,0.081,3.61,NA,NA,NA,0.048,NA,NA,NA,NA
+Resp59(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(4)_Chiro_sp6,,,NA,NA,NA,0.165,3.74,NA,NA,NA,0.063,NA,NA,NA,NA
+Resp59(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(5)_Chiro_sp6,,,NA,NA,NA,0.222,5.38,NA,NA,NA,0.135,NA,NA,NA,NA
+Resp59(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(6)_Chiro_sp6,,,NA,NA,NA,0.076,3.53,NA,NA,NA,0.056,NA,NA,NA,NA
+Resp59(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(7)_Chiro_sp6,,,NA,NA,NA,0.168,4.55,NA,NA,NA,0.081,NA,NA,NA,NA
+Resp59(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(8)_Chiro_sp6,,,NA,NA,NA,0.077,4.5,NA,NA,NA,0.059,NA,specimen broke in two,NA,NA
+Resp59(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(9)_Chiro_sp6,,,NA,NA,NA,0.201,4.26,NA,NA,NA,NA,NA,NA,NA,NA
+Resp59(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp59(10)_Chiro_sp6,,,NA,NA,NA,0.161,4.05,NA,NA,NA,0.068,NA,NA,NA,NA
+Resp60(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(1)_Chiro_sp6,,,NA,NA,NA,0.101,4.37,NA,NA,NA,0.058,NA,NA,NA,NA
+Resp60(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(2)_Chiro_sp6,,,NA,NA,NA,0.082,5.29,NA,NA,NA,0.051,NA,NA,NA,NA
+Resp60(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(3)_Chiro_sp6,,,NA,NA,NA,0.104,3.98,NA,NA,NA,0.071,NA,NA,NA,NA
+Resp60(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(4)_Chiro_sp6,,,NA,NA,NA,0.16,3.93,NA,NA,NA,NA,NA,NA,NA,NA
+Resp60(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(5)_Chiro_sp6,,,NA,NA,NA,0.083,4.72,NA,NA,NA,0.054,NA,NA,NA,NA
+Resp60(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(6)_Chiro_sp6,,,NA,NA,NA,0.109,4.14,NA,NA,NA,0.049,NA,NA,NA,NA
+Resp60(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(7)_Chiro_sp6,,,NA,NA,NA,0.093,4.54,NA,NA,NA,0.056,NA,NA,NA,NA
+Resp60(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(8)_Chiro_sp6,,,NA,NA,NA,0.037,3.7,NA,NA,NA,0.036,NA,NA,NA,NA
+Resp60(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(9)_Chiro_sp6,,,NA,NA,NA,0.042,3.6,NA,NA,NA,0.037,NA,NA,NA,NA
+Resp60(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(10)_Chiro_sp6,,,NA,NA,NA,0.33,5.06,NA,NA,NA,0.136,NA,NA,NA,NA
+Resp60(11),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp60(11)_Chiro_sp6,,,NA,NA,NA,0.072,4.76,NA,NA,NA,0.052,NA,NA,NA,NA
+Resp61(1),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(1)_Chiro_sp6,,,NA,NA,NA,0.017,3.4,NA,NA,NA,0.023,NA,dried too long,NA,NA
+Resp61(2),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(2)_Chiro_sp6,,,NA,NA,NA,0.165,4.91,NA,NA,NA,0.103,NA,NA,NA,NA
+Resp61(3),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(3)_Chiro_sp6,,,NA,NA,NA,0.248,5.03,NA,NA,NA,0.065,NA,NA,NA,NA
+Resp61(4),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(4)_Chiro_sp6,,,NA,NA,NA,0.143,4.29,NA,NA,NA,0.066,NA,NA,NA,NA
+Resp61(5),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(5)_Chiro_sp6,,,NA,NA,NA,0.024,3.64,NA,NA,NA,0.022,NA,NA,NA,NA
+Resp61(6),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(6)_Chiro_sp6,,,NA,NA,NA,0.147,4.75,NA,NA,NA,0.082,NA,NA,NA,NA
+Resp61(7),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(7)_Chiro_sp6,,,NA,NA,NA,0.022,3.43,NA,NA,NA,0.019,NA,NA,NA,NA
+Resp61(8),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(8)_Chiro_sp6,,,NA,NA,NA,0.04,4.04,NA,NA,NA,0.022,NA,NA,NA,NA
+Resp61(9),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(9)_Chiro_sp6,,,NA,NA,NA,0.026,4.02,NA,NA,NA,0.025,NA,NA,NA,NA
+Resp61(10),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(10)_Chiro_sp6,,,NA,NA,NA,0.086,4.71,NA,NA,NA,0.048,NA,NA,NA,NA
+Resp61(11),NA,NA,Chironomidae sp. 6,Chiro_sp6,Resp61(11)_Chiro_sp6,,,NA,NA,NA,0.123,5.07,NA,NA,NA,0.069,NA,NA,NA,NA
+Resp24(10),NA,NA,Chironomidae sp. 7,Chiro_sp6,Resp24(10)_Chiro_sp6,,,NA,NA,NA,0.093,5.15,NA,NA,NA,0.037,NA,NA,NA,NA
+RM(B)_4 (T),NA,NA,Dashylea sp. 7,Dasyhelea_sp7,RM(B)_4 (T)_Dasyhelea_sp7,,,NA,NA,NA,0.14,4.48,NA,NA,NA,0.028,NA,NA,NA,NA
+RM3_1(T)(2nd meas.),NA,NA,Dashylea sp. 7,Dasyhelea_sp7,RM3_1(T)(2nd meas.)_Dasyhelea_sp7,,,NA,NA,NA,0.104,4.25,NA,NA,NA,0.025,NA,NA,NA,NA
+RM3_2(T)(2nd meas.),NA,NA,Dashylea sp. 7,Dasyhelea_sp7,RM3_2(T)(2nd meas.)_Dasyhelea_sp7,,,NA,NA,NA,0.152,3.8,NA,NA,NA,0.03,NA,NA,NA,NA
+RM3_3(T)(2nd meas.),NA,NA,Dashylea sp. 7,Dasyhelea_sp7,RM3_3(T)(2nd meas.)_Dasyhelea_sp7,,,NA,NA,NA,0.115,4.29,NA,NA,NA,0.048,NA,NA,NA,NA
+Resp27,NA,NA,Dashylea sp. 7 (1),Dasyhelea_sp7,Resp27_Dasyhelea_sp7,,,NA,NA,NA,0.037,4.12,NA,NA,NA,0.022,NA,NA,NA,NA
+Resp27,NA,NA,Dashylea sp. 7 (2),Dasyhelea_sp7,Resp27_Dasyhelea_sp7,,,NA,NA,NA,0.031,3.78,NA,NA,NA,0.015,NA,NA,NA,NA
+SEW4_588,NA,NA,Dip unk7_B.Incanus,Dip_unk_7,SEW4_588_Dip_unk_7,,,NA,Dip_unk_7,NA,32.142,13.17,NA,NA,NA,3.332,NA,NA,NA,NA
+AEW9,AEW9_35,08/07/1905,Dolichopodiae,Doli_sp,AEW9_Doli_sp,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.178,3.79,NA,NA,NA,NA,NA,NA,NA,NA
+AEW9,AEW9_35,08/07/1905,Dolichopodiae,Doli_sp,AEW9_Doli_sp,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.069,3.13,NA,NA,NA,NA,NA,NA,NA,NA
+AEW9,AEW9_35,08/07/1905,Dolichopodiae,Doli_sp,AEW9_Doli_sp,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.163,3.84,NA,NA,NA,NA,NA,NA,NA,NA
+AEW9,AEW9_35,08/07/1905,Dolichopodiae,Doli_sp,AEW9_Doli_sp,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.145,5.04,NA,NA,NA,NA,NA,NA,NA,NA
+AEW9,AEW9_35,08/07/1905,Dolichopodiae,Doli_sp,AEW9_Doli_sp,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.057,3.87,NA,NA,NA,NA,NA,NA,NA,NA
+RM3_4 (T)(2nd meas.),NA,NA,F. flavicollis,P_serricornis,RM3_4 (T)(2nd meas.)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,4.13,8.16,NA,NA,NA,0.318,NA,NA,NA,NA
+Resp29(II)(1),NA,NA,F. flavicollis,P_serricornis,Resp29(II)(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.048,4.85,NA,NA,NA,0.036,NA,NA,NA,NA
+Resp29(II)(2),NA,NA,F. flavicollis,P_serricornis,Resp29(II)(2)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.016,3.19,NA,NA,NA,0.01,NA,NA,NA,NA
+Resp29(II)(3),NA,NA,F. flavicollis,P_serricornis,Resp29(II)(3)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.065,2.45,NA,NA,NA,NA,NA,NA,NA,NA
+Resp29(II)(4),NA,NA,F. flavicollis,P_serricornis,Resp29(II)(4)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.138,4.08,NA,NA,NA,0.019,NA,NA,NA,NA
+Resp29(II)(5),NA,NA,F. flavicollis,P_serricornis,Resp29(II)(5)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.041,2.16,NA,NA,NA,0.012,NA,NA,NA,NA
+Resp35(I)(1),NA,NA,F. flavicollis,P_serricornis,Resp35(I)(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.077,3.21,NA,NA,NA,NA,NA,NA,NA,NA
+Resp35(I)(2),NA,NA,F. flavicollis,P_serricornis,Resp35(I)(2)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.023,1.58,NA,NA,NA,0.022,NA,NA,NA,NA
+Resp35(I)(3),NA,NA,F. flavicollis,P_serricornis,Resp35(I)(3)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.018,1.41,NA,NA,NA,0.009,NA,NA,NA,NA
+Resp36(I)(1),NA,NA,F. flavicollis,P_serricornis,Resp36(I)(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.009,2.86,NA,NA,NA,0.006,NA,NA,NA,NA
+Resp36(I)(2),NA,NA,F. flavicollis,P_serricornis,Resp36(I)(2)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.067,2.1,NA,NA,NA,0.019,NA,NA,NA,NA
+Resp39(1),NA,NA,F. flavicollis,P_serricornis,Resp39(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,1.053,3.67,NA,NA,NA,0.122,NA,NA,NA,NA
+Resp39(2),NA,NA,F. flavicollis,P_serricornis,Resp39(2)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,3.326,6.2,NA,NA,NA,0.409,NA,NA,NA,NA
+Resp39(3),NA,NA,F. flavicollis,P_serricornis,Resp39(3)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,1.026,5.9,NA,NA,NA,0.087,NA,NA,NA,NA
+Resp39(4),NA,NA,F. flavicollis,P_serricornis,Resp39(4)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,2.99,7.32,NA,NA,NA,0.199,NA,NA,NA,NA
+Resp39(5),NA,NA,F. flavicollis,P_serricornis,Resp39(5)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,3.973,5.5,NA,NA,NA,0.91,NA,NA,NA,NA
+Resp39(6),NA,NA,F. flavicollis,P_serricornis,Resp39(6)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,3.393,5.69,NA,NA,NA,0.547,NA,NA,NA,NA
+Resp39(7),NA,NA,F. flavicollis,P_serricornis,Resp39(7)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,2.62,6.64,NA,NA,NA,0.223,NA,NA,NA,NA
+Resp39(8),NA,NA,F. flavicollis,P_serricornis,Resp39(8)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,1.77,7.59,NA,NA,NA,0.498,NA,NA,NA,NA
+Resp39(9),NA,NA,F. flavicollis,P_serricornis,Resp39(9)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,1.389,8.07,NA,NA,NA,0.18,NA,NA,NA,NA
+Resp39(10),NA,NA,F. flavicollis,P_serricornis,Resp39(10)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,8.072,11.01,NA,NA,NA,1.225,NA,NA,NA,NA
+Resp40(1),NA,NA,F. flavicollis,P_serricornis,Resp40(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,10.452,10.1,NA,NA,NA,1.232,NA,NA,NA,NA
+Resp41(1),NA,NA,F. flavicollis,P_serricornis,Resp41(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,9.661,9.1,NA,NA,NA,0.683,NA,NA,NA,NA
+SEW49_104,NA,NA,Faniidae unk.,Faniidae,SEW49_104_Faniidae,,,Platypezidae,Platypezidae,NA,5.504,5.1,NA,0.19,5.29,0.718,NA,NA,NA,NA
+SEW46,SEW46_35,13/06/2016,Japonidae sp. 2,A_japonidae,SEW46_A_japonidae,,,NA,NA,NA,5.492,NA,NA,NA,NA,NA,NA,NA,NA,NA
+SEW46,SEW46_35,13/06/2016,Japonidae sp. 2,A_japonidae,SEW46_A_japonidae,,,NA,NA,NA,0.921,8.15,NA,NA,NA,NA,NA,NA,NA,NA
+SEW46,SEW46_B5,13/06/2016,Japonidae sp. 2,A_japonidae,SEW46_A_japonidae,,,NA,NA,NA,NA,7.85,NA,NA,NA,NA,NA,NA,NA,NA
+Resp30,NA,NA,Myathopa florea,Myia_flor,Resp30_Myia_flor,,,Myiatropa_florea,Myia_flo,NA,5.995,9,NA,NA,NA,0.647,NA,NA,NA,NA
+Resp31,NA,NA,Myathopa florea,Myia_flor,Resp31_Myia_flor,,,Myiatropa_florea,Myia_flo,NA,3.973,13.62,NA,NA,NA,0.385,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Myathopa florea,Myia_flor,AEW8_Myia_flor,,,Myiatropa_florea,Myia_flo,NA,48.26,25.18,NA,16.26,NA,NA,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Myathopa florea,Myia_flor,AEW8_Myia_flor,,,Myiatropa_florea,Myia_flo,NA,13.56,8.92,NA,NA,NA,NA,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Myathopa florea,Myia_flor,AEW8_Myia_flor,,,Myiatropa_florea,Myia_flo,NA,5.22,25.82,NA,16.9,NA,NA,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Myathopa florea,Myia_flor,AEW8_Myia_flor,,,Myiatropa_florea,Myia_flo,NA,46.766,37.32,NA,28.4,18.1,NA,NA,NA,NA,NA
+AEW8,AEW8_M7H,06/09/2014,Myathopa florea,Myia_flor,AEW8_Myia_flor,,,Myiatropa_florea,Myia_flo,NA,39.712,25.47,NA,16.55,10.48,NA,NA,NA,NA,NA
+Resp26(1),NA,NA,Oligochaeta,Oligo,Resp26(1)_Oligo,,,NA,NA,NA,0.306,8.27,NA,NA,NA,0.123,NA,NA,NA,NA
+Resp26(2),NA,NA,Oligochaeta,Oligo,Resp26(2)_Oligo,,,NA,NA,NA,0.015,7.03,NA,NA,NA,0.017,NA,NA,NA,NA
+Resp26(3),NA,NA,Oligochaeta,Oligo,Resp26(3)_Oligo,,,NA,NA,NA,0.023,6.8,NA,NA,NA,0.029,NA,specimen broke in two,NA,NA
+Resp29(I)(1),NA,NA,P. serricornis,P_serricornis,Resp29(I)(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.057,2.04,NA,NA,NA,0.022,NA,NA,NA,NA
+Resp29(I)(2),NA,NA,P. serricornis,P_serricornis,Resp29(I)(2)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.035,2.2,NA,NA,NA,0.046,NA,NA,NA,NA
+Resp29(I)(3),NA,NA,P. serricornis,P_serricornis,Resp29(I)(3)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.079,2.38,NA,NA,NA,0.097,NA,NA,NA,NA
+Resp29(I)(4),NA,NA,P. serricornis,P_serricornis,Resp29(I)(4)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.075,2.19,NA,NA,NA,0.056,NA,NA,NA,NA
+Resp29(I)(5),NA,NA,P. serricornis,P_serricornis,Resp29(I)(5)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.029,1.57,NA,NA,NA,0.028,NA,NA,NA,NA
+Resp35(II)(1),NA,NA,P. serricornis,P_serricornis,Resp35(II)(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.073,3.11,NA,NA,NA,0.071,NA,NA,NA,NA
+Resp35(II)(2),NA,NA,P. serricornis,P_serricornis,Resp35(II)(2)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.071,2.1,NA,NA,NA,0.012,NA,NA,NA,NA
+Resp35(II)(3),NA,NA,P. serricornis,P_serricornis,Resp35(II)(3)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.124,2.24,NA,NA,NA,0.062,NA,NA,NA,NA
+Resp36(II)(1),NA,NA,P. serricornis,P_serricornis,Resp36(II)(1)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.017,1.73,NA,NA,NA,0.015,NA,NA,NA,NA
+Resp36(II)(2),NA,NA,P. serricornis,P_serricornis,Resp36(II)(2)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.014,1.59,NA,NA,NA,0.024,NA,NA,NA,NA
+Resp36(II)(3),NA,NA,P. serricornis,P_serricornis,Resp36(II)(3)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.014,1.62,NA,NA,NA,0.022,NA,NA,NA,NA
+Resp36(II)(4),NA,NA,P. serricornis,P_serricornis,Resp36(II)(4)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.018,1.39,NA,NA,NA,0.013,NA,NA,NA,NA
+Resp36(II)(5),NA,NA,P. serricornis,P_serricornis,Resp36(II)(5)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.022,1.47,NA,NA,NA,0.01,NA,NA,NA,NA
+Resp36(II)(6),NA,NA,P. serricornis,P_serricornis,Resp36(II)(6)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.045,1.8,NA,NA,NA,0.008,NA,NA,NA,NA
+Resp36(II)(7),NA,NA,P. serricornis,P_serricornis,Resp36(II)(7)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.082,2.49,NA,NA,NA,0.027,NA,NA,NA,NA
+Resp36(II)(8),NA,NA,P. serricornis,P_serricornis,Resp36(II)(8)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.017,1.65,NA,NA,NA,0.016,NA,NA,NA,NA
+Resp36(II)(9),NA,NA,P. serricornis,P_serricornis,Resp36(II)(9)_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,0.046,2.9,NA,NA,NA,NA,NA,NA,NA,NA
+Resp37,NA,NA,P. subventa,P_serricornis,Resp37_P_serricornis,,,Prionocyphon_serricornis,Prio_ser,NA,72.128,24.33,NA,8.51,7.91,8.468,NA,NA,NA,NA
+HEW49,HEW49_M4C,20/08/2014,Phaonia subventa,Phaonia_subventa,HEW49_Phaonia_subventa,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,46.012,19.16,NA,8.94,10.22,NA,NA,NA,NA,NA
+HEW49,HEW49_M4F,15/07/2015,Phaonia subventa,Phaonia_subventa,HEW49_Phaonia_subventa,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,40.651,17.85,NA,8.59,9.29,NA,NA,NA,NA,NA
+AEW14,AEW14_C5,? 2016,pupa choronomidae,Chiro_sp6,AEW14_Chiro_sp6,,,NA,NA,NA,0.169,4.21,NA,NA,NA,NA,NA,NA,NA,NA
+AEW14,AEW14_C5,? 2016,pupa choronomidae,Chiro_sp6,AEW14_Chiro_sp6,,,NA,NA,NA,0.148,3.26,NA,NA,NA,NA,NA,NA,NA,NA
+HEW13,HEW13_C2,14/06/2015,Syrphidae unk. Sp. 19,Syrph,HEW13_Syrph,,,Syrph_unk2,Syrph_unk1,NA,36.641,11.6,NA,NA,NA,5.081,NA,NA,NA,NA
+HEW13,HEW13_C2,14/06/2015,Syrphidae unk. Sp. 19,Syrph,HEW13_Syrph,,,Syrph_unk2,Syrph_unk1,NA,31.239,10.58,NA,NA,NA,5.193,NA,NA,NA,NA
+AEW3,AEW3_C2,10/07/2009,Tabanidae,NA,AEW3_NA,,,NA,NA,NA,11.005,10.38,NA,NA,NA,NA,NA,Not in their database with the abundances,NA,NA
+AEW3,AEW3_C2,10/07/2009,Tabanidae,NA,AEW3_NA,,,NA,NA,NA,7.332,9.38,NA,NA,NA,2.149,NA,Not in their database with the abundances,NA,NA
+SEW17,SEW17_C2,10/06/2015,Tabanidae sp. 2 + pupa,Phaonia_subventa,SEW17_Phaonia_subventa,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,0.351,2.76,NA,NA,NA,NA,NA,NA,NA,NA
+SEW17,SEW17_C2,10/06/2015,Tabanidae sp. 2 + pupa,Phaonia_subventa,SEW17_Phaonia_subventa,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,0.443,2.86,NA,NA,NA,0.155,NA,NA,NA,NA
+SEW17,SEW17_C2,10/06/2015,Tabanidae sp. 2 + pupa,Phaonia_subventa,SEW17_Phaonia_subventa,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,0.089,2.53,NA,NA,NA,0.076,NA,NA,NA,NA
+SEW17,SEW17_C2,10/06/2015,Tabanidae sp. 2 + pupa,Phaonia_subventa,SEW17_Phaonia_subventa,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,0.035,3.11,NA,NA,NA,0.012,NA,NA,NA,NA
+SEW17,SEW17_C2,10/06/2015,Tabanidae sp. 2 + pupa,Phaonia_subventa,SEW17_Phaonia_subventa,,,Phaonia_sp,Phaonia_sp,Tabanidae_unk2,1.205,5.68,NA,NA,NA,0.963,NA,NA,NA,NA
+SEW8,SEW8_C3,07/08/2015,unknown sp.,unk,SEW8_unk,,,NA,NA,NA,0.197,2.43,NA,NA,NA,NA,NA,NA,NA,NA
+AEW18,AEW18_B3,n.d.,unknown sp. 10,unk10,AEW18_unk10,,,NA,NA,NA,NA,3.08,NA,NA,NA,NA,NA,NA,NA,NA
+AEW18,AEW18_B3,n.d.,unknown sp. 10,unk10,AEW18_unk10,,,NA,NA,NA,0.103,2.46,NA,NA,NA,NA,NA,NA,NA,NA
+AEW12,AEW12_B1,n.d.,unknown sp. 21,unk21,AEW12_unk21,,,NA,NA,NA,NA,1.11,NA,NA,NA,NA,NA,NA,NA,NA
+AEW12,AEW12_B1,n.d.,unknown sp. 21,unk21,AEW12_unk21,,,NA,NA,NA,0.025,1.18,NA,NA,NA,NA,NA,NA,NA,NA
+AEW12,AEW12_B1,n.d.,unknown sp. 21,unk21,AEW12_unk21,,,NA,NA,NA,NA,1.41,NA,NA,NA,NA,NA,NA,NA,NA
+AEW12,AEW12_B1,n.d.,unknown sp. 21,unk21,AEW12_unk21,,,NA,NA,NA,0.019,1.76,NA,NA,NA,NA,NA,NA,NA,NA
+AEW12,AEW12_B1,n.d.,unknown sp. 21,unk21,AEW12_unk21,,,NA,NA,NA,0.055,1.55,NA,NA,NA,NA,NA,NA,NA,NA
+AEW14,AEW14_C3,n.d.,unknown sp. 21,unk21,AEW14_unk21,,,NA,NA,NA,0.016,1.93,NA,NA,NA,NA,NA,NA,NA,NA
+SEW2,SEW2_C2,11/06/2015,unknown sp. 22,unk22,SEW2_unk22,,,NA,NA,NA,0.031,1.22,NA,NA,NA,NA,NA,NA,NA,NA
+HEW47,HEW47_C3,18/07/2015,unknown sp. 22,unk22,HEW47_unk22,,,NA,NA,NA,NA,2.25,NA,NA,NA,NA,NA,lost,NA,NA
+AEW20,AEW20_M2H,27/07/2015,unknown sp. 22,unk22,AEW20_unk22,,,NA,NA,NA,0.0418,2.98,NA,NA,NA,NA,NA,NA,NA,NA
+AEW49,AEW49_C3,n.d.,unknown sp. 23,unk23,AEW49_unk23,,,NA,NA,NA,0.0198,1.8,NA,NA,NA,NA,NA,NA,NA,NA
+SEW17,SEW17_C3,07/07/2015,unknown sp. 32,unk32,SEW17_unk32,,,NA,NA,NA,0.13,2.12,NA,NA,NA,NA,NA,NA,NA,NA
+AEW3,AEW3_C1,22/05/2015,x2 unknown sp.,unk,AEW3_unk,,,NA,NA,NA,NA,4.19,NA,NA,NA,NA,NA,NA,NA,NA
+AEW3,AEW3_C1,22/05/2015,x2 unknown sp.,unk,AEW3_unk,,,NA,NA,NA,0.043,1.86,NA,0.53,0.96,0.04,NA,NA,NA,NA
+Resp15,NA,NA,Dolichpodidae sp. 1,Doli_sp,Resp15_Doli_sp,,,Dolichopodidae_sp1,Dolich_sp1,NA,0.66,4.25,NA,NA,NA,0.171,NA,NA,NA,NA
+Resp19,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp19_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.2,4.49,NA,NA,NA,0.065,NA,NA,NA,NA
+Resp20,NA,NA,Aedes geniculatus,Aedes_geniculatus,Resp20_Aedes_geniculatus,,,Aedes_geniculatus,Aed_gen,NA,1.46,4.92,NA,NA,NA,0.301,NA,NA,NA,NA
+Resp21(1),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(1)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.277,5.3,NA,NA,NA,0.09,NA,NA,NA,NA
+Resp21(2),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(2)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.537,5.47,NA,NA,NA,0.105,NA,NA,NA,NA
+Resp21(3),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(3)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.403,5.23,NA,NA,NA,0.073,NA,NA,NA,NA
+Resp21(4),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(4)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.469,5.14,NA,NA,NA,0.132,NA,NA,NA,NA
+Resp21(5),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(5)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.218,4.63,NA,NA,NA,0.039,NA,NA,NA,NA
+Resp21(6),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(6)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.247,4.73,NA,NA,NA,0.09,NA,NA,NA,NA
+Resp21(7),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(7)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.412,5.36,NA,NA,NA,0.097,NA,NA,NA,NA
+Resp21(8),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(8)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.274,5.38,NA,NA,NA,0.086,NA,NA,NA,NA
+Resp21(9),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp21(9)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.22,5.52,NA,NA,NA,0.065,NA,NA,NA,NA
+Resp21,resp21_pup?,NA,Metriocnemus cavicola,Met_cavicola,Resp21_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.23,3.11,NA,NA,NA,0.055,NA,NA,NA,NA
+Resp22(1),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(1)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.026,4.18,NA,NA,NA,0.017,NA,NA,NA,NA
+Resp22(2),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(2)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.147,5.94,NA,NA,NA,0.068,NA,NA,NA,NA
+Resp22(3),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(3)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.173,4.8,NA,NA,NA,0.038,NA,NA,NA,NA
+Resp22(4),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(4)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.128,3.39,NA,NA,NA,0.054,NA,NA,NA,NA
+Resp22(5),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(5)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.047,4.66,NA,NA,NA,0.03,NA,NA,NA,NA
+Resp22(6),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(6)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.23,4.85,NA,NA,NA,0.035,NA,NA,NA,NA
+Resp22(7),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(7)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.159,5.63,NA,NA,NA,0.037,NA,NA,NA,NA
+Resp22(8),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(8)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.1,5.26,NA,NA,NA,0.043,NA,NA,NA,NA
+Resp22(9),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(9)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.207,6.44,NA,NA,NA,0.061,NA,NA,NA,NA
+Resp22(10),NA,NA,Metriocnemus cavicola,Met_cavicola,Resp22(10)_Met_cavicola,,,Metriocnemus_cavicula,Met_cav,NA,0.074,5.24,NA,NA,NA,0.04,NA,NA,NA,NA

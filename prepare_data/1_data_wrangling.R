@@ -12,267 +12,61 @@ conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 
 
-# 2023 DATA --------------------------------------------------------------------
+# Community data ---------------------------------------------------------------
 
-# Import 2023 data and calculate species abundance per tree hole
-community2023 <- read_csv("data/raw_data/sampling_2023_2024/Species_and_trees_from_the_sampling_SEW2023.csv") %>% 
-  pivot_longer(Clogmia_sp:Phaonia_subventa, 
-               names_to = "Sp_ID", 
-               values_to = "Abundance",
-               values_drop_na = TRUE)
-
-
-str(community2023)
-
-
-# Check for duplicates (should be 0 rows)
-community2023 %>% 
-  group_by(Plot, Tree_ID, Treehole_number, Type_of_tree, 
-           Tree_hole_type, Sampling_date, Sp_ID) %>%
-  count() %>% 
-  filter(n > 1)
-
-# 2024 DATA --------------------------------------------------------------------
-
-# Import 2024 data and sum abundance
-community2024 <- read_csv("data/raw_data/sampling_2023_2024/Sampling_2024_indiviudlas.csv") %>% 
-  select(-Nickname_2014, -Nickname_2015, -"ID for the sampling", 
-         -"Label", -"Notes", -"Pictures") %>% 
-  mutate(Abundance = ifelse(is.na(Abundance), 1, Abundance)) %>%
-  summarise(Abundance = sum(Abundance), 
-            .by = c("Plot", "Tree_ID", "Treehole_number", "Type_of_tree", 
-                    "Outside", "Tree_hole_type", "Sampling_date", "Sp_ID")) 
-community2024 %>% 
-  filter(is.na(Abundance)) 
-
-# Check for duplicates (should be 0 rows)
-community2024 %>% 
-  group_by(Plot, Tree_ID, Treehole_number, Type_of_tree, 
-           Tree_hole_type, Sampling_date, Sp_ID) %>%
-  count() %>% 
-  filter(n > 1)
-
-# COMBINE DATA -----------------------------------------------------------------
-
-# Merge 2023 and 2024, standardize dates, extract month
-Community_2023_2024 <- bind_rows(
-  "2023" = community2023, 
-  "2024" = community2024, 
-  .id = "Year"
-) %>% 
-  relocate(Year, .after = Treehole_number) %>% 
-  filter(!is.na(Sp_ID)) %>%  # Remove rows with missing species ID as those were pupae unidentified
-# Standardize date format to YYYY-MM-DD
-  mutate(Sampling_date = case_when(
-    Sampling_date == "06/11/2023" ~ "2023-11-06",
-    Sampling_date == "07/11/2023" ~ "2023-11-07",
-    Sampling_date == "13/06/2024" ~ "2024-06-13",
-    Sampling_date %in% c("16/05/2024", "16/5/2024") ~ "2024-05-16",
-    Sampling_date %in% c("16/06/2024", "16/6/2024") ~ "2024-06-16",
-    Sampling_date == "17/05/2024" ~ "2024-05-17",
-    Sampling_date %in% c("17/6/2024", "17/06/2024") ~ "2024-06-17",
-    Sampling_date == "22/05/2024" ~ "2024-05-22",
-    Sampling_date == "22/07/2024" ~ "2024-07-22",
-    Sampling_date == "27/05/2024" ~ "2024-05-27",
-    Sampling_date == "21/5/2024" ~ "2024-05-21",
-    Sampling_date == "23/07/2024" ~ "2024-07-23",
-    Sampling_date == "19/06/2024" ~ "2024-06-19")) %>% 
-# Extract month name for seasonal analysis
-  mutate(Month = case_when(
-    Sampling_date == "2023-11-06" ~ "November",
-    Sampling_date == "2023-11-07" ~ "November",
-    Sampling_date == "2024-06-13" ~ "June",
-    Sampling_date == "2024-05-16" ~ "May",
-    Sampling_date == "2024-06-16" ~ "June",
-    Sampling_date == "2024-05-17" ~ "May",
-    Sampling_date == "2024-06-17" ~ "June",
-    Sampling_date == "2024-05-22" ~ "May",
-    Sampling_date == "2024-07-22" ~ "July",
-    Sampling_date == "2024-05-27" ~ "May",
-    Sampling_date == "2024-05-21" ~ "May",
-    Sampling_date == "2024-06-19" ~ "June",
-    Sampling_date == "2024-07-23" ~ "July"), 
-    .after = Year) %>% 
-  mutate(Tree_hole_type_coarse = case_when(
-    Tree_hole_type %in% c("Branch", "Cut tree", "Trunk", "Root") ~ "rot",
-    Tree_hole_type %in% c("Division") ~ "pan",
-    .default = Tree_hole_type), .after = Tree_hole_type)%>% 
-  mutate(Tree_hole_opening = case_when(
-    Tree_hole_type %in% c("Trunk", "Root") ~ "side_opening",
-    Tree_hole_type %in% c("Division","Branch", "Cut tree") ~ "top_opening",
-    .default = Tree_hole_type), .after = Tree_hole_type_coarse) %>% 
-  relocate(Sampling_date, .after = Month) %>% 
-# Correct Tree_ID based on known issues from missing_tree_species.csv
-  left_join(read_csv("data/processed_data/missing_tree_species.csv") %>% 
-              group_by(Plot, Tree_ID, Reason_missing, Tree_ID_Bexis, Tree_ID_Bexis_devision_2) %>% 
-              summarise(count = n(), .groups = "drop") %>% 
-              select(-count),
-            by = c("Plot", "Tree_ID")) %>%
-  mutate(Tree_ID=case_when(Reason_missing=="Misspelling" ~ Tree_ID_Bexis,
-                           Reason_missing=="Idenfitication/GPS_problem" ~ Tree_ID_Bexis,
-                           Reason_missing=="Division" ~ Tree_ID_Bexis, # tree a in tree division is always larger than tree b
-                           .default=Tree_ID)) %>% 
-  select(-Reason_missing, -Tree_ID_Bexis, -Tree_ID_Bexis_devision_2) %>% 
-  mutate(Sp_ID=ifelse(Sp_ID=="Syprh", "Syrph", Sp_ID)) # mistake  
+Commynity <- read_csv("data/raw_data/Community_2023_2024_DNA_corrected_22.10.26.csv") %>% 
+  # chose DNA identification if available, otherwise use morphospecies identification
+  mutate(Sp_ID_DNA_corrected = ifelse(is.na(DNA_final_choise), Sp_ID, DNA_final_choise),
+         .after=Sp_ID) %>% 
+  # correct names to match with Taxa_ID
+  mutate(Sp_ID_DNA_corrected = case_when(
+    Sp_ID_DNA_corrected == "Dasyhelea flavifrons" ~ "D_flavifrons",
+    Sp_ID_DNA_corrected == "L_tristis/L_rothschildi" ~ "L.tristis_L.rothschildi",
+    Sp_ID_DNA_corrected == "L_tristis/E_tarsalis" ~ "L.tristis_E.tarsalis",
+    Sp_ID_DNA_corrected == "Phaonia rufiventris" ~ "Phaonia_rufiventris",
+    Sp_ID_DNA_corrected == "Odontomyia annulata" ~ "O_annulata",
+    .default = Sp_ID_DNA_corrected)) 
   
-Community_2023_2024 %>% 
-  filter(str_detect(Sp_ID, "Syrph")) 
+names(Commynity)
 
-# EXPLORATORY CHECKS -----------------------------------------------------------
+  
+Taxa_Id <- read_csv("data/raw_data/Taxa_ID_DNA_merged_26.10.28.csv") %>% 
+  rename(Morphosp_ID ="Full name morphospecies (only in Natural_2024_2025, not necessary match with other datasets, see sheet \"all\" )")
 
-names(Community_2023_2024)
-
-Community_2023_2024 %>% 
-  group_by(Sp_ID) %>%
-  count() 
+names(Taxa_Id)
 
 
-Community_2023_2024 %>% 
-  group_by(Tree_hole_type) %>%
-  count()
+Commynity_dat <- Commynity %>% 
+  select(-c(DNA_first_sp,	DNA_second_sp,
+            DNA_third_sp,	DNA_final_choise,
+            "DNA_choise explanation")) %>% 
+  left_join(Taxa_Id %>% 
+              select(Taxon_in_data, Morphosp_ID), 
+            by = c("Sp_ID_DNA_corrected" = "Taxon_in_data")) %>% 
+  relocate(Morphosp_ID, .after = Sp_ID_DNA_corrected)
 
-
-Community_2023_2024 %>% print(n = Inf)
-
-# Check for missing species IDs
-Community_2023_2024 %>% filter(is.na(Sp_ID))
-
-# Sampling summary by year and date
-Community_2023_2024 %>% 
-  group_by(Year, Sampling_date) %>%
-  count() 
-
-Community_2023_2024 %>% 
-  select(Plot, Tree_ID, Treehole_number, Year, Sampling_date) %>%
-  filter(is.na(Sampling_date))
-
-
-Community_2023_2024 %>% filter(is.na(Sampling_date))
+names(Commynity_dat)
 
 
 
+Commynity_dat %>% 
+  filter(is.na(Morphosp_ID)) %>% 
+  select(Treehole_number, Sp_ID, Sp_ID_DNA_corrected, Morphosp_ID) 
 
-# COMMUNITY DATA (DNA corrected) ---------------------------------------------------------------
-
-names(Community_2023_2024)
-
-Community_2023_2024 %>% 
-  #select(Plot, Tree_ID, Treehole_number, Tree_hole_type, Tree_hole_opening,
-  select(Plot, Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
-         Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside,
-         Year, Month, Sp_ID, Abundance) %>% 
-  write_csv("data/processed_data/Community_2023_2024.csv")
-
-
-
-# Correct species given the DNA data:
-# in new data ....DNA corrected:
-# new columns:
-# Sp_ID_DNAcorrected: corrected species ID based on DNA data
-# species - full species name
-# Tree_ID_Bexis - Tree ID in  database submitted to Bexis to match with our Tree_ID
-# Treehole_ID_Bexis - Treehole ID in database submitted to Bexis to match with our Treehole_number
-#
-# DNA data:
-DNA_dat <- read_csv("data/raw_data/Community_2023_2024_Sp_ID_DNAcorrected.csv") %>% 
-  select(-Abundance) %>% 
-  mutate(Sampling_date=lubridate::dmy(Sampling_date)) %>% 
-#  mutate(# Sp_ID_DNAcorrected=ifelse(Sp_ID_DNAcorrected=="Syrph2", "Syrph", Sp_ID_DNAcorrected), 
-#         Species=ifelse(Species=="Syrphidae sp.2", "Syrphidae sp.", Species)) %>% 
-  mutate(Species=ifelse(Sp_ID_DNAcorrected=="Ceratopogonidae", "Ceratopogonidae sp.", Species)) %>% 
-  mutate(Species=ifelse(Species=="Poecilobothrus nobilitatus20", "Poecilobothrus nobilitatus", Species)) %>% 
-  mutate(Species=ifelse(Sp_ID=="Fagi", "Syrphidae sp.2", Species)) 
-
-names(DNA_dat)
-
-
-# Syrph and Syrph2 (Sp_ID=="Fagi") were identifyed as morphologically different species. No DNA analysis was performed on them.
-# Syrph has body size directly identified 
-
-
-# Merge with community data:
-
-Community_final <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
-  left_join(DNA_dat, by = c("Plot", "Tree_ID", "Treehole_number", "Year", "Month", 
-                            "Sampling_date", "Tree_hole_type", "Tree_hole_type_coarse",
-                            "Tree_hole_opening", "Outside", "Sp_ID")) %>% 
-  #  left_join(traits_final %>% 
-  #              select(Sp_ID, dry_weight_mg), by = c("Sp_ID")) %>% 
-  group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
-           Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside, 
-           Sp_ID_DNAcorrected, Species) %>% 
-  summarise(Abundance = sum(Abundance), .groups = "drop")  
 
 ## Write data -----------------------------------------------------------------------
-Community_final %>% 
+Commynity_dat %>% 
   write_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv")
 
 
-# TRAITS DATA --------------------------------------------------------------------
 
-# traits for all species (not used in this study)
-# traits <- read_csv("data/raw_data/traits/summary_traits.csv")%>% 
-#  rename(Sp_ID=Species_ID) %>% 
-#  rename(Full_name = `Full name`) %>% 
-#  mutate(Sp_ID = case_when(
-#    Sp_ID == "Anopholes_plumbeus" ~"Anopheles_plumbeus",
-#    .default = Sp_ID)) 
-
-# taxonomy includes taxonomic information for Sp_ID (but not for the DNA corrected)
-# taxonomy <- traits %>% 
-#  group_by( Order, Family , Full_name,  Sp_ID) %>%
-#  count() %>%  ungroup() %>% 
-#  drop_na(Sp_ID) %>%
-#  select(-n) %>% 
-#  mutate(Genus=word(Full_name, 1), .before=Full_name) 
-
-# Traits for this study
-traits_2023_2024 <- read_csv("data/raw_data/traits/Traits_Community_2023_2024.csv") %>% 
-  mutate(predator=ifelse(is.na(predator), 0, predator),
-         decomposer=ifelse(is.na(decomposer), 0, decomposer)) %>% 
-  rename(Order_DNA_corrected = "Order",
-         Sp_ID_DNAcorrected="Sp_ID_correctedDNA") %>% 
-  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Dasyhelea" & Sp_ID_DNAcorrected=="Ceratopogonidae", 
-                                    "Ceratopogonidae", Genus_DNA_corrected)) %>% 
-  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Syrphidae sp.2", "Syrphidae", Genus_DNA_corrected)) 
-  
-
-
-traits_2023_2024 %>% 
-  group_by(Sp_ID_DNAcorrected) %>% 
-  count() %>% 
-  print(n=Inf)
-
-traits_2023_2024 %>% 
-  group_by(Sp_ID_DNAcorrected, Genus_DNA_corrected, Family_DNA_corrected, Order_DNA_corrected,
-           predator, decomposer, Treehole_specialist) %>% 
-  count() %>% 
-  print(n=Inf)
-
-traits_2023_2024 %>% 
-  group_by(Sp_ID, Sp_ID_DNAcorrected) %>% 
-  count() %>%
-  print(n=Inf)
-
-DNA_ID_unique <- DNA_dat %>% 
-  group_by(Sp_ID, Sp_ID_DNAcorrected, Species) %>%
-  count() %>% 
-  print(n=Inf)
-
-## Check if Sp_ID match in community data and in trait data----------------------------
-DNA_ID_unique %>% 
-  left_join(traits_2023_2024 %>% 
-              group_by(Sp_ID, Sp_ID_DNAcorrected, predator) %>%  count() %>% select(-n), 
-            by = c("Sp_ID")) %>% 
-  print(n=Inf)
-
-
+# Body size data -------------------------------------------------------------
 
 ## Join with body size measurements ----------------------------------------------
 
 # check if there are repetitions in Sp_ID 
-traits_2023_2024 %>% 
-  count(Sp_ID) %>% 
+Commynity_dat %>% 
+  count(Sp_ID_DNA_corrected, Morphosp_ID) %>% 
   arrange(desc(n)) %>% 
   print(n=Inf)
 
@@ -286,8 +80,10 @@ body_size_all <- read_csv("data/raw_data/traits/body_measurements_merged_final.c
 BodySize_mean_Sp_ID <- body_size_all %>% 
   summarise(Sp_ID_wet_weight = mean(wet_weight_mg, na.rm = TRUE), 
             Sp_ID_wet_weight_sd = sd(wet_weight_mg, na.rm = TRUE),
+            Sp_ID_wet_weight_max = max(wet_weight_mg, na.rm = TRUE),
             Sp_ID_length = mean(length_mm, na.rm = TRUE),
             Sp_ID_length_sd = sd(length_mm, na.rm = TRUE),
+            Sp_ID_length_max = max(length_mm, na.rm = TRUE),
             Sp_ID_dry_weight = mean(dry_weight_mg, na.rm = TRUE),
             Sp_ID_dry_weight_sd = sd(dry_weight_mg, na.rm = TRUE),
             Sp_ID_dry_weight_min = min(dry_weight_mg, na.rm = TRUE),
@@ -295,36 +91,17 @@ BodySize_mean_Sp_ID <- body_size_all %>%
              Sp_ID_Indiv_n = n(),
              Body_size_level = "Sp_ID",
             .by = c("Sp_ID")) %>% 
-  left_join(traits_2023_2024 %>% 
-              dplyr::select(Sp_ID, Sp_ID_DNAcorrected), by = c("Sp_ID")) %>% 
-  relocate(Sp_ID_DNAcorrected, .after = Sp_ID) %>% 
-  print(n=Inf)
-  
-
-BodySize_mean_Sp_ID %>% 
-  print(n=Inf)
-
-# Summarised body size data by Sp_ID corrected with DNA data (for some species we have more than one Sp_ID but only one Sp_ID_DNAcorrected, so we will average the body size for those species)
-
-BodySize_mean_SpID_DNA_Corr <-  body_size_all %>% 
-  left_join(traits_2023_2024, by = c("Sp_ID"))%>% 
-  relocate(Sp_ID_DNAcorrected, .after = Sp_ID) %>%
-  summarise(Wet.weight_mg = mean(wet_weight_mg, na.rm = TRUE),
-            Wet.weight_mg_sd = sd(wet_weight_mg, na.rm = TRUE),
-            Length_mm = mean(length_mm, na.rm = TRUE),
-            Length_mm_sd = sd(length_mm, na.rm = TRUE),
-            Dry.weight_mg = mean(dry_weight_mg, na.rm = TRUE),
-            Dry.weight_mg_sd = sd(dry_weight_mg, na.rm = TRUE),
-            Dry.weight_mg_min = min(dry_weight_mg, na.rm = TRUE),
-            Dry.weight_mg_max = max(dry_weight_mg, na.rm = TRUE),
-            Indiv_n = sum(!is.na(dry_weight_mg)), # non-missing weight rows,
-          #  Indiv_n = n(),  # all rows, including missing weight rows
-            Body_size_level = "SpID_DNA_Corr",
-            .by = c("Sp_ID_DNAcorrected"))  %>% 
   # replace NaN with NA across all numeric columns: mean(..., na.rm = TRUE) returns NaN when there are no non-missing values in the group (no data to average).
   mutate(across(where(is.numeric), ~ ifelse(is.nan(.), NA_real_, .))) %>% 
   # replace Inf with NA across all numeric columns: mean(..., na.rm = TRUE) returns Inf when there are no non-missing values in the group (no data to average).
   mutate(across(where(is.numeric), ~ replace(.x, is.infinite(.x), NA_real_)))
+
+
+BodySize_mean_Sp_ID %>% 
+  print(n=Inf)
+
+
+# Summarised body size data by Genus -------------------------------------------
 
 
 
@@ -1039,3 +816,264 @@ merged_tree_data %>%
 
 
 write_csv(landscape_heterogeneity, "data/processed_data/Landscape_heterogeneity.csv")
+
+
+
+
+# END ###############################################################################
+# NOT USED SCRIPT  ------------------------
+
+# 2023 DATA --------------------------------------------------------------------
+
+# Import 2023 data and calculate species abundance per tree hole
+community2023 <- read_csv("data/raw_data/sampling_2023_2024/Species_and_trees_from_the_sampling_SEW2023.csv") %>% 
+  pivot_longer(Clogmia_sp:Phaonia_subventa, 
+               names_to = "Sp_ID", 
+               values_to = "Abundance",
+               values_drop_na = TRUE)
+
+
+str(community2023)
+
+
+# Check for duplicates (should be 0 rows)
+community2023 %>% 
+  group_by(Plot, Tree_ID, Treehole_number, Type_of_tree, 
+           Tree_hole_type, Sampling_date, Sp_ID) %>%
+  count() %>% 
+  filter(n > 1)
+
+# 2024 DATA --------------------------------------------------------------------
+
+# Import 2024 data and sum abundance
+community2024 <- read_csv("data/raw_data/sampling_2023_2024/Sampling_2024_indiviudlas.csv") %>% 
+  select(-Nickname_2014, -Nickname_2015, -"ID for the sampling", 
+         -"Label", -"Notes", -"Pictures") %>% 
+  mutate(Abundance = ifelse(is.na(Abundance), 1, Abundance)) %>%
+  summarise(Abundance = sum(Abundance), 
+            .by = c("Plot", "Tree_ID", "Treehole_number", "Type_of_tree", 
+                    "Outside", "Tree_hole_type", "Sampling_date", "Sp_ID")) 
+community2024 %>% 
+  filter(is.na(Abundance)) 
+
+# Check for duplicates (should be 0 rows)
+community2024 %>% 
+  group_by(Plot, Tree_ID, Treehole_number, Type_of_tree, 
+           Tree_hole_type, Sampling_date, Sp_ID) %>%
+  count() %>% 
+  filter(n > 1)
+
+# COMBINE DATA -----------------------------------------------------------------
+
+# Merge 2023 and 2024, standardize dates, extract month
+Community_2023_2024 <- bind_rows(
+  "2023" = community2023, 
+  "2024" = community2024, 
+  .id = "Year"
+) %>% 
+  relocate(Year, .after = Treehole_number) %>% 
+  filter(!is.na(Sp_ID)) %>%  # Remove rows with missing species ID as those were pupae unidentified
+  # Standardize date format to YYYY-MM-DD
+  mutate(Sampling_date = case_when(
+    Sampling_date == "06/11/2023" ~ "2023-11-06",
+    Sampling_date == "07/11/2023" ~ "2023-11-07",
+    Sampling_date == "13/06/2024" ~ "2024-06-13",
+    Sampling_date %in% c("16/05/2024", "16/5/2024") ~ "2024-05-16",
+    Sampling_date %in% c("16/06/2024", "16/6/2024") ~ "2024-06-16",
+    Sampling_date == "17/05/2024" ~ "2024-05-17",
+    Sampling_date %in% c("17/6/2024", "17/06/2024") ~ "2024-06-17",
+    Sampling_date == "22/05/2024" ~ "2024-05-22",
+    Sampling_date == "22/07/2024" ~ "2024-07-22",
+    Sampling_date == "27/05/2024" ~ "2024-05-27",
+    Sampling_date == "21/5/2024" ~ "2024-05-21",
+    Sampling_date == "23/07/2024" ~ "2024-07-23",
+    Sampling_date == "19/06/2024" ~ "2024-06-19")) %>% 
+  # Extract month name for seasonal analysis
+  mutate(Month = case_when(
+    Sampling_date == "2023-11-06" ~ "November",
+    Sampling_date == "2023-11-07" ~ "November",
+    Sampling_date == "2024-06-13" ~ "June",
+    Sampling_date == "2024-05-16" ~ "May",
+    Sampling_date == "2024-06-16" ~ "June",
+    Sampling_date == "2024-05-17" ~ "May",
+    Sampling_date == "2024-06-17" ~ "June",
+    Sampling_date == "2024-05-22" ~ "May",
+    Sampling_date == "2024-07-22" ~ "July",
+    Sampling_date == "2024-05-27" ~ "May",
+    Sampling_date == "2024-05-21" ~ "May",
+    Sampling_date == "2024-06-19" ~ "June",
+    Sampling_date == "2024-07-23" ~ "July"), 
+    .after = Year) %>% 
+  mutate(Tree_hole_type_coarse = case_when(
+    Tree_hole_type %in% c("Branch", "Cut tree", "Trunk", "Root") ~ "rot",
+    Tree_hole_type %in% c("Division") ~ "pan",
+    .default = Tree_hole_type), .after = Tree_hole_type)%>% 
+  mutate(Tree_hole_opening = case_when(
+    Tree_hole_type %in% c("Trunk", "Root") ~ "side_opening",
+    Tree_hole_type %in% c("Division","Branch", "Cut tree") ~ "top_opening",
+    .default = Tree_hole_type), .after = Tree_hole_type_coarse) %>% 
+  relocate(Sampling_date, .after = Month) %>% 
+  # Correct Tree_ID based on known issues from missing_tree_species.csv
+  left_join(read_csv("data/processed_data/missing_tree_species.csv") %>% 
+              group_by(Plot, Tree_ID, Reason_missing, Tree_ID_Bexis, Tree_ID_Bexis_devision_2) %>% 
+              summarise(count = n(), .groups = "drop") %>% 
+              select(-count),
+            by = c("Plot", "Tree_ID")) %>%
+  mutate(Tree_ID=case_when(Reason_missing=="Misspelling" ~ Tree_ID_Bexis,
+                           Reason_missing=="Idenfitication/GPS_problem" ~ Tree_ID_Bexis,
+                           Reason_missing=="Division" ~ Tree_ID_Bexis, # tree a in tree division is always larger than tree b
+                           .default=Tree_ID)) %>% 
+  select(-Reason_missing, -Tree_ID_Bexis, -Tree_ID_Bexis_devision_2) %>% 
+  mutate(Sp_ID=ifelse(Sp_ID=="Syprh", "Syrph", Sp_ID)) # mistake  
+
+Community_2023_2024 %>% 
+  filter(str_detect(Sp_ID, "Syrph")) 
+
+# EXPLORATORY CHECKS -----------------------------------------------------------
+
+names(Community_2023_2024)
+
+Community_2023_2024 %>% 
+  group_by(Sp_ID) %>%
+  count() 
+
+
+Community_2023_2024 %>% 
+  group_by(Tree_hole_type) %>%
+  count()
+
+
+Community_2023_2024 %>% print(n = Inf)
+
+# Check for missing species IDs
+Community_2023_2024 %>% filter(is.na(Sp_ID))
+
+# Sampling summary by year and date
+Community_2023_2024 %>% 
+  group_by(Year, Sampling_date) %>%
+  count() 
+
+Community_2023_2024 %>% 
+  select(Plot, Tree_ID, Treehole_number, Year, Sampling_date) %>%
+  filter(is.na(Sampling_date))
+
+
+Community_2023_2024 %>% filter(is.na(Sampling_date))
+
+
+
+
+# COMMUNITY DATA (DNA corrected) ---------------------------------------------------------------
+
+names(Community_2023_2024)
+
+Community_2023_2024 %>% 
+  #select(Plot, Tree_ID, Treehole_number, Tree_hole_type, Tree_hole_opening,
+  select(Plot, Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
+         Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside,
+         Year, Month, Sp_ID, Abundance) %>% 
+  write_csv("data/processed_data/Community_2023_2024.csv")
+
+
+
+# Correct species given the DNA data:
+# in new data ....DNA corrected:
+# new columns:
+# Sp_ID_DNAcorrected: corrected species ID based on DNA data
+# species - full species name
+# Tree_ID_Bexis - Tree ID in  database submitted to Bexis to match with our Tree_ID
+# Treehole_ID_Bexis - Treehole ID in database submitted to Bexis to match with our Treehole_number
+#
+# DNA data:
+DNA_dat <- read_csv("data/raw_data/Community_2023_2024_Sp_ID_DNAcorrected.csv") %>% 
+  select(-Abundance) %>% 
+  mutate(Sampling_date=lubridate::dmy(Sampling_date)) %>% 
+  #  mutate(# Sp_ID_DNAcorrected=ifelse(Sp_ID_DNAcorrected=="Syrph2", "Syrph", Sp_ID_DNAcorrected), 
+  #         Species=ifelse(Species=="Syrphidae sp.2", "Syrphidae sp.", Species)) %>% 
+  mutate(Species=ifelse(Sp_ID_DNAcorrected=="Ceratopogonidae", "Ceratopogonidae sp.", Species)) %>% 
+  mutate(Species=ifelse(Species=="Poecilobothrus nobilitatus20", "Poecilobothrus nobilitatus", Species)) %>% 
+  mutate(Species=ifelse(Sp_ID=="Fagi", "Syrphidae sp.2", Species)) 
+
+names(DNA_dat)
+
+
+# Syrph and Syrph2 (Sp_ID=="Fagi") were identifyed as morphologically different species. No DNA analysis was performed on them.
+# Syrph has body size directly identified 
+
+
+# Merge with community data:
+
+Community_final <- read_csv("data/processed_data/Community_2023_2024.csv") %>% 
+  left_join(DNA_dat, by = c("Plot", "Tree_ID", "Treehole_number", "Year", "Month", 
+                            "Sampling_date", "Tree_hole_type", "Tree_hole_type_coarse",
+                            "Tree_hole_opening", "Outside", "Sp_ID")) %>% 
+  #  left_join(traits_final %>% 
+  #              select(Sp_ID, dry_weight_mg), by = c("Sp_ID")) %>% 
+  group_by(Plot, Tree_ID, Treehole_number, Year, Month, Sampling_date, 
+           Tree_hole_type, Tree_hole_type_coarse, Tree_hole_opening, Outside, 
+           Sp_ID_DNAcorrected, Species) %>% 
+  summarise(Abundance = sum(Abundance), .groups = "drop")  
+
+## Write data -----------------------------------------------------------------------
+# Community_final %>% 
+#  write_csv("data/processed_data/Community_2023_2024_DNAcorrected.csv")
+
+# TRAITS DATA --------------------------------------------------------------------
+
+# traits for all species (not used in this study)
+# traits <- read_csv("data/raw_data/traits/summary_traits.csv")%>% 
+#  rename(Sp_ID=Species_ID) %>% 
+#  rename(Full_name = `Full name`) %>% 
+#  mutate(Sp_ID = case_when(
+#    Sp_ID == "Anopholes_plumbeus" ~"Anopheles_plumbeus",
+#    .default = Sp_ID)) 
+
+# taxonomy includes taxonomic information for Sp_ID (but not for the DNA corrected)
+# taxonomy <- traits %>% 
+#  group_by( Order, Family , Full_name,  Sp_ID) %>%
+#  count() %>%  ungroup() %>% 
+#  drop_na(Sp_ID) %>%
+#  select(-n) %>% 
+#  mutate(Genus=word(Full_name, 1), .before=Full_name) 
+
+# Traits for this study
+traits_2023_2024 <- read_csv("data/raw_data/traits/Traits_Community_2023_2024.csv") %>% 
+  mutate(predator=ifelse(is.na(predator), 0, predator),
+         decomposer=ifelse(is.na(decomposer), 0, decomposer)) %>% 
+  rename(Order_DNA_corrected = "Order",
+         Sp_ID_DNAcorrected="Sp_ID_correctedDNA") %>% 
+  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Dasyhelea" & Sp_ID_DNAcorrected=="Ceratopogonidae", 
+                                      "Ceratopogonidae", Genus_DNA_corrected)) %>% 
+  mutate(Genus_DNA_corrected = ifelse(Genus_DNA_corrected=="Syrphidae sp.2", "Syrphidae", Genus_DNA_corrected)) 
+
+
+
+traits_2023_2024 %>% 
+  group_by(Sp_ID_DNAcorrected) %>% 
+  count() %>% 
+  print(n=Inf)
+
+traits_2023_2024 %>% 
+  group_by(Sp_ID_DNAcorrected, Genus_DNA_corrected, Family_DNA_corrected, Order_DNA_corrected,
+           predator, decomposer, Treehole_specialist) %>% 
+  count() %>% 
+  print(n=Inf)
+
+traits_2023_2024 %>% 
+  group_by(Sp_ID, Sp_ID_DNAcorrected) %>% 
+  count() %>%
+  print(n=Inf)
+
+DNA_ID_unique <- DNA_dat %>% 
+  group_by(Sp_ID, Sp_ID_DNAcorrected, Species) %>%
+  count() %>% 
+  print(n=Inf)
+
+## Check if Sp_ID match in community data and in trait data----------------------------
+DNA_ID_unique %>% 
+  left_join(traits_2023_2024 %>% 
+              group_by(Sp_ID, Sp_ID_DNAcorrected, predator) %>%  count() %>% select(-n), 
+            by = c("Sp_ID")) %>% 
+  print(n=Inf)
+
+
